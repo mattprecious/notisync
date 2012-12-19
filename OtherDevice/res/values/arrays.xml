@@ -1,0 +1,8 @@
+<resources>
+
+    <string-array name="theme_titles">
+        <item>Holo Dark</item>
+        <item>Holo Light</item>
+    </string-array>
+
+</resources>

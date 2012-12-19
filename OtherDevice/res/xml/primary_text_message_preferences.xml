@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Text Messages" >
+
+    <CheckBoxPreference
+        android:defaultValue="1"
+        android:key="primary_text_message_enabled"
+        android:title="Enabled" />
+
+</PreferenceScreen>

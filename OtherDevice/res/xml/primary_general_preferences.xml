@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="General" >
+
+    <EditTextPreference
+        android:key="primary_reconnect_delay"
+        android:defaultValue="3"
+        android:summary="Frequency to attempt to reconnect to devices"
+        android:title="Reconnect delay" />
+
+</PreferenceScreen>

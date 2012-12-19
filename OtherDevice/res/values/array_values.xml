@@ -1,0 +1,8 @@
+<resources>
+
+    <string-array name="theme_values">
+        <item>holo_dark</item>
+        <item>holo_light</item>
+    </string-array>
+
+</resources>

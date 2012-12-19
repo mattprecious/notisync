@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <header
+        android:id="@+id/device_preferences"
+        android:fragment="com.mattprecious.otherdevice.preferences.DevicePreferenceFragment"
+        android:icon="@drawable/ic_settings_devices"
+        android:title="Manage Devices" />
+    <header
+        android:id="@+id/general_preferences"
+        android:fragment="com.mattprecious.otherdevice.preferences.BasicPreferenceFragment"
+        android:icon="@drawable/ic_settings_general"
+        android:title="General Preferences">
+        <extra
+            android:name="category"
+            android:value="general" />
+        <extra
+            android:name="type"
+            android:value="primary" />
+    </header>
+    <header
+        android:id="@+id/text_message_preferences"
+        android:fragment="com.mattprecious.otherdevice.preferences.BasicPreferenceFragment"
+        android:icon="@drawable/ic_settings_sms"
+        android:title="Text Messages" >
+        <extra
+            android:name="category"
+            android:value="textmessage" />
+        <extra
+            android:name="type"
+            android:value="primary" />
+    </header>
+    <header
+        android:id="@+id/phone_call_preferences"
+        android:fragment="com.mattprecious.otherdevice.preferences.BasicPreferenceFragment"
+        android:icon="@drawable/ic_settings_phone"
+        android:title="Phone Calls" >
+        <extra
+            android:name="category"
+            android:value="phonecall" />
+        <extra
+            android:name="type"
+            android:value="primary" />
+    </header>
+    <header
+        android:id="@+id/gtalk_preferences"
+        android:fragment="com.mattprecious.otherdevice.preferences.BasicPreferenceFragment"
+        android:icon="@drawable/ic_settings_gtalk"
+        android:title="Gtalk Messages" >
+        <extra
+            android:name="category"
+            android:value="gtalk" />
+        <extra
+            android:name="type"
+            android:value="primary" />
+    </header>
+    <header
+        android:id="@+id/add_custom"
+        android:fragment="com.mattprecious.otherdevice.preferences.PrimaryCustomProfileFragment"
+        android:icon="@drawable/ic_settings_add"
+        android:title="Add custom profile" />
+
+</preference-headers>

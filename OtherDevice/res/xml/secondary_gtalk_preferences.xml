@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Gtalk Messages" >
+
+    <CheckBoxPreference
+        android:defaultValue="1"
+        android:key="secondary_gtalk_enabled"
+        android:title="Enabled" />
+    <CheckBoxPreference
+        android:key="secondary_gtalk_group_notifications"
+        android:title="Group Notifications" />
+    <CheckBoxPreference
+        android:defaultValue="1"
+        android:key="secondary_gtalk_unconnected_only"
+        android:summary="Only receive notifications when this device is without an internet connection"
+        android:title="Only when unconnected" />
+
+    <RingtonePreference
+        android:key="secondary_gtalk_ringtone"
+        android:ringtoneType="notification"
+        android:showDefault="true"
+        android:showSilent="true"
+        android:title="Notification ringtone" />
+
+    <CheckBoxPreference
+        android:defaultValue="1"
+        android:key="secondary_gtalk_vibrate"
+        android:title="Vibrate" />
+    <CheckBoxPreference
+        android:defaultValue="1"
+        android:key="secondary_gtalk_lights"
+        android:title="Lights" />
+
+</PreferenceScreen>
