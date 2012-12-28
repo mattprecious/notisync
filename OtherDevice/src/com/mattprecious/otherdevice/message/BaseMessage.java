@@ -25,13 +25,13 @@ public class BaseMessage {
             String dataTypeStr = json.get("DATA_TYPE").getAsString();
             if (ClearMessage.class.getName().equals(dataTypeStr)) {
                 json = json.getAsJsonObject("message");
-                Class dataType = Class.forName(json.get("DATA_TYPE").getAsString());
+                Class<?> dataType = Class.forName(json.get("DATA_TYPE").getAsString());
                 
-                BaseMessage subMessage = new Gson().fromJson(json, dataType);
+                BaseMessage subMessage = (BaseMessage) new Gson().fromJson(json, dataType);
                 message = new ClearMessage(subMessage);
             } else {
-                Class dataType = Class.forName(json.get("DATA_TYPE").getAsString());
-                message = new Gson().fromJson(json, dataType);
+                Class<?> dataType = Class.forName(json.get("DATA_TYPE").getAsString());
+                message = (BaseMessage) new Gson().fromJson(json, dataType);
             }
         } catch (ClassNotFoundException e) {
             Log.e("BaseMessage", "Failed to convert to BaseMessage", e);

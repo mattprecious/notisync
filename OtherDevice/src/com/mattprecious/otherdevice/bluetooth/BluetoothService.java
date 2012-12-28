@@ -42,8 +42,7 @@ public class BluetoothService {
     private static final String NAME = "NotiSync";
 
     // Unique UUID for this application
-    private static final UUID MY_UUID = UUID
-            .fromString("e4aee9e0-3678-11e2-81c1-0800200c9a66");
+    private static final UUID MY_UUID = UUID.fromString("e4aee9e0-3678-11e2-81c1-0800200c9a66");
 
     // Member fields
     private final BluetoothAdapter mAdapter;
@@ -53,15 +52,16 @@ public class BluetoothService {
     private ConnectedThread mConnectedThread;
     private int mState;
     private boolean mListen;
+    private boolean explicitlyStopped = false;
 
     // Message types sent from the BluetoothService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_CONNECTED = 2;
     public static final int MESSAGE_DISCONNECTED = 3;
     public static final int MESSAGE_READ = 4;
-    
+
     public static final String EXTRA_DEVICE_NAME = "device_name";
-    
+
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0; // we're doing nothing
     public static final int STATE_LISTEN = 1; // now listening for incoming connections
@@ -113,6 +113,8 @@ public class BluetoothService {
         if (D)
             Log.d(TAG, "start");
 
+        explicitlyStopped = false;
+
         // Cancel any thread attempting to make a connection
         if (mConnectThread != null) {
             mConnectThread.cancel();
@@ -127,7 +129,7 @@ public class BluetoothService {
 
         if (mListen) {
             setState(STATE_LISTEN);
-        
+
             // Start the thread to listen on a BluetoothServerSocket
             if (mAcceptThread == null) {
                 mAcceptThread = new AcceptThread();
@@ -203,7 +205,7 @@ public class BluetoothService {
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
-        
+
         // Send the name of the connected device back to the UI Activity
         Message msg = mHandler.obtainMessage(MESSAGE_CONNECTED);
         Bundle bundle = new Bundle();
@@ -220,6 +222,9 @@ public class BluetoothService {
     public synchronized void stop() {
         if (D)
             Log.d(TAG, "stop");
+
+        // set this variable so that we don't try to reconnect
+        explicitlyStopped = true;
 
         if (mConnectThread != null) {
             mConnectThread.cancel();
@@ -263,27 +268,24 @@ public class BluetoothService {
      * Indicate that the connection attempt failed and notify the UI Activity.
      */
     private void connectionFailed() {
-        // Send a failure message back to the Activity
-//        Message msg = mHandler.obtainMessage(MESSAGE_TOAST);
-//        Bundle bundle = new Bundle();
-//        bundle.putString(BluetoothChat.TOAST, "Unable to connect device");
-//        msg.setData(bundle);
-//        mHandler.sendMessage(msg);
-
-        // Start the service over to restart listening mode
-        BluetoothService.this.start();
+        if (!explicitlyStopped) {
+            // Start the service over to restart listening mode
+            BluetoothService.this.start();
+        }
     }
 
     /**
      * Indicate that the connection was lost and notify the UI Activity.
      */
     private void connectionLost() {
-        // Start the service over to restart listening mode
-        BluetoothService.this.start();
-        
         // Send a failure message back to the Service
         Message msg = mHandler.obtainMessage(MESSAGE_DISCONNECTED);
         mHandler.sendMessage(msg);
+
+        if (!explicitlyStopped) {
+            // Start the service over to restart listening mode
+            BluetoothService.this.start();
+        }
     }
 
     /**
@@ -357,10 +359,13 @@ public class BluetoothService {
         public void cancel() {
             if (D)
                 Log.d(TAG, "cancel " + this);
-            try {
-                mmServerSocket.close();
-            } catch (IOException e) {
-                Log.e(TAG, "close() of server failed", e);
+
+            if (mmServerSocket != null) {
+                try {
+                    mmServerSocket.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "close() of server failed", e);
+                }
             }
         }
     }
@@ -420,10 +425,12 @@ public class BluetoothService {
         }
 
         public void cancel() {
-            try {
-                mmSocket.close();
-            } catch (IOException e) {
-                Log.e(TAG, "close() of connect socket failed", e);
+            if (mmSocket != null) {
+                try {
+                    mmSocket.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "close() of connect socket failed", e);
+                }
             }
         }
     }
@@ -463,23 +470,21 @@ public class BluetoothService {
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
-                 // Read from the InputStream
+                    // Read from the InputStream
                     bytes = mmInStream.read(buffer);
                     String readMessage = new String(buffer, 0, bytes);
 
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(MESSAGE_READ, bytes, -1, readMessage)
-                            .sendToTarget();
-                    
+                    mHandler.obtainMessage(MESSAGE_READ, bytes, -1, readMessage).sendToTarget();
+
                     // spin a bit so that messages don't get combined
                     // TODO: fix this
-                    for (int i = 0; i < 100; i++);
-                    
+                    for (int i = 0; i < 100; i++)
+                        ;
+
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();
-                    // Start the service over to restart listening mode
-                    BluetoothService.this.start();
                     break;
                 }
             }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="General" >
+    xmlns:holo="http://schemas.android.com/apk/res-auto"
+    holo:title="General" >
 
     <EditTextPreference
-        android:defaultValue="5"
-        android:key="secondary_reconnect_delay"
-        android:summary="Frequency to check if the service is still working"
-        android:title="Reconnect delay" />
+        holo:key="secondary_reconnect_delay"
+        holo:summary="Frequency to check if the service is still working"
+        holo:title="Reconnect delay" />
 
 </PreferenceScreen>

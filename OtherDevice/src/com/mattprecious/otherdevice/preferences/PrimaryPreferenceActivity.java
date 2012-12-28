@@ -2,39 +2,35 @@ package com.mattprecious.otherdevice.preferences;
 
 import java.util.List;
 
-import android.annotation.TargetApi;
+import org.holoeverywhere.preference.PreferenceActivity;
+
 import android.bluetooth.BluetoothAdapter;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.mattprecious.otherdevice.R;
-import com.mattprecious.otherdevice.db.DbAdapter;
-import com.mattprecious.otherdevice.model.PrimaryProfile;
+import com.mattprecious.otherdevice.util.Preferences;
 
-public class PrimaryPreferenceActivity extends SherlockPreferenceActivity {
+public class PrimaryPreferenceActivity extends PreferenceActivity {
 
-    private DbAdapter dbAdapter;
-
-    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        dbAdapter = new DbAdapter(this);
-
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            // Load the legacy preferences headers
-            addPreferencesFromResource(R.xml.primary_preference_headers_legacy);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-            // TODO: remove
-            if (BluetoothAdapter.getDefaultAdapter() == null) {
-                getPreferenceScreen().removePreference(findPreference("manage_devices"));
-            }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!Preferences.isPrimary(this)) {
+            startActivity(new Intent(this, SecondaryPreferenceActivity.class));
+            finish();
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.primary_preference_headers, target);
@@ -42,7 +38,6 @@ public class PrimaryPreferenceActivity extends SherlockPreferenceActivity {
         updateHeaderList(target);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void updateHeaderList(List<Header> target) {
         int i = 0;
         while (i < target.size()) {
@@ -54,8 +49,6 @@ public class PrimaryPreferenceActivity extends SherlockPreferenceActivity {
                 if (BluetoothAdapter.getDefaultAdapter() == null) {
                     target.remove(header);
                 }
-            } else if (id == R.id.add_custom) {
-                i = addCustomProfiles(target, i) + 1;
             }
 
             if (i < target.size() && target.get(i) == header) {
@@ -63,27 +56,16 @@ public class PrimaryPreferenceActivity extends SherlockPreferenceActivity {
             }
         }
     }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private int addCustomProfiles(List<Header> target, int headerIndex) {
-        dbAdapter.openReadable();
-        List<PrimaryProfile> profiles = dbAdapter.getPrimaryProfiles();
-        dbAdapter.close();
-
-        for (PrimaryProfile profile : profiles) {
-            Header header = new Header();
-            header.title = profile.getName();
-            header.fragment = PrimaryCustomProfileFragment.class.getName();
-            header.iconRes = R.drawable.ic_settings_custom;
-
-            Bundle extras = new Bundle();
-            extras.putParcelable("profile", profile);
-            header.fragmentArguments = extras;
-
-            target.add(headerIndex++, header);
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
         }
-
-        return headerIndex;
+        
+        return super.onOptionsItemSelected(item);
     }
 
 }

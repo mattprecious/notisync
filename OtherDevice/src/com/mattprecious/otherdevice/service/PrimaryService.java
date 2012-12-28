@@ -42,12 +42,14 @@ import com.mattprecious.otherdevice.util.Preferences;
 public class PrimaryService extends Service {
     private final static String TAG = "PrimaryService";
 
-    private final Joiner notificationJoiner = Joiner.on(", ").skipNulls();
-    private final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    private static boolean running = false;
 
     public static final int MESSAGE_SHUTTING_DOWN = 1;
 
     private final int NOTIFICATION_ID_RUNNING = 1;
+
+    private final Joiner notificationJoiner = Joiner.on(", ").skipNulls();
+    private final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
     private NotificationManager notificationManager;
     private Map<String, BluetoothService> bluetoothServices = Maps.newHashMap();
@@ -60,8 +62,12 @@ public class PrimaryService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        running = true;
+        sendBroadcast(new Intent(Constants.ACTION_PRIMARY_SERVICE_STARTED));
+
         if (bluetoothAdapter == null) {
             stopSelf();
+            return;
         }
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -86,28 +92,43 @@ public class PrimaryService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        timer.cancel();
+        running = false;
+        sendBroadcast(new Intent(Constants.ACTION_PRIMARY_SERVICE_STOPPED));
 
-        unregisterReceiver(bluetoothStateReceiver);
-        unregisterReceiver(reconnectReceiver);
-        unregisterReceiver(updateDevicesReceiver);
-        unregisterReceiver(timerReceiver);
-        unregisterReceiver(sendMessageReceiver);
-        unregisterReceiver(smsReceiver);
-        unregisterReceiver(phoneReceiver);
+        if (timer != null) {
+            timer.cancel();
+        }
+
+        try {
+            unregisterReceiver(bluetoothStateReceiver);
+            unregisterReceiver(reconnectReceiver);
+            unregisterReceiver(updateDevicesReceiver);
+            unregisterReceiver(timerReceiver);
+            unregisterReceiver(sendMessageReceiver);
+            unregisterReceiver(smsReceiver);
+            unregisterReceiver(phoneReceiver);
+        } catch (IllegalArgumentException e) {
+
+        }
 
         for (BluetoothService service : bluetoothServices.values()) {
             service.stop();
         }
 
-        synchronized(bluetoothServices) {
+        synchronized (bluetoothServices) {
             bluetoothServices.clear();
         }
+
+        stopForeground(true);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    public static boolean isRunning() {
+        return running;
     }
 
     private synchronized void updateTimer() {
@@ -127,11 +148,11 @@ public class PrimaryService extends Service {
 
     private void connectDevices() {
         if (bluetoothAdapter.isEnabled()) {
-            synchronized(bluetoothServices) {
+            synchronized (bluetoothServices) {
                 for (String address : Preferences.getDevices(this)) {
                     BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
                     BluetoothService service = bluetoothServices.get(address);
-    
+
                     if (service == null) {
                         service = new BluetoothService(this, handler, false);
                         bluetoothServices.put(address, service);
@@ -144,10 +165,10 @@ public class PrimaryService extends Service {
                             service.connect(device);
                             continue;
                         }
-    
+
                         service.stop();
                     }
-    
+
                     service.start();
                     service.connect(device);
                 }
@@ -160,7 +181,7 @@ public class PrimaryService extends Service {
     }
 
     private void clearServices() {
-        synchronized(bluetoothServices) {
+        synchronized (bluetoothServices) {
             for (String address : bluetoothServices.keySet()) {
                 BluetoothService service = bluetoothServices.get(address);
                 if (service != null) {
@@ -172,6 +193,10 @@ public class PrimaryService extends Service {
     }
 
     private synchronized void updateRunningNotification() {
+        if (!running) {
+            return;
+        }
+
         Notification notification = buildRunningNotification(true);
 
         if (notification != null) {
@@ -201,7 +226,7 @@ public class PrimaryService extends Service {
         Set<String> connectedNames = Sets.newHashSet();
 
         if (bluetoothAdapter.isEnabled()) {
-            synchronized(bluetoothServices) {
+            synchronized (bluetoothServices) {
                 for (String address : bluetoothServices.keySet()) {
                     BluetoothService service = bluetoothServices.get(address);
                     if (service != null && service.getState() == BluetoothService.STATE_CONNECTED) {
@@ -237,7 +262,7 @@ public class PrimaryService extends Service {
         builder.setContentText(contentText);
         notificationBundle.putString("text", contentText);
 
-        if (nullIfNoChange && notificationBundle.equals(lastNotificationBundle)) {
+        if (nullIfNoChange && bundleEquals(notificationBundle, lastNotificationBundle)) {
             return null;
         }
 
@@ -247,11 +272,28 @@ public class PrimaryService extends Service {
     }
 
     public void sendMessage(String message) {
-        synchronized(bluetoothServices) {
+        synchronized (bluetoothServices) {
             for (BluetoothService service : bluetoothServices.values()) {
                 service.write(message.getBytes());
             }
         }
+    }
+
+    private boolean bundleEquals(Bundle a, Bundle b) {
+        if (!a.containsKey("text") || !a.containsKey("bt_enable_action") || !b.containsKey("text")
+                || !b.containsKey("bt_enable_action")) {
+            return false;
+        }
+
+        if (!a.getString("text").equals(b.getString("text"))) {
+            return false;
+        }
+
+        if (a.getBoolean("bt_enable_action") == b.getBoolean("bt_enable_action")) {
+            return false;
+        }
+
+        return true;
     }
 
     private static class PrimaryHandler extends Handler {

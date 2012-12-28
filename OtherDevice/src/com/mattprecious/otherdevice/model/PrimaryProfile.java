@@ -55,6 +55,20 @@ public class PrimaryProfile implements Parcelable {
     }
 
     @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("id: ").append(id);
+        buffer.append(", name: ").append(name);
+        buffer.append(", tag: ").append(tag);
+        buffer.append(", packageName: ").append(packageName);
+        buffer.append(", enabled: ").append(enabled);
+
+        buffer.insert(0, "PrimaryProfile {").append("}");
+
+        return buffer.toString();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -67,7 +81,7 @@ public class PrimaryProfile implements Parcelable {
         dest.writeString(packageName);
         dest.writeByte((byte) (enabled ? 1 : 0));
     }
-    
+
     public PrimaryProfile(Parcel in) {
         id = in.readInt();
         name = in.readString();

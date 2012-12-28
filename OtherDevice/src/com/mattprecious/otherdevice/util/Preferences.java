@@ -4,7 +4,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 import com.google.common.base.Joiner;
@@ -15,9 +14,8 @@ public class Preferences {
     private static final Joiner commaJoiner = Joiner.on(',').skipNulls();
     private static final Splitter commaSplitter = Splitter.on(',').omitEmptyStrings();
 
-    public static final String KEY_GLOBAL_TYPE = "global_type";
+    public static final String KEY_GLOBAL_MODE = "global_mode";
     public static final String KEY_GLOBAL_BOOT_ON_START = "global_boot_on_start";
-    public static final String KEY_GLOBAL_THEME = "global_theme";
 
     public static final String KEY_PRIMARY_DEVICES = "primary_devices";
     public static final String KEY_PRIMARY_RECONNECT_DELAY = "primary_reconnect_delay";
@@ -43,9 +41,38 @@ public class Preferences {
     public static final String KEY_SECONDARY_GTALK_VIBRATE = "secondary_gtalk_vibrate";
     public static final String KEY_SECONDARY_GTALK_LIGHTS = "secondary_gtalk_lights";
 
-    // TODO: enum?
-    public static final String TYPE_PRIMARY = "primary";
-    public static final String TYPE_SECONDARY = "secondary";
+    public static enum Mode {
+        PRIMARY,
+        SECONDARY;
+    }
+
+    public static void populate(Context context) {
+        setMode(context, getMode(context));
+        setBootOnStart(context, getBootOnStart(context));
+        setDevices(context, getDevices(context));
+
+        setPrimaryReconnectDelay(context, getPrimaryReconnectDelay(context));
+        setPrimaryTextMessageEnabled(context, getPrimaryTextMessageEnabled(context));
+        setPrimaryPhoneCallEnabled(context, getPrimaryPhoneCallEnabled(context));
+        setPrimaryGtalkEnabled(context, getPrimaryGtalkEnabled(context));
+
+        setSecondaryReconnectDelay(context, getSecondaryReconnectDelay(context));
+
+        setSecondaryTextMessageEnabled(context, getSecondaryTextMessageEnabled(context));
+        setSecondaryTextMessageRingtone(context, getSecondaryTextMessageRingtone(context));
+        setSecondaryTextMessageVibrate(context, getSecondaryTextMessageVibrate(context));
+        setSecondaryTextMessageLights(context, getSecondaryTextMessageLights(context));
+
+        setSecondaryPhoneCallEnabled(context, getSecondaryPhoneCallEnabled(context));
+        setSecondaryPhoneCallRingtone(context, getSecondaryPhoneCallRingtone(context));
+        setSecondaryPhoneCallVibrate(context, getSecondaryPhoneCallVibrate(context));
+        setSecondaryPhoneCallLights(context, getSecondaryPhoneCallLights(context));
+
+        setSecondaryGtalkEnabled(context, getSecondaryGtalkEnabled(context));
+        setSecondaryGtalkRingtone(context, getSecondaryGtalkRingtone(context));
+        setSecondaryGtalkVibrate(context, getSecondaryGtalkVibrate(context));
+        setSecondaryGtalkLights(context, getSecondaryGtalkLights(context));
+    }
 
     // /////////////////////
     // GLOBAL
@@ -54,26 +81,29 @@ public class Preferences {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static boolean hasType(Context context) {
-        return getPreferences(context).contains(KEY_GLOBAL_TYPE);
+    public static boolean hasMode(Context context) {
+        return getPreferences(context).contains(KEY_GLOBAL_MODE);
     }
 
-    public static String getType(Context context) {
-        return getPreferences(context).getString(KEY_GLOBAL_TYPE, TYPE_PRIMARY);
+    public static Mode getMode(Context context) {
+        return Mode
+                .valueOf(getPreferences(context).getString(KEY_GLOBAL_MODE, Mode.PRIMARY.name()));
     }
 
-    public static void setType(Context context, String type) {
-        Editor editor = getPreferences(context).edit();
-        editor.putString(KEY_GLOBAL_TYPE, type);
-        editor.commit();
+    public static void setMode(Context context, Mode mode) {
+        getPreferences(context).edit().putString(KEY_GLOBAL_MODE, mode.name()).commit();
+    }
+
+    public static boolean isPrimary(Context context) {
+        return getMode(context) == Mode.PRIMARY;
     }
 
     public static boolean getBootOnStart(Context context) {
         return getPreferences(context).getBoolean(KEY_GLOBAL_BOOT_ON_START, true);
     }
 
-    public static String getTheme(Context context) {
-        return getPreferences(context).getString(KEY_GLOBAL_THEME, "holo_dark");
+    public static void setBootOnStart(Context context, boolean boot) {
+        getPreferences(context).edit().putBoolean(KEY_GLOBAL_BOOT_ON_START, boot).commit();
     }
 
     // /////////////////////
@@ -85,14 +115,18 @@ public class Preferences {
     }
 
     public static void setDevices(Context context, Set<String> devices) {
-        Editor editor = getPreferences(context).edit();
-        editor.putString(KEY_PRIMARY_DEVICES, commaJoiner.join(devices));
-        editor.commit();
+        getPreferences(context).edit().putString(KEY_PRIMARY_DEVICES, commaJoiner.join(devices))
+                .commit();
     }
 
     public static int getPrimaryReconnectDelay(Context context) {
         return Integer
                 .parseInt(getPreferences(context).getString(KEY_PRIMARY_RECONNECT_DELAY, "5"));
+    }
+
+    public static void setPrimaryReconnectDelay(Context context, int delay) {
+        getPreferences(context).edit()
+                .putString(KEY_PRIMARY_RECONNECT_DELAY, String.valueOf(delay)).commit();
     }
 
     // //////////////////////////
@@ -102,6 +136,11 @@ public class Preferences {
         return getPreferences(context).getBoolean(KEY_PRIMARY_TEXT_MESSAGE_ENABLED, true);
     }
 
+    public static void setPrimaryTextMessageEnabled(Context context, boolean enabled) {
+        getPreferences(context).edit().putBoolean(KEY_PRIMARY_TEXT_MESSAGE_ENABLED, enabled)
+                .commit();
+    }
+
     // //////////////////////////
     // PRIMARY: PHONE CALL
     // //////////////////////////
@@ -109,11 +148,19 @@ public class Preferences {
         return getPreferences(context).getBoolean(KEY_PRIMARY_PHONE_CALL_ENABLED, true);
     }
 
+    public static void setPrimaryPhoneCallEnabled(Context context, boolean enabled) {
+        getPreferences(context).edit().putBoolean(KEY_PRIMARY_PHONE_CALL_ENABLED, enabled).commit();
+    }
+
     // //////////////////////////
     // PRIMARY: GTALK
     // //////////////////////////
     public static boolean getPrimaryGtalkEnabled(Context context) {
         return getPreferences(context).getBoolean(KEY_PRIMARY_GTALK_ENABLED, true);
+    }
+
+    public static void setPrimaryGtalkEnabled(Context context, boolean enabled) {
+        getPreferences(context).edit().putBoolean(KEY_PRIMARY_GTALK_ENABLED, enabled).commit();
     }
 
     // //////////////////////////
@@ -124,6 +171,11 @@ public class Preferences {
                 "5"));
     }
 
+    public static void setSecondaryReconnectDelay(Context context, int delay) {
+        getPreferences(context).edit()
+                .putString(KEY_SECONDARY_RECONNECT_DELAY, String.valueOf(delay)).commit();
+    }
+
     // //////////////////////////
     // SECONDARY: TEXT MESSAGE
     // //////////////////////////
@@ -131,16 +183,36 @@ public class Preferences {
         return getPreferences(context).getBoolean(KEY_SECONDARY_TEXT_MESSAGE_ENABLED, true);
     }
 
+    public static void setSecondaryTextMessageEnabled(Context context, boolean enabled) {
+        getPreferences(context).edit().putBoolean(KEY_SECONDARY_TEXT_MESSAGE_ENABLED, enabled)
+                .commit();
+    }
+
     public static String getSecondaryTextMessageRingtone(Context context) {
         return getPreferences(context).getString(KEY_SECONDARY_TEXT_MESSAGE_RINGTONE, null);
+    }
+
+    public static void setSecondaryTextMessageRingtone(Context context, String ringtone) {
+        getPreferences(context).edit().putString(KEY_SECONDARY_TEXT_MESSAGE_RINGTONE, ringtone)
+                .commit();
     }
 
     public static boolean getSecondaryTextMessageVibrate(Context context) {
         return getPreferences(context).getBoolean(KEY_SECONDARY_TEXT_MESSAGE_VIBRATE, true);
     }
 
+    public static void setSecondaryTextMessageVibrate(Context context, boolean vibrate) {
+        getPreferences(context).edit().putBoolean(KEY_SECONDARY_TEXT_MESSAGE_VIBRATE, vibrate)
+                .commit();
+    }
+
     public static boolean getSecondaryTextMessageLights(Context context) {
         return getPreferences(context).getBoolean(KEY_SECONDARY_TEXT_MESSAGE_LIGHTS, true);
+    }
+
+    public static void setSecondaryTextMessageLights(Context context, boolean lights) {
+        getPreferences(context).edit().putBoolean(KEY_SECONDARY_TEXT_MESSAGE_LIGHTS, lights)
+                .commit();
     }
 
     // //////////////////////////
@@ -150,16 +222,35 @@ public class Preferences {
         return getPreferences(context).getBoolean(KEY_SECONDARY_PHONE_CALL_ENABLED, true);
     }
 
+    public static void setSecondaryPhoneCallEnabled(Context context, boolean enabled) {
+        getPreferences(context).edit().putBoolean(KEY_SECONDARY_PHONE_CALL_ENABLED, enabled)
+                .commit();
+    }
+
     public static String getSecondaryPhoneCallRingtone(Context context) {
         return getPreferences(context).getString(KEY_SECONDARY_PHONE_CALL_RINGTONE, null);
+    }
+
+    public static void setSecondaryPhoneCallRingtone(Context context, String ringtone) {
+        getPreferences(context).edit().putString(KEY_SECONDARY_PHONE_CALL_RINGTONE, ringtone)
+                .commit();
     }
 
     public static boolean getSecondaryPhoneCallVibrate(Context context) {
         return getPreferences(context).getBoolean(KEY_SECONDARY_PHONE_CALL_VIBRATE, true);
     }
 
+    public static void setSecondaryPhoneCallVibrate(Context context, boolean vibrate) {
+        getPreferences(context).edit().putBoolean(KEY_SECONDARY_PHONE_CALL_VIBRATE, vibrate)
+                .commit();
+    }
+
     public static boolean getSecondaryPhoneCallLights(Context context) {
         return getPreferences(context).getBoolean(KEY_SECONDARY_PHONE_CALL_LIGHTS, true);
+    }
+
+    public static void setSecondaryPhoneCallLights(Context context, boolean lights) {
+        getPreferences(context).edit().putBoolean(KEY_SECONDARY_PHONE_CALL_LIGHTS, lights).commit();
     }
 
     // //////////////////////////
@@ -169,19 +260,40 @@ public class Preferences {
         return getPreferences(context).getBoolean(KEY_SECONDARY_GTALK_ENABLED, true);
     }
 
+    public static void setSecondaryGtalkEnabled(Context context, boolean enabled) {
+        getPreferences(context).edit().putBoolean(KEY_SECONDARY_GTALK_ENABLED, enabled).commit();
+    }
+
     public static boolean getSecondaryGtalkUnconnectedOnly(Context context) {
         return getPreferences(context).getBoolean(KEY_SECONDARY_GTALK_UNCONNECTED_ONLY, true);
+    }
+
+    public static void setSecondaryGtalkUnconnectedOnly(Context context, boolean unconnected) {
+        getPreferences(context).edit()
+                .putBoolean(KEY_SECONDARY_GTALK_UNCONNECTED_ONLY, unconnected).commit();
     }
 
     public static String getSecondaryGtalkRingtone(Context context) {
         return getPreferences(context).getString(KEY_SECONDARY_GTALK_RINGTONE, null);
     }
 
+    public static void setSecondaryGtalkRingtone(Context context, String ringtone) {
+        getPreferences(context).edit().putString(KEY_SECONDARY_GTALK_RINGTONE, ringtone).commit();
+    }
+
     public static boolean getSecondaryGtalkVibrate(Context context) {
         return getPreferences(context).getBoolean(KEY_SECONDARY_GTALK_VIBRATE, true);
     }
 
+    public static void setSecondaryGtalkVibrate(Context context, boolean vibrate) {
+        getPreferences(context).edit().putBoolean(KEY_SECONDARY_GTALK_VIBRATE, vibrate).commit();
+    }
+
     public static boolean getSecondaryGtalkLights(Context context) {
         return getPreferences(context).getBoolean(KEY_SECONDARY_GTALK_LIGHTS, true);
+    }
+
+    public static void setSecondaryGtalkLights(Context context, boolean lights) {
+        getPreferences(context).edit().putBoolean(KEY_SECONDARY_GTALK_LIGHTS, lights).commit();
     }
 }

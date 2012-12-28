@@ -3,26 +3,26 @@ package com.mattprecious.otherdevice.preferences;
 import java.util.HashSet;
 import java.util.Set;
 
-import android.annotation.TargetApi;
+import org.holoeverywhere.preference.CheckBoxPreference;
+import org.holoeverywhere.preference.Preference;
+import org.holoeverywhere.preference.Preference.OnPreferenceChangeListener;
+import org.holoeverywhere.preference.PreferenceFragment;
+import org.holoeverywhere.preference.PreferenceScreen;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
 import android.util.Log;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.mattprecious.otherdevice.R;
-import com.mattprecious.otherdevice.service.PrimaryService;
 import com.mattprecious.otherdevice.util.Constants;
 import com.mattprecious.otherdevice.util.Preferences;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DevicePreferenceFragment extends PreferenceFragment {
     private static final String TAG = "DevicePreferenceFragment";
 
@@ -32,18 +32,19 @@ public class DevicePreferenceFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PreferenceScreen preferenceScreen = getPreferenceManager().createPreferenceScreen(
-                getActivity());
+        setHasOptionsMenu(true);
+
+        setPreferenceScreen(getPreferenceManager().createPreferenceScreen(getActivity()));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        if (btAdapter == null) {
-            return;
-        }
-
-        if (!btAdapter.isEnabled()) {
-            // TODO: handle bt being disabled
-        }
+        PreferenceScreen screen = getPreferenceScreen();
+        screen.removeAll();
 
         Set<String> selectedDevices = Preferences.getDevices(getActivity());
 
@@ -61,14 +62,29 @@ public class DevicePreferenceFragment extends PreferenceFragment {
             }
 
             if (selectedDevices.contains(device.getAddress())) {
-                preference.setChecked(true);
+                preference.setDefaultValue(true);
                 localDeviceSet.add(device.getAddress());
             }
 
-            preferenceScreen.addPreference(preference);
+            getPreferenceScreen().addPreference(preference);
         }
+    }
 
-        setPreferenceScreen(preferenceScreen);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.devices, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_bt_devices:
+                Intent intent = new Intent();
+                intent.setAction(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -85,10 +101,11 @@ public class DevicePreferenceFragment extends PreferenceFragment {
                     return R.drawable.ic_bt_cellphone;
 
                 case BluetoothClass.Device.Major.IMAGING:
-                    return R.drawable.ic_bt_imaging;
+//                    return R.drawable.ic_bt_imaging;
+                    break;
 
                 case BluetoothClass.Device.Major.AUDIO_VIDEO:
-                    return R.drawable.ic_bt_headphones_a2dp;
+                    return R.drawable.ic_bt_headphones;
 
                 default:
                     // unrecognized device class; continue

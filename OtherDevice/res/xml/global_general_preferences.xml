@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="General" >
+    xmlns:holo="http://schemas.android.com/apk/res-auto"
+    holo:title="General" >
 
     <CheckBoxPreference
-        android:defaultValue="1"
-        android:key="global_start_on_boot"
-        android:title="Start on boot" />
+        holo:key="global_start_on_boot"
+        holo:title="Start on boot" />
 
     <ListPreference
-        android:defaultValue="holo_dark"
-        android:entries="@array/theme_titles"
-        android:entryValues="@array/theme_values"
-        android:key="global_theme"
-        android:title="Theme" />
+        holo:entries="@array/mode_titles"
+        holo:entryValues="@array/mode_values"
+        holo:key="global_mode"
+        holo:title="Mode" />
 
 </PreferenceScreen>

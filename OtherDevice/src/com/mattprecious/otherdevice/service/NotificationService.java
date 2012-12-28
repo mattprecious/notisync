@@ -29,13 +29,29 @@ public class NotificationService extends AccessibilityService {
 
     // TODO: Locale issues? This pattern isn't really global...
     private final Pattern gtalkPattern = Pattern.compile("(.*): (.*)");
+
+    private static boolean running = false;
+
     private DbAdapter dbAdapter;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        running = true;
+
         dbAdapter = new DbAdapter(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        running = false;
+    }
+
+    public static boolean isRunning() {
+        return running;
     }
 
     @Override
@@ -52,9 +68,8 @@ public class NotificationService extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         Log.d(TAG, "onAcessibilityEvent()");
-        String type = Preferences.getType(this);
-        if (!Preferences.TYPE_PRIMARY.equals(type)) {
-            Log.d(TAG, "not primary type");
+        if (!Preferences.isPrimary(this)) {
+            Log.d(TAG, "not primary mode");
             return;
         }
 
@@ -98,7 +113,7 @@ public class NotificationService extends AccessibilityService {
                 return;
             } else {
                 dbAdapter.openReadable();
-                PrimaryProfile profile = dbAdapter.getPrimaryProfile(packageName);
+                PrimaryProfile profile = dbAdapter.getPrimaryProfileByPackage(packageName);
                 dbAdapter.close();
 
                 if (profile != null && profile.isEnabled()) {
@@ -106,7 +121,7 @@ public class NotificationService extends AccessibilityService {
                             : notification.tickerText.toString();
                     CustomMessage customMessage = new CustomMessage.Builder().tag(profile.getTag())
                             .title("Custom Message").message(message).build();
-                    
+
                     sendMessage(customMessage);
                 }
             }

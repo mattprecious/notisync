@@ -1,0 +1,11 @@
+Bluetooth icons:
+image: 26dp
+padding: 14dp
+
+Settings icons:
+image: 32dp
+padding: 8dp
+
+Packages button icon:
+image: 30dp
+padding: 0

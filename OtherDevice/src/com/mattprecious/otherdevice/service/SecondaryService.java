@@ -42,6 +42,8 @@ import com.mattprecious.otherdevice.util.Preferences;
 public class SecondaryService extends Service {
     private final static String TAG = "SecondaryService";
 
+    private static boolean running = false;
+
     private final int NOTIFICATION_ID_RUNNING = 1;
     private final int NOTIFICATION_ID_TEXT = 2;
     private final int NOTIFICATION_ID_PHONE_INCOMING = 3;
@@ -68,8 +70,12 @@ public class SecondaryService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        running = true;
+        sendBroadcast(new Intent(Constants.ACTION_SECONDARY_SERVICE_STARTED));
+
         if (bluetoothAdapter == null) {
             stopSelf();
+            return;
         }
 
         dbAdapter = new DbAdapter(this);
@@ -91,15 +97,29 @@ public class SecondaryService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        timer.cancel();
-        stopForeground(true);
+        running = false;
+        sendBroadcast(new Intent(Constants.ACTION_SECONDARY_SERVICE_STOPPED));
 
-        unregisterReceiver(bluetoothStateReceiver);
-        unregisterReceiver(timerReceiver);
+        if (timer != null) {
+            timer.cancel();
+        }
+
+        try {
+            unregisterReceiver(bluetoothStateReceiver);
+            unregisterReceiver(timerReceiver);
+        } catch (IllegalArgumentException e) {
+
+        }
 
         if (bluetoothService != null) {
             bluetoothService.stop();
         }
+
+        stopForeground(true);
+    }
+
+    public static boolean isRunning() {
+        return running;
     }
 
     private void updateTimer() {
@@ -123,6 +143,10 @@ public class SecondaryService extends Service {
     }
 
     private void updateRunningNotification() {
+        if (!running) {
+            return;
+        }
+
         notificationManager.notify(NOTIFICATION_ID_RUNNING, buildRunningNotification());
     }
 
@@ -306,7 +330,7 @@ public class SecondaryService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentTitle(message.sender);
         builder.setContentText(message.message);
-        builder.setSmallIcon(R.drawable.ic_stat_chat);
+        builder.setSmallIcon(android.R.drawable.stat_notify_chat);
         builder.setSound(getRingtoneUri(Preferences.getSecondaryGtalkRingtone(this)));
         builder.setAutoCancel(true);
 
@@ -339,7 +363,7 @@ public class SecondaryService extends Service {
         SecondaryProfile profile = null;
         if (message.tag != null) {
             dbAdapter.openReadable();
-            profile = dbAdapter.getSecondaryProfile(message.tag);
+            profile = dbAdapter.getSecondaryProfileByTag(message.tag);
             dbAdapter.close();
 
             if (profile != null) {

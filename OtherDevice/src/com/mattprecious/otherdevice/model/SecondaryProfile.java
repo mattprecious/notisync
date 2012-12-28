@@ -84,6 +84,23 @@ public class SecondaryProfile implements Parcelable {
     }
 
     @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("id: ").append(id);
+        buffer.append(", name: ").append(name);
+        buffer.append(", tag: ").append(tag);
+        buffer.append(", enabled: ").append(enabled);
+        buffer.append(", unconnectedOnly: ").append(unconnectedOnly);
+        buffer.append(", ringtone: ").append(ringtone);
+        buffer.append(", vibrate: ").append(vibrate);
+        buffer.append(", led: ").append(led);
+
+        buffer.insert(0, "SecondaryProfile {").append("}");
+
+        return buffer.toString();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

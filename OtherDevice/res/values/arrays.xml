@@ -1,5 +1,9 @@
 <resources>
 
+    <string-array name="mode_titles">
+        <item>Primary</item>
+        <item>Secondary</item>
+    </string-array>
     <string-array name="theme_titles">
         <item>Holo Dark</item>
         <item>Holo Light</item>

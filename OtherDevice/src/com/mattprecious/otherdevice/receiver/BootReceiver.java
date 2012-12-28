@@ -12,9 +12,8 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String type = Preferences.getType(context);
         if (Preferences.getBootOnStart(context)) {
-            if (Preferences.TYPE_PRIMARY.equals(type)) {
+            if (Preferences.isPrimary(context)) {
                 context.startService(new Intent(context, PrimaryService.class));
             } else {
                 context.startService(new Intent(context, SecondaryService.class));

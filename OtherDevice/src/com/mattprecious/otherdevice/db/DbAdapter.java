@@ -38,7 +38,7 @@ public class DbAdapter {
         List<PrimaryProfile> profiles = new ArrayList<PrimaryProfile>();
 
         Cursor c = db.query(DbHelper.PRIMARY_PROFILES_TABLE_NAME, null, null, null, null, null,
-                null);
+                DbHelper.PRIMARY_PROFILES_KEY_NAME + " COLLATE NOCASE ASC");
 
         c.moveToFirst();
         while (!c.isAfterLast()) {
@@ -50,8 +50,24 @@ public class DbAdapter {
         c.close();
         return profiles;
     }
-    
-    public PrimaryProfile getPrimaryProfile(String packageName) {
+
+    public PrimaryProfile getPrimaryProfileByTag(String tag) {
+        String selection = DbHelper.PRIMARY_PROFILES_KEY_TAG + "=?";
+        String[] selectionArgs = { tag };
+        Cursor c = db.query(DbHelper.PRIMARY_PROFILES_TABLE_NAME, null, selection, selectionArgs,
+                null, null, null);
+
+        PrimaryProfile profile = null;
+        if (c.moveToFirst()) {
+            profile = cursorToPrimaryProfile(c);
+        }
+
+        c.close();
+
+        return profile;
+    }
+
+    public PrimaryProfile getPrimaryProfileByPackage(String packageName) {
         String selection = DbHelper.PRIMARY_PROFILES_KEY_PACKAGE + "=?";
         String[] selectionArgs = { packageName };
         Cursor c = db.query(DbHelper.PRIMARY_PROFILES_TABLE_NAME, null, selection, selectionArgs,
@@ -71,7 +87,7 @@ public class DbAdapter {
         List<SecondaryProfile> profiles = new ArrayList<SecondaryProfile>();
 
         Cursor c = db.query(DbHelper.SECONDARY_PROFILES_TABLE_NAME, null, null, null, null, null,
-                null);
+                DbHelper.SECONDARY_PROFILES_KEY_NAME + " COLLATE NOCASE ASC");
 
         c.moveToFirst();
         while (!c.isAfterLast()) {
@@ -83,8 +99,8 @@ public class DbAdapter {
         c.close();
         return profiles;
     }
-    
-    public SecondaryProfile getSecondaryProfile(String tag) {
+
+    public SecondaryProfile getSecondaryProfileByTag(String tag) {
         String selection = DbHelper.SECONDARY_PROFILES_KEY_TAG + "=?";
         String[] selectionArgs = { tag };
         Cursor c = db.query(DbHelper.SECONDARY_PROFILES_TABLE_NAME, null, selection, selectionArgs,
@@ -99,41 +115,53 @@ public class DbAdapter {
 
         return profile;
     }
-    
-    public void insertPrimaryProfile(PrimaryProfile profile) {
+
+    public boolean insertPrimaryProfile(PrimaryProfile profile) {
         ContentValues values = profileToValues(profile);
-        db.insert(DbHelper.PRIMARY_PROFILES_TABLE_NAME, null, values);
+        long result = db.insert(DbHelper.PRIMARY_PROFILES_TABLE_NAME, null, values);
+
+        return result > -1;
     }
 
-    public void updatePrimaryProfile(PrimaryProfile profile) {
+    public boolean updatePrimaryProfile(PrimaryProfile profile) {
         ContentValues values = profileToValues(profile);
         String where = DbHelper.PRIMARY_PROFILES_KEY_ID + "=?";
         String[] whereArgs = { String.valueOf(profile.getId()) };
-        db.update(DbHelper.PRIMARY_PROFILES_TABLE_NAME, values, where, whereArgs);
+        int result = db.update(DbHelper.PRIMARY_PROFILES_TABLE_NAME, values, where, whereArgs);
+
+        return result > 0;
     }
 
-    public void deletePrimaryProfile(PrimaryProfile profile) {
+    public boolean deletePrimaryProfile(PrimaryProfile profile) {
         String where = DbHelper.PRIMARY_PROFILES_KEY_ID + "=?";
         String[] whereArgs = { String.valueOf(profile.getId()) };
-        db.delete(DbHelper.PRIMARY_PROFILES_TABLE_NAME, where, whereArgs);
+        int result = db.delete(DbHelper.PRIMARY_PROFILES_TABLE_NAME, where, whereArgs);
+
+        return result > 0;
     }
 
-    public void insertSecondaryProfile(SecondaryProfile profile) {
+    public boolean insertSecondaryProfile(SecondaryProfile profile) {
         ContentValues values = profileToValues(profile);
-        db.insert(DbHelper.SECONDARY_PROFILES_TABLE_NAME, null, values);
+        long result = db.insert(DbHelper.SECONDARY_PROFILES_TABLE_NAME, null, values);
+
+        return result > -1;
     }
 
-    public void updateSecondaryProfile(SecondaryProfile profile) {
+    public boolean updateSecondaryProfile(SecondaryProfile profile) {
         ContentValues values = profileToValues(profile);
         String where = DbHelper.SECONDARY_PROFILES_KEY_ID + "=?";
         String[] whereArgs = { String.valueOf(profile.getId()) };
-        db.update(DbHelper.SECONDARY_PROFILES_TABLE_NAME, values, where, whereArgs);
+        int result = db.update(DbHelper.SECONDARY_PROFILES_TABLE_NAME, values, where, whereArgs);
+
+        return result > 0;
     }
 
-    public void deleteSecondaryProfile(SecondaryProfile profile) {
+    public boolean deleteSecondaryProfile(SecondaryProfile profile) {
         String where = DbHelper.SECONDARY_PROFILES_KEY_ID + "=?";
         String[] whereArgs = { String.valueOf(profile.getId()) };
-        db.delete(DbHelper.SECONDARY_PROFILES_TABLE_NAME, where, whereArgs);
+        int result = db.delete(DbHelper.SECONDARY_PROFILES_TABLE_NAME, where, whereArgs);
+
+        return result > 0;
     }
 
     private PrimaryProfile cursorToPrimaryProfile(Cursor c) {
@@ -197,8 +225,8 @@ public class DbAdapter {
                 + PRIMARY_PROFILES_TABLE_NAME + "(" + PRIMARY_PROFILES_KEY_ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PRIMARY_PROFILES_KEY_TAG
                 + " TEXT KEY NOT NULL, " + PRIMARY_PROFILES_KEY_NAME + " TEXT NOT NULL, "
-                + PRIMARY_PROFILES_KEY_PACKAGE + " TEXT KEY NOT NULL, " + PRIMARY_PROFILES_KEY_ENABLED
-                + " INTEGER);";
+                + PRIMARY_PROFILES_KEY_PACKAGE + " TEXT KEY NOT NULL, "
+                + PRIMARY_PROFILES_KEY_ENABLED + " INTEGER);";
 
         private static final String SECONDARY_PROFILES_TABLE_NAME = "secondary_profiles";
         private static final String SECONDARY_PROFILES_KEY_ID = "_id";
