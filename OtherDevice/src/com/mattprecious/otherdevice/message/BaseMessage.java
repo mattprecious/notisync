@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.message;
 
 import android.util.Log;
@@ -13,11 +14,11 @@ public class BaseMessage {
     public BaseMessage() {
         DATA_TYPE = getClass().getName();
     }
-    
+
     public static String toJsonString(BaseMessage message) {
         return new Gson().toJson(message);
     }
-    
+
     public static BaseMessage fromJsonString(String jsonString) {
         BaseMessage message = null;
         try {
@@ -26,7 +27,7 @@ public class BaseMessage {
             if (ClearMessage.class.getName().equals(dataTypeStr)) {
                 json = json.getAsJsonObject("message");
                 Class<?> dataType = Class.forName(json.get("DATA_TYPE").getAsString());
-                
+
                 BaseMessage subMessage = (BaseMessage) new Gson().fromJson(json, dataType);
                 message = new ClearMessage(subMessage);
             } else {
@@ -35,8 +36,8 @@ public class BaseMessage {
             }
         } catch (ClassNotFoundException e) {
             Log.e("BaseMessage", "Failed to convert to BaseMessage", e);
-        } 
-        
+        }
+
         return message;
     }
 

@@ -3,5 +3,6 @@
 
     <string name="app_name">NotiSync</string>
     <string name="undo">Undo</string>
+    <string name="accessibility_service_description">Description of how awesome this service is.</string>
 
 </resources>

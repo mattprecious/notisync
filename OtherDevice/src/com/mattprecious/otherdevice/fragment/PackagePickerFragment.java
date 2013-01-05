@@ -1,15 +1,5 @@
+
 package com.mattprecious.otherdevice.fragment;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.widget.TextView;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,21 +12,39 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.common.collect.Lists;
 import com.mattprecious.otherdevice.R;
 
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Dialog;
+import org.holoeverywhere.app.DialogFragment;
+import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.TextView;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class PackagePickerFragment extends DialogFragment {
-    private PackageListAdapter adapter;
-    private OnPackageSelectedListener listener;
+    private PackageListAdapter listAdapter;
+    private OnPackageSelectedListener packageListener;
+
+    private RelativeLayout viewHolder;
+    private ListView listView;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            listener = (OnPackageSelectedListener) activity;
+            packageListener = (OnPackageSelectedListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnPackageSelectedListener");
@@ -45,19 +53,12 @@ public class PackagePickerFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        adapter = new PackageListAdapter(getActivity());
+        LayoutInflater inflater = getLayoutInflater();
+        viewHolder = (RelativeLayout) inflater.inflate(R.layout.package_picker);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Pick application");
-        builder.setAdapter(adapter, new OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                listener.onPackageSelected(adapter.getItem(which).packageName);
-
-            }
-        });
-
+        builder.setView(viewHolder);
         builder.setNegativeButton("Cancel", new OnClickListener() {
 
             @Override
@@ -66,6 +67,36 @@ public class PackagePickerFragment extends DialogFragment {
             }
 
         });
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                listAdapter = new PackageListAdapter(getActivity());
+
+                listView = new ListView(getActivity());
+                listView.setAdapter(listAdapter);
+                listView.setOnItemClickListener(new OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ActivityInfo info = (ActivityInfo) view.getTag();
+                        packageListener.onPackageSelected(info.packageName);
+                        dismiss();
+                    }
+                });
+
+                viewHolder.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        viewHolder.removeAllViews();
+                        viewHolder.addView(listView);
+                    }
+                });
+            }
+
+        }).start();
 
         return builder.create();
     }

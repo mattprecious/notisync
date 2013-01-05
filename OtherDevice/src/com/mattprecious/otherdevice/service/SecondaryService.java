@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.service;
 
 import java.lang.ref.WeakReference;
@@ -402,7 +403,8 @@ public class SecondaryService extends Service {
                 message.body).build();
 
         // use the profile ID to determine the notification ID
-        // TODO: note that if somehow a profile ID is ~2^32, we're overwriting notifications...
+        // TODO: note that if somehow a profile ID is ~2^32, we're overwriting
+        // notifications...
         notificationManager.notify(NOTIFICATION_ID_CUSTOM + profile.getId(), notification);
     }
 

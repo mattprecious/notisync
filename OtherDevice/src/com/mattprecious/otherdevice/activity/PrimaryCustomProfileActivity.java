@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.activity;
 
 import org.holoeverywhere.app.Activity;
@@ -36,10 +37,14 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private int errorFlags = 0;
 
-    @InjectView private EditText nameField;
-    @InjectView private EditText tagField;
-    @InjectView private EditText packageField;
-    @InjectView private ImageButton packageButton;
+    @InjectView
+    private EditText nameField;
+    @InjectView
+    private EditText tagField;
+    @InjectView
+    private EditText packageField;
+    @InjectView
+    private ImageButton packageButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

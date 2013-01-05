@@ -12,5 +12,10 @@
         holo:entryValues="@array/mode_values"
         holo:key="global_mode"
         holo:title="Mode" />
+    
+    <CheckBoxPreference
+        holo:key="global_analytics"
+        holo:title="Improve NotiSync"
+        holo:summary="Help improve NotiSync by sending anonymous usage data" />
 
 </PreferenceScreen>

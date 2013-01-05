@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.message;
 
 public class GtalkMessage extends BaseMessage {

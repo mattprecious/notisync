@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.util;
 
 import java.util.Set;
@@ -16,6 +17,7 @@ public class Preferences {
 
     public static final String KEY_GLOBAL_MODE = "global_mode";
     public static final String KEY_GLOBAL_BOOT_ON_START = "global_boot_on_start";
+    public static final String KEY_GLOBAL_ANALYTICS = "global_analytics";
 
     public static final String KEY_PRIMARY_DEVICES = "primary_devices";
     public static final String KEY_PRIMARY_RECONNECT_DELAY = "primary_reconnect_delay";
@@ -49,6 +51,7 @@ public class Preferences {
     public static void populate(Context context) {
         setMode(context, getMode(context));
         setBootOnStart(context, getBootOnStart(context));
+        setAnalytics(context, getAnalytics(context));
         setDevices(context, getDevices(context));
 
         setPrimaryReconnectDelay(context, getPrimaryReconnectDelay(context));
@@ -104,6 +107,14 @@ public class Preferences {
 
     public static void setBootOnStart(Context context, boolean boot) {
         getPreferences(context).edit().putBoolean(KEY_GLOBAL_BOOT_ON_START, boot).commit();
+    }
+
+    public static boolean getAnalytics(Context context) {
+        return getPreferences(context).getBoolean(KEY_GLOBAL_ANALYTICS, true);
+    }
+
+    public static void setAnalytics(Context context, boolean analytics) {
+        getPreferences(context).edit().putBoolean(KEY_GLOBAL_ANALYTICS, analytics).commit();
     }
 
     // /////////////////////

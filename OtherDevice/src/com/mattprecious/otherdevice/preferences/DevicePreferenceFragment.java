@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.preferences;
 
 import java.util.HashSet;
@@ -101,7 +102,7 @@ public class DevicePreferenceFragment extends PreferenceFragment {
                     return R.drawable.ic_bt_cellphone;
 
                 case BluetoothClass.Device.Major.IMAGING:
-//                    return R.drawable.ic_bt_imaging;
+                    // return R.drawable.ic_bt_imaging;
                     break;
 
                 case BluetoothClass.Device.Major.AUDIO_VIDEO:

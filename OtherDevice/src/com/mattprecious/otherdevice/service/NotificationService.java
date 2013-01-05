@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.service;
 
 import java.util.Arrays;
@@ -25,7 +26,8 @@ public class NotificationService extends AccessibilityService {
 
     private final static List<String> gtalkPackageNames = Arrays.asList(new String[] {
             "com.google.android.talk", "com.google.android.apps.gtalkservice",
-            "com.google.android.gsf", });
+            "com.google.android.gsf",
+    });
 
     // TODO: Locale issues? This pattern isn't really global...
     private final Pattern gtalkPattern = Pattern.compile("(.*): (.*)");
@@ -127,7 +129,7 @@ public class NotificationService extends AccessibilityService {
             }
 
             Log.d(TAG, "packageName: " + packageName);
-//                Log.d(TAG, notification.tickerText);
+            // Log.d(TAG, notification.tickerText);
         }
 
     }

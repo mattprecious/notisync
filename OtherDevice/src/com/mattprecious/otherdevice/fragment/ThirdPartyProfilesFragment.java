@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.fragment;
 
 import org.holoeverywhere.LayoutInflater;

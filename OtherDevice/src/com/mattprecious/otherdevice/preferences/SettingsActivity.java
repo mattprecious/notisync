@@ -1,18 +1,19 @@
+
 package com.mattprecious.otherdevice.preferences;
 
-import java.util.List;
-
-import org.holoeverywhere.preference.PreferenceActivity;
-
 import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.mattprecious.otherdevice.R;
 import com.mattprecious.otherdevice.util.Preferences;
 
-public class PrimaryPreferenceActivity extends PreferenceActivity {
+import org.holoeverywhere.preference.PreferenceActivity;
+
+import java.util.List;
+
+public class SettingsActivity extends PreferenceActivity {
+    public static final String EXTRA_SELECT_HEADER = "selectHeader";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,30 +23,27 @@ public class PrimaryPreferenceActivity extends PreferenceActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (!Preferences.isPrimary(this)) {
-            startActivity(new Intent(this, SecondaryPreferenceActivity.class));
-            finish();
-        }
-    }
-
-    @Override
     public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.primary_preference_headers, target);
+        if (Preferences.isPrimary(this)) {
+            loadHeadersFromResource(R.xml.primary_preference_headers, target);
+            updatePrimaryHeaderList(target);
+        } else {
+            loadHeadersFromResource(R.xml.secondary_preference_headers, target);
+            updateSecondaryHeaderList(target);
+        }
 
-        updateHeaderList(target);
+        
     }
 
-    private void updateHeaderList(List<Header> target) {
+    private void updatePrimaryHeaderList(List<Header> target) {
         int i = 0;
         while (i < target.size()) {
             Header header = target.get(i);
             int id = (int) header.id;
 
             if (id == R.id.device_preferences) {
-                // this should be caught well before getting here, but just in case
+                // this should be caught well before getting here, but just in
+                // case
                 if (BluetoothAdapter.getDefaultAdapter() == null) {
                     target.remove(header);
                 }
@@ -57,6 +55,18 @@ public class PrimaryPreferenceActivity extends PreferenceActivity {
         }
     }
     
+    private void updateSecondaryHeaderList(List<Header> target) {
+        // int i = 0;
+        // while (i < target.size()) {
+        // Header header = target.get(i);
+        // int id = (int) header.id;
+        //
+        // if (i < target.size() && target.get(i) == header) {
+        // i++;
+        // }
+        // }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -64,7 +74,7 @@ public class PrimaryPreferenceActivity extends PreferenceActivity {
                 finish();
                 return true;
         }
-        
+
         return super.onOptionsItemSelected(item);
     }
 

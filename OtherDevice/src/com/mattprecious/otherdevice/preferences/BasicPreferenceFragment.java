@@ -1,11 +1,5 @@
+
 package com.mattprecious.otherdevice.preferences;
-
-import java.util.Locale;
-
-import org.holoeverywhere.preference.EditTextPreference;
-import org.holoeverywhere.preference.Preference;
-import org.holoeverywhere.preference.Preference.OnPreferenceChangeListener;
-import org.holoeverywhere.preference.PreferenceFragment;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -13,12 +7,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 
+import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.mattprecious.otherdevice.R;
 import com.mattprecious.otherdevice.service.PrimaryService;
 import com.mattprecious.otherdevice.service.SecondaryService;
 import com.mattprecious.otherdevice.util.Constants;
 import com.mattprecious.otherdevice.util.Preferences;
 import com.mattprecious.otherdevice.util.Preferences.Mode;
+
+import org.holoeverywhere.preference.EditTextPreference;
+import org.holoeverywhere.preference.Preference;
+import org.holoeverywhere.preference.Preference.OnPreferenceChangeListener;
+import org.holoeverywhere.preference.PreferenceFragment;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class BasicPreferenceFragment extends PreferenceFragment {
@@ -27,8 +27,7 @@ public class BasicPreferenceFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         String category = getArguments().getString("category");
-        Mode mode = Preferences.Mode.valueOf(getArguments().getString("mode").toUpperCase(
-                Locale.getDefault()));
+        Mode mode = Preferences.getMode(getActivity());
 
         if ("textmessage".equals(category)) {
             if (mode == Mode.PRIMARY) {
@@ -50,29 +49,49 @@ public class BasicPreferenceFragment extends PreferenceFragment {
             }
         } else if ("general".equals(category)) {
             addPreferencesFromResource(R.xml.global_general_preferences);
+
+            findPreference(Preferences.KEY_GLOBAL_MODE).setOnPreferenceChangeListener(
+                    new OnPreferenceChangeListener() {
+
+                        @Override
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                            Mode newMode = Preferences.Mode.valueOf((String) newValue);
+                            if (newMode == Preferences.Mode.PRIMARY) {
+                                getActivity().stopService(
+                                        new Intent(getActivity(), SecondaryService.class));
+                                getActivity().startService(
+                                        new Intent(getActivity(), PrimaryService.class));
+                            } else {
+                                getActivity().stopService(
+                                        new Intent(getActivity(), PrimaryService.class));
+                                getActivity().startService(
+                                        new Intent(getActivity(), SecondaryService.class));
+                            }
+
+                            // TODO: Restart activity straight to this fragment
+                            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                            getActivity().finish();
+                            startActivity(intent);
+
+                            return true;
+                        }
+                    });
+
+            findPreference(Preferences.KEY_GLOBAL_ANALYTICS).setOnPreferenceChangeListener(
+                    new OnPreferenceChangeListener() {
+
+                        @Override
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                            boolean analyticsEnabled = ((Boolean) newValue).booleanValue();
+                            GoogleAnalytics.getInstance(getActivity()).setAppOptOut(
+                                    !analyticsEnabled);
+                            return true;
+                        }
+
+                    });
+
             if (mode == Mode.PRIMARY) {
                 addPreferencesFromResource(R.xml.primary_general_preferences);
-
-                findPreference(Preferences.KEY_GLOBAL_MODE).setOnPreferenceChangeListener(
-                        new OnPreferenceChangeListener() {
-
-                            @Override
-                            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                                Mode newMode = Preferences.Mode.valueOf((String) newValue);
-                                if (newMode == Preferences.Mode.PRIMARY) {
-                                    getActivity().stopService(
-                                            new Intent(getActivity(), SecondaryService.class));
-                                    getActivity().startService(
-                                            new Intent(getActivity(), PrimaryService.class));
-                                } else {
-                                    getActivity().stopService(
-                                            new Intent(getActivity(), PrimaryService.class));
-                                    getActivity().startService(
-                                            new Intent(getActivity(), SecondaryService.class));
-                                }
-                                return true;
-                            }
-                        });
 
                 ((EditTextPreference) findPreference(Preferences.KEY_PRIMARY_RECONNECT_DELAY))
                         .getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);

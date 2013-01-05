@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.fragment;
 
 import java.util.ArrayList;
@@ -220,7 +221,7 @@ public class StandardProfilesFragment extends Fragment {
                     setEnabledFromType(type, isChecked);
                 }
             });
-            
+
             return convertView;
         }
     }

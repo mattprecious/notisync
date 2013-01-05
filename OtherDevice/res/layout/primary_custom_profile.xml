@@ -7,92 +7,112 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:padding="15dip" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:background="#000000" />
-
-        <EditText
-            android:id="@+id/nameField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:ems="10"
-            android:hint="Name"
-            android:imeOptions="actionNext" >
-        </EditText>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:text="Tag"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:background="#000000" />
-
-        <EditText
-            android:id="@+id/tagField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:ems="10"
-            android:hint="Tag"
-            android:imeOptions="actionNext" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:text="Package"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:background="#000000" />
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dip"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#000000" />
 
             <EditText
-                android:id="@+id/packageField"
-                android:layout_width="wrap_content"
+                android:id="@+id/nameField"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
-                android:layout_weight="1"
+                android:layout_margin="5dip"
                 android:ems="10"
-                android:hint="Package"
-                android:imeOptions="actionDone" />
+                android:hint="Name"
+                android:imeOptions="actionNext" />
+        </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/packageButton"
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dip"
+            android:orientation="vertical" >
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/selectable_background"
-                android:contentDescription="Package Selector"
-                android:paddingTop="6dip"
-                android:src="@drawable/ic_button_folder" />
+                android:text="Tag"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#000000" />
+
+            <EditText
+                android:id="@+id/tagField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:ems="10"
+                android:hint="Tag"
+                android:imeOptions="actionNext" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dip"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="Package"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip" >
+
+                <EditText
+                    android:id="@+id/packageField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Package"
+                    android:imeOptions="actionDone" />
+
+                <ImageButton
+                    android:id="@+id/packageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/selectable_background"
+                    android:contentDescription="Package Selector"
+                    android:src="@drawable/ic_button_folder" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

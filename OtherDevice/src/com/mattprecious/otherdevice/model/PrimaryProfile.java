@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.model;
 
 import android.os.Parcel;

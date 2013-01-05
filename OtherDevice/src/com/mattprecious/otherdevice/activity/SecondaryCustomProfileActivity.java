@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.activity;
 
 import org.holoeverywhere.app.Activity;

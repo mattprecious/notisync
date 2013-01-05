@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.util;
 
 public class Constants {

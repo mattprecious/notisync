@@ -51,9 +51,9 @@ public class UndoBarController {
     public UndoBarController(View undoBarView, UndoListener undoListener) {
         mBarView = undoBarView;
         mUndoListener = undoListener;
-        
+
         initAnimator();
-        
+
         mMessageView = (TextView) mBarView.findViewById(R.id.undobar_message);
         mBarView.findViewById(R.id.undobar_button)
                 .setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,7 @@ public class UndoBarController {
 
         hideUndoBar(true);
     }
-    
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     private void initAnimator() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
@@ -96,7 +96,7 @@ public class UndoBarController {
                     .setListener(null);
         }
     }
-    
+
     public void hideUndoBar(boolean immediate) {
         mHideHandler.removeCallbacks(mHideRunnable);
         if (immediate) {
@@ -121,7 +121,7 @@ public class UndoBarController {
                     });
         }
     }
-    
+
     public void onSaveInstanceState(Bundle outState) {
         outState.putCharSequence("undo_message", mUndoMessage);
         outState.putParcelable("undo_token", mUndoToken);

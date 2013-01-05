@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.db;
 
 import java.util.ArrayList;
@@ -53,7 +54,9 @@ public class DbAdapter {
 
     public PrimaryProfile getPrimaryProfileByTag(String tag) {
         String selection = DbHelper.PRIMARY_PROFILES_KEY_TAG + "=?";
-        String[] selectionArgs = { tag };
+        String[] selectionArgs = {
+            tag
+        };
         Cursor c = db.query(DbHelper.PRIMARY_PROFILES_TABLE_NAME, null, selection, selectionArgs,
                 null, null, null);
 
@@ -69,7 +72,9 @@ public class DbAdapter {
 
     public PrimaryProfile getPrimaryProfileByPackage(String packageName) {
         String selection = DbHelper.PRIMARY_PROFILES_KEY_PACKAGE + "=?";
-        String[] selectionArgs = { packageName };
+        String[] selectionArgs = {
+            packageName
+        };
         Cursor c = db.query(DbHelper.PRIMARY_PROFILES_TABLE_NAME, null, selection, selectionArgs,
                 null, null, null);
 
@@ -102,7 +107,9 @@ public class DbAdapter {
 
     public SecondaryProfile getSecondaryProfileByTag(String tag) {
         String selection = DbHelper.SECONDARY_PROFILES_KEY_TAG + "=?";
-        String[] selectionArgs = { tag };
+        String[] selectionArgs = {
+            tag
+        };
         Cursor c = db.query(DbHelper.SECONDARY_PROFILES_TABLE_NAME, null, selection, selectionArgs,
                 null, null, null);
 
@@ -126,7 +133,9 @@ public class DbAdapter {
     public boolean updatePrimaryProfile(PrimaryProfile profile) {
         ContentValues values = profileToValues(profile);
         String where = DbHelper.PRIMARY_PROFILES_KEY_ID + "=?";
-        String[] whereArgs = { String.valueOf(profile.getId()) };
+        String[] whereArgs = {
+            String.valueOf(profile.getId())
+        };
         int result = db.update(DbHelper.PRIMARY_PROFILES_TABLE_NAME, values, where, whereArgs);
 
         return result > 0;
@@ -134,7 +143,9 @@ public class DbAdapter {
 
     public boolean deletePrimaryProfile(PrimaryProfile profile) {
         String where = DbHelper.PRIMARY_PROFILES_KEY_ID + "=?";
-        String[] whereArgs = { String.valueOf(profile.getId()) };
+        String[] whereArgs = {
+            String.valueOf(profile.getId())
+        };
         int result = db.delete(DbHelper.PRIMARY_PROFILES_TABLE_NAME, where, whereArgs);
 
         return result > 0;
@@ -150,7 +161,9 @@ public class DbAdapter {
     public boolean updateSecondaryProfile(SecondaryProfile profile) {
         ContentValues values = profileToValues(profile);
         String where = DbHelper.SECONDARY_PROFILES_KEY_ID + "=?";
-        String[] whereArgs = { String.valueOf(profile.getId()) };
+        String[] whereArgs = {
+            String.valueOf(profile.getId())
+        };
         int result = db.update(DbHelper.SECONDARY_PROFILES_TABLE_NAME, values, where, whereArgs);
 
         return result > 0;
@@ -158,7 +171,9 @@ public class DbAdapter {
 
     public boolean deleteSecondaryProfile(SecondaryProfile profile) {
         String where = DbHelper.SECONDARY_PROFILES_KEY_ID + "=?";
-        String[] whereArgs = { String.valueOf(profile.getId()) };
+        String[] whereArgs = {
+            String.valueOf(profile.getId())
+        };
         int result = db.delete(DbHelper.SECONDARY_PROFILES_TABLE_NAME, where, whereArgs);
 
         return result > 0;

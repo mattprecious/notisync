@@ -1,8 +1,5 @@
-package com.mattprecious.otherdevice.activity;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.Switch;
+package com.mattprecious.otherdevice.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,6 +21,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.otherdevice.R;
 import com.mattprecious.otherdevice.fragment.PrimaryCustomProfilesFragment;
 import com.mattprecious.otherdevice.fragment.SecondaryCustomProfilesFragment;
@@ -31,8 +29,7 @@ import com.mattprecious.otherdevice.fragment.StandardProfilesFragment;
 import com.mattprecious.otherdevice.fragment.ThirdPartyProfilesFragment;
 import com.mattprecious.otherdevice.model.PrimaryProfile;
 import com.mattprecious.otherdevice.model.SecondaryProfile;
-import com.mattprecious.otherdevice.preferences.PrimaryPreferenceActivity;
-import com.mattprecious.otherdevice.preferences.SecondaryPreferenceActivity;
+import com.mattprecious.otherdevice.preferences.SettingsActivity;
 import com.mattprecious.otherdevice.service.NotificationService;
 import com.mattprecious.otherdevice.service.PrimaryService;
 import com.mattprecious.otherdevice.service.SecondaryService;
@@ -42,6 +39,10 @@ import com.mattprecious.otherdevice.util.UndoBarController;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.widget.Switch;
 
 public class OtherDevice extends Activity implements UndoBarController.UndoListener {
     private final static String TAG = "OtherDevice";
@@ -85,11 +86,29 @@ public class OtherDevice extends Activity implements UndoBarController.UndoListe
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
-        
+
         supportInvalidateOptionsMenu();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Crouton.clearCroutonsForActivity(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override
@@ -228,7 +247,8 @@ public class OtherDevice extends Activity implements UndoBarController.UndoListe
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean showAccessibilityAction = Preferences.isPrimary(this) && !NotificationService.isRunning();
+        boolean showAccessibilityAction = Preferences.isPrimary(this)
+                && !NotificationService.isRunning();
         menu.findItem(R.id.menu_accessibility).setVisible(showAccessibilityAction);
 
         return super.onPrepareOptionsMenu(menu);
@@ -244,14 +264,7 @@ public class OtherDevice extends Activity implements UndoBarController.UndoListe
                 startActivity(accessibilityIntent);
                 return true;
             case R.id.menu_preferences:
-                Intent btIntent;
-                if (Preferences.isPrimary(this)) {
-                    btIntent = new Intent(this, PrimaryPreferenceActivity.class);
-                } else {
-                    btIntent = new Intent(this, SecondaryPreferenceActivity.class);
-                }
-
-                startActivity(btIntent);
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
 

@@ -1,3 +1,4 @@
+
 package com.mattprecious.otherdevice.service;
 
 import java.lang.ref.WeakReference;
