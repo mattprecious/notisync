@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.otherdevice.R;
 import com.mattprecious.otherdevice.db.DbAdapter;
 import com.mattprecious.otherdevice.fragment.PackagePickerFragment;
@@ -115,6 +116,18 @@ public class PrimaryCustomProfileActivity extends Activity implements
             }
 
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override

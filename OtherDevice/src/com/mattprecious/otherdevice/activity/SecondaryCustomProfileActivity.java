@@ -21,6 +21,7 @@ import android.view.View.OnFocusChangeListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.otherdevice.R;
 import com.mattprecious.otherdevice.db.DbAdapter;
 import com.mattprecious.otherdevice.fragment.SecondaryCustomProfilesFragment;
@@ -121,6 +122,18 @@ public class SecondaryCustomProfileActivity extends Activity {
         lightsCheckBox.setChecked(profile.isLed());
 
         updateRingtoneSelector();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override

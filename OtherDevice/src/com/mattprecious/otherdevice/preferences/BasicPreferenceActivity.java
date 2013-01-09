@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.InputType;
 
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.mattprecious.otherdevice.R;
 import com.mattprecious.otherdevice.service.PrimaryService;
@@ -118,6 +119,18 @@ public class BasicPreferenceActivity extends PreferenceActivity {
                         });
             }
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override

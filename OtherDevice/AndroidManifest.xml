@@ -38,10 +38,8 @@
         </activity>
         <activity
             android:name="com.mattprecious.otherdevice.preferences.SettingsActivity"
-            android:label="Preferences" />
-        <activity
-            android:name="com.mattprecious.otherdevice.preferences.SecondaryPreferenceActivity"
-            android:label="Preferences" />
+            android:label="Preferences"
+            android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name="com.mattprecious.otherdevice.preferences.BasicPreferenceActivity" />
         <activity
