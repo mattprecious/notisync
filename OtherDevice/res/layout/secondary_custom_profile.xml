@@ -1,166 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical"
-        android:padding="15dip" >
+    <LinearLayout style="@style/CustomProfile.Wrapper" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            android:orientation="vertical" >
+        <LinearLayout style="@style/CustomProfile.Section" >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/custom_profile_header_name"
-                android:textAllCaps="true"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/CustomProfile.Header"
+                android:text="@string/custom_profile_header_name" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="#000000" />
+            <View style="@style/CustomProfile.Divider" />
 
             <EditText
                 android:id="@+id/nameField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dip"
-                android:ems="10"
+                style="@style/CustomProfile.Item.EditText"
                 android:hint="@string/custom_profile_header_name"
                 android:imeOptions="actionNext" >
             </EditText>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            android:orientation="vertical" >
+        <LinearLayout style="@style/CustomProfile.Section" >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/custom_profile_header_tag"
-                android:textAllCaps="true"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/CustomProfile.Header"
+                android:text="@string/custom_profile_header_tag" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="#000000" />
+            <View style="@style/CustomProfile.Divider" />
 
             <EditText
                 android:id="@+id/tagField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dip"
-                android:ems="10"
+                style="@style/CustomProfile.Item.EditText"
                 android:hint="@string/custom_profile_header_tag"
                 android:imeOptions="actionDone" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            android:orientation="vertical" >
+        <LinearLayout style="@style/CustomProfile.Section" >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/custom_profile_header_conditions"
-                android:textAllCaps="true"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/CustomProfile.Header"
+                android:text="@string/custom_profile_header_conditions" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="#000000" />
+            <View style="@style/CustomProfile.Divider" />
 
             <CheckBox
                 android:id="@+id/unconnectedOnlyCheckBox"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dip"
-                android:text="@string/custom_profile_label_unconnected_only"
-                android:textSize="18sp" />
+                style="@style/CustomProfile.Item.CheckBox"
+                android:text="@string/custom_profile_label_unconnected_only" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            android:orientation="vertical" >
+        <LinearLayout style="@style/CustomProfile.Section" >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/custom_profile_header_ringtone"
-                android:textAllCaps="true"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/CustomProfile.Header"
+                android:text="@string/custom_profile_header_ringtone" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="#000000" />
+            <View style="@style/CustomProfile.Divider" />
 
             <TextView
                 android:id="@+id/ringtoneSelector"
-                style="@style/SpinnerAppTheme"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dip"
-                android:textSize="18sp" />
+                style="@style/CustomProfile.Item.FauxSpinner" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            android:orientation="vertical" >
+        <LinearLayout style="@style/CustomProfile.Section" >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/custom_profile_header_extras"
-                android:textAllCaps="true"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/CustomProfile.Header"
+                android:text="@string/custom_profile_header_extras" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="#000000" />
+            <View style="@style/CustomProfile.Divider" />
 
             <CheckBox
                 android:id="@+id/vibrateCheckBox"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dip"
-                android:text="@string/custom_profile_label_vibrate"
-                android:textSize="18sp" />
+                style="@style/CustomProfile.Item.CheckBox"
+                android:text="@string/custom_profile_label_vibrate" />
 
             <CheckBox
                 android:id="@+id/lightsCheckBox"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dip"
-                android:text="@string/custom_profile_label_lights"
-                android:textSize="18sp" />
+                style="@style/CustomProfile.Item.CheckBox"
+                android:text="@string/custom_profile_label_lights" />
         </LinearLayout>
     </LinearLayout>
 

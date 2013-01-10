@@ -81,4 +81,78 @@
         <item name="android:text">@string/undo</item>
     </style>
 
+    <style name="MainFragment">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">#FFE5E5E5</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="ProfileList">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:divider">#00000000</item>
+        <item name="android:dividerHeight">15dip</item>
+        <item name="android:listSelector">#00000000</item>
+        <item name="android:padding">10dip</item>
+    </style>
+
+    <!-- custom profile styles -->
+    <style name="CustomProfile"></style>
+
+    <style name="CustomProfile.Wrapper">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">15dip</item>
+    </style>
+
+    <style name="CustomProfile.Section">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">15dip</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="CustomProfile.Header">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CustomProfile.Divider">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">#000000</item>
+    </style>
+
+    <style name="CustomProfile.Item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dip</item>
+    </style>
+
+    <style name="CustomProfile.Item.EditText">
+        <item name="android:ems">10</item>
+    </style>
+
+    <style name="CustomProfile.Item.CheckBox">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="CustomProfile.Item.FauxSpinner" parent="@style/SpinnerAppTheme">
+
+        <!-- can't multiple-inherit, same as CustomProfile.Item -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dip</item>
+
+        <!-- new attrs -->
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>
