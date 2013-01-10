@@ -3,7 +3,6 @@ package com.mattprecious.otherdevice.preferences;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -11,11 +10,9 @@ import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.mattprecious.otherdevice.R;
 import com.mattprecious.otherdevice.service.PrimaryService;
 import com.mattprecious.otherdevice.service.SecondaryService;
-import com.mattprecious.otherdevice.util.Constants;
 import com.mattprecious.otherdevice.util.Preferences;
 import com.mattprecious.otherdevice.util.Preferences.Mode;
 
-import org.holoeverywhere.preference.EditTextPreference;
 import org.holoeverywhere.preference.Preference;
 import org.holoeverywhere.preference.Preference.OnPreferenceChangeListener;
 import org.holoeverywhere.preference.PreferenceActivity;
@@ -91,32 +88,8 @@ public class BasicPreferenceActivity extends PreferenceActivity {
 
             if (mode == Mode.PRIMARY) {
                 addPreferencesFromResource(R.xml.primary_general_preferences);
-
-                ((EditTextPreference) findPreference(Preferences.KEY_PRIMARY_RECONNECT_DELAY))
-                        .getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
-                findPreference(Preferences.KEY_PRIMARY_RECONNECT_DELAY)
-                        .setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
-                            @Override
-                            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                                sendBroadcast(new Intent(Constants.ACTION_UPDATE_TIMER));
-                                return true;
-                            }
-                        });
             } else {
                 addPreferencesFromResource(R.xml.secondary_general_preferences);
-
-                ((EditTextPreference) findPreference(Preferences.KEY_SECONDARY_RECONNECT_DELAY))
-                        .getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
-                findPreference(Preferences.KEY_SECONDARY_RECONNECT_DELAY)
-                        .setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
-                            @Override
-                            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                                sendBroadcast(new Intent(Constants.ACTION_UPDATE_TIMER));
-                                return true;
-                            }
-                        });
             }
         }
     }

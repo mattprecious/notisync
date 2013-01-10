@@ -16,8 +16,8 @@
 
 package com.mattprecious.otherdevice.util;
 
-import android.annotation.TargetApi;
-import android.os.Build;
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -25,12 +25,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mattprecious.otherdevice.R;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.view.ViewPropertyAnimator;
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
-
-import com.mattprecious.otherdevice.R;
 
 public class UndoBarController {
     private View mBarView;
@@ -51,8 +49,7 @@ public class UndoBarController {
     public UndoBarController(View undoBarView, UndoListener undoListener) {
         mBarView = undoBarView;
         mUndoListener = undoListener;
-
-        initAnimator();
+        mBarAnimator = animate(mBarView);
 
         mMessageView = (TextView) mBarView.findViewById(R.id.undobar_message);
         mBarView.findViewById(R.id.undobar_button)
@@ -67,13 +64,6 @@ public class UndoBarController {
         hideUndoBar(true);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-    private void initAnimator() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-            mBarAnimator = animate(mBarView);
-        }
-    }
-
     public void showUndoBar(boolean immediate, CharSequence message, Parcelable undoToken) {
         mUndoToken = undoToken;
         mUndoMessage = message;
@@ -85,7 +75,8 @@ public class UndoBarController {
 
         mBarView.setVisibility(View.VISIBLE);
         if (immediate) {
-            mBarView.setAlpha(1);
+            mBarAnimator.cancel();
+            mBarAnimator.alpha(1).setDuration(0).setListener(null);
         } else {
             mBarAnimator.cancel();
             mBarAnimator
@@ -101,9 +92,11 @@ public class UndoBarController {
         mHideHandler.removeCallbacks(mHideRunnable);
         if (immediate) {
             mBarView.setVisibility(View.GONE);
-            mBarView.setAlpha(0);
             mUndoMessage = null;
             mUndoToken = null;
+
+            mBarAnimator.cancel();
+            mBarAnimator.alpha(0).setDuration(0).setListener(null);
 
         } else {
             mBarAnimator.cancel();

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:drawableLeft="@drawable/ic_list_add"
-        android:text="Add custom profile"
+        android:text="@string/add_custom_profile"
         android:textColor="#44000000"
         android:textSize="20sp" />
 

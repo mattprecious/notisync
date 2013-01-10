@@ -8,7 +8,7 @@
         android:id="@+id/packageIcon"
         android:layout_width="48dip"
         android:layout_height="48dip"
-        android:contentDescription="Icon" />
+        android:contentDescription="@string/package_picker_icon_description" />
 
     <TextView
         android:id="@+id/packageName"

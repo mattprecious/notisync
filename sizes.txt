@@ -9,3 +9,8 @@ padding: 8dp
 Packages button icon:
 image: 30dp
 padding: 0
+
+Card:
+source density: mdpi
+stretch regions: 6px from outside border
+content padding: 20px from outside border (10x10px result) 

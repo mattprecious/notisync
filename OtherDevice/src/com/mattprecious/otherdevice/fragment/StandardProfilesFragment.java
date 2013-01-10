@@ -93,13 +93,13 @@ public class StandardProfilesFragment extends Fragment {
         String name;
         switch (type) {
             case TEXT:
-                name = "Text Messages";
+                name = getString(R.string.profile_text_messages);
                 break;
             case PHONE:
-                name = "Phone Calls";
+                name = getString(R.string.profile_phone_calls);
                 break;
             case GTALK:
-                name = "Gtalk";
+                name = getString(R.string.profile_gtalk);
                 break;
             default:
                 throw new IllegalArgumentException();

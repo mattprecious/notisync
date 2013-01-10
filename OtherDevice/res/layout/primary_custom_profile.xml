@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
+                android:text="@string/custom_profile_header_name"
                 android:textAllCaps="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dip"
                 android:ems="10"
-                android:hint="Name"
+                android:hint="@string/custom_profile_header_name"
                 android:imeOptions="actionNext" />
         </LinearLayout>
 
@@ -50,7 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tag"
+                android:text="@string/custom_profile_header_tag"
                 android:textAllCaps="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dip"
                 android:ems="10"
-                android:hint="Tag"
+                android:hint="@string/custom_profile_header_tag"
                 android:imeOptions="actionNext" />
         </LinearLayout>
 
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:text="Package"
+                android:text="@string/custom_profile_header_package"
                 android:textAllCaps="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="Package"
+                    android:hint="@string/custom_profile_header_package"
                     android:imeOptions="actionDone"
                     android:inputType="textNoSuggestions" />
 
@@ -111,7 +111,7 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:background="@drawable/selectable_background"
-                    android:contentDescription="Package Selector"
+                    android:contentDescription="@string/package_picker_title"
                     android:src="@drawable/ic_button_folder" />
             </LinearLayout>
         </LinearLayout>

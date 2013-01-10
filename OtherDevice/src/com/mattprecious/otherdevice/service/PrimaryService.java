@@ -24,7 +24,6 @@ import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
@@ -41,6 +40,7 @@ import com.mattprecious.otherdevice.util.ContactHelper;
 import com.mattprecious.otherdevice.util.Preferences;
 
 public class PrimaryService extends Service {
+    @SuppressWarnings("unused")
     private final static String TAG = "PrimaryService";
 
     private static boolean running = false;
@@ -240,22 +240,25 @@ public class PrimaryService extends Service {
             if (connectedNames.size() != Preferences.getDevices(this).size()) {
                 PendingIntent reconnectIntent = PendingIntent.getBroadcast(this, 0, new Intent(
                         Constants.ACTION_RECONNECT), 0);
-                builder.addAction(R.drawable.ic_action_refresh, "Connect", reconnectIntent);
+                builder.addAction(R.drawable.ic_action_refresh,
+                        getString(R.string.noti_action_connect), reconnectIntent);
 
                 notificationBundle.putBoolean("connect_action", true);
             }
 
             if (connectedNames.size() > 0) {
-                contentText = "Connected to " + notificationJoiner.join(connectedNames);
+                contentText = getString(R.string.noti_connected_to,
+                        notificationJoiner.join(connectedNames));
             } else {
-                contentText = "Not connected";
+                contentText = getString(R.string.noti_not_connected);
             }
         } else {
-            contentText = "Bluetooth is not enabled";
+            contentText = getString(R.string.noti_bt_not_enabled);
 
             PendingIntent bluetoothIntent = PendingIntent.getActivity(this, 0, new Intent(
                     BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
-            builder.addAction(R.drawable.ic_action_bluetooth, "Enable", bluetoothIntent);
+            builder.addAction(R.drawable.ic_action_bluetooth,
+                    getString(R.string.noti_action_enable_bt), bluetoothIntent);
 
             notificationBundle.putBoolean("bt_enable_action", true);
         }
@@ -371,7 +374,6 @@ public class PrimaryService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "sms message received");
             if (!Preferences.getPrimaryTextMessageEnabled(context)) {
                 return;
             }

@@ -168,13 +168,13 @@ public class PrimaryCustomProfileActivity extends Activity implements
             case R.id.menu_save:
                 validate();
                 if (errorFlags > 0) {
-                    Crouton.showText(this, "Please fix the errors", Style.ALERT);
+                    Crouton.showText(this, R.string.custom_profile_fix_errors, Style.ALERT);
                 } else {
                     if (save()) {
                         setResult(RESULT_OK);
                         finish();
                     } else {
-                        Crouton.showText(this, "An error has occured", Style.ALERT);
+                        Crouton.showText(this, R.string.custom_profile_error, Style.ALERT);
                     }
                 }
 
@@ -190,7 +190,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
                             getIntent());
                     finish();
                 } else {
-                    Crouton.showText(this, "An error has occured", Style.ALERT);
+                    Crouton.showText(this, R.string.custom_profile_error, Style.ALERT);
                 }
 
                 return true;
@@ -246,7 +246,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private void validateName() {
         if (nameField.getText().length() == 0) {
-            nameField.setError("Must not be empty");
+            nameField.setError(getString(R.string.custom_profile_invalid_empty));
             setError(ERROR_FLAG_NAME);
         } else {
             nameField.setError(null);
@@ -256,7 +256,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private void validateTag() {
         if (tagField.getText().length() == 0) {
-            tagField.setError("Must not be empty");
+            tagField.setError(getString(R.string.custom_profile_invalid_empty));
             setError(ERROR_FLAG_TAG);
         } else {
             dbAdapter.openReadable();
@@ -265,7 +265,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
             dbAdapter.close();
 
             if (tagProfile != null && tagProfile.getId() != profile.getId()) {
-                tagField.setError("Must be unique");
+                tagField.setError(getString(R.string.custom_profile_invalid_unique));
                 setError(ERROR_FLAG_TAG);
             } else {
                 tagField.setError(null);
@@ -276,7 +276,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private void validatePackage() {
         if (packageField.getText().length() == 0) {
-            packageField.setError("Must not be empty");
+            packageField.setError(getString(R.string.custom_profile_invalid_empty));
             setError(ERROR_FLAG_PACKAGE);
         } else {
             packageField.setError(null);

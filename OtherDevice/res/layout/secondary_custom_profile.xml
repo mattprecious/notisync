@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
+                android:text="@string/custom_profile_header_name"
                 android:textAllCaps="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dip"
                 android:ems="10"
-                android:hint="Name"
+                android:hint="@string/custom_profile_header_name"
                 android:imeOptions="actionNext" >
             </EditText>
         </LinearLayout>
@@ -51,7 +51,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tag"
+                android:text="@string/custom_profile_header_tag"
                 android:textAllCaps="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dip"
                 android:ems="10"
-                android:hint="Tag"
+                android:hint="@string/custom_profile_header_tag"
                 android:imeOptions="actionDone" />
         </LinearLayout>
 
@@ -80,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Conditions"
+                android:text="@string/custom_profile_header_conditions"
                 android:textAllCaps="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -95,7 +95,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dip"
-                android:text="Unconnected only"
+                android:text="@string/custom_profile_label_unconnected_only"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -108,7 +108,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ringtone"
+                android:text="@string/custom_profile_header_ringtone"
                 android:textAllCaps="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -136,7 +136,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Extras"
+                android:text="@string/custom_profile_header_extras"
                 android:textAllCaps="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -151,7 +151,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dip"
-                android:text="Vibrate"
+                android:text="@string/custom_profile_label_vibrate"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -159,7 +159,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dip"
-                android:text="Lights"
+                android:text="@string/custom_profile_label_lights"
                 android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>

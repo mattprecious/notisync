@@ -108,14 +108,15 @@ public class SecondaryCustomProfilesFragment extends Fragment implements
             case REQUEST_CODE_EDIT_PROFILE:
                 switch (resultCode) {
                     case Activity.RESULT_OK:
-                        Crouton.showText(getActivity(), "Profile saved", Style.CONFIRM);
+                        Crouton.showText(getActivity(), R.string.profile_saved, Style.CONFIRM);
                         break;
                     case Activity.RESULT_CANCELED:
-                        Crouton.showText(getActivity(), "Changes discarded", Style.INFO);
+                        Crouton.showText(getActivity(), R.string.profile_discarded, Style.INFO);
                         break;
                     case RESULT_CODE_PROFILE_DELETED:
                         if (mUndoBarController != null) {
-                            mUndoBarController.showUndoBar(true, "Profile deleted",
+                            mUndoBarController.showUndoBar(true,
+                                    getString(R.string.profile_deleted),
                                     data.getParcelableExtra("profile"));
                         }
                         break;

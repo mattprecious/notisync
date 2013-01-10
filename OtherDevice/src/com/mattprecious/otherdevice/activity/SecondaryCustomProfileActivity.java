@@ -1,11 +1,6 @@
 
 package com.mattprecious.otherdevice.activity;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.TextView;
-
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.media.Ringtone;
@@ -13,7 +8,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -29,6 +23,11 @@ import com.mattprecious.otherdevice.model.SecondaryProfile;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.CheckBox;
+import org.holoeverywhere.widget.EditText;
+import org.holoeverywhere.widget.TextView;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class SecondaryCustomProfileActivity extends Activity {
@@ -174,13 +173,13 @@ public class SecondaryCustomProfileActivity extends Activity {
             case R.id.menu_save:
                 validate();
                 if (errorFlags > 0) {
-                    Crouton.showText(this, "Please fix the errors", Style.ALERT);
+                    Crouton.showText(this, R.string.custom_profile_fix_errors, Style.ALERT);
                 } else {
                     if (save()) {
                         setResult(RESULT_OK);
                         finish();
                     } else {
-                        Crouton.showText(this, "An error has occured", Style.ALERT);
+                        Crouton.showText(this, R.string.custom_profile_error, Style.ALERT);
                     }
                 }
 
@@ -196,7 +195,7 @@ public class SecondaryCustomProfileActivity extends Activity {
                             getIntent());
                     finish();
                 } else {
-                    Crouton.showText(this, "An error has occured", Style.ALERT);
+                    Crouton.showText(this, R.string.custom_profile_error, Style.ALERT);
                 }
 
                 return true;
@@ -211,7 +210,6 @@ public class SecondaryCustomProfileActivity extends Activity {
             case REQUEST_CODE_RINGTONE_PICKER:
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-                    Log.d("ASDASD", uri == null ? "null" : uri.toString());
                     if (uri == null) {
                         profile.setRingtone(null);
                     } else {
@@ -281,7 +279,7 @@ public class SecondaryCustomProfileActivity extends Activity {
 
     private void validateName() {
         if (nameField.getText().length() == 0) {
-            nameField.setError("Must not be empty");
+            nameField.setError(getString(R.string.custom_profile_invalid_empty));
             setError(ERROR_FLAG_NAME);
         } else {
             nameField.setError(null);
@@ -291,7 +289,7 @@ public class SecondaryCustomProfileActivity extends Activity {
 
     private void validateTag() {
         if (tagField.getText().length() == 0) {
-            tagField.setError("Must not be empty");
+            tagField.setError(getString(R.string.custom_profile_invalid_empty));
             setError(ERROR_FLAG_TAG);
         } else {
             dbAdapter.openReadable();
@@ -300,7 +298,7 @@ public class SecondaryCustomProfileActivity extends Activity {
             dbAdapter.close();
 
             if (tagProfile != null && tagProfile.getId() != profile.getId()) {
-                tagField.setError("Must be unique");
+                tagField.setError(getString(R.string.custom_profile_invalid_unique));
                 setError(ERROR_FLAG_TAG);
             } else {
                 tagField.setError(null);

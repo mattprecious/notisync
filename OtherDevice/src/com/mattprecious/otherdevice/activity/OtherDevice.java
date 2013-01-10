@@ -182,13 +182,13 @@ public class OtherDevice extends Activity implements UndoBarController.UndoListe
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
 
-            TITLES[0] = "Standard";
+            TITLES[0] = getString(R.string.pager_title_standard);
             FRAGMENTS[0] = new StandardProfilesFragment();
 
-            TITLES[1] = "Custom";
+            TITLES[1] = getString(R.string.pager_title_custom);
             initCustom();
 
-            TITLES[2] = "Third Party";
+            TITLES[2] = getString(R.string.pager_title_third_party);
             FRAGMENTS[2] = new ThirdPartyProfilesFragment();
         }
 

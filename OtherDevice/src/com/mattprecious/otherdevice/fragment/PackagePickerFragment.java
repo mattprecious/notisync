@@ -9,7 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -57,9 +56,9 @@ public class PackagePickerFragment extends DialogFragment {
         viewHolder = (RelativeLayout) inflater.inflate(R.layout.package_picker);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Pick application");
+        builder.setTitle(R.string.package_picker_title);
         builder.setView(viewHolder);
-        builder.setNegativeButton("Cancel", new OnClickListener() {
+        builder.setNegativeButton(R.string.package_picker_cancel, new OnClickListener() {
 
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
@@ -134,8 +133,6 @@ public class PackagePickerFragment extends DialogFragment {
                     return aName.compareToIgnoreCase(bName);
                 }
             });
-
-            Log.d("ASDASD", "numApps:" + data.size());
         }
 
         @Override

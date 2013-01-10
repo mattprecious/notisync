@@ -2,7 +2,77 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">NotiSync</string>
-    <string name="undo">Undo</string>
+
+    <!-- accessibility -->
     <string name="accessibility_service_description">Description of how awesome this service is.</string>
+
+    <!-- notifications -->
+    <string name="noti_connected_to">Connected to %s</string>
+    <string name="noti_not_connected">Not connected</string>
+    <string name="noti_bt_not_enabled">Bluetooth is not enabled</string>
+    <string name="noti_action_connect">Connect</string>
+    <string name="noti_action_enable_bt">Enable</string>
+    <string name="noti_title_incoming_call">Incoming call</string>
+    <string name="noti_title_missed_call">Missed call</string>
+
+    <!-- main activity -->
+    <string name="pager_title_standard">Standard</string>
+    <string name="pager_title_custom">Custom</string>
+    <string name="pager_title_third_party">Third Party</string>
+
+    <!-- standard fragment -->
+    <string name="profile_text_messages">Text Messages</string>
+    <string name="profile_phone_calls">Phone Calls</string>
+    <string name="profile_gtalk">Gtalk</string>
+
+    <!-- custom fragment -->
+    <string name="add_custom_profile">Add custom profile</string>
+
+    <!-- main croutons/toasts/popups -->
+    <string name="profile_saved">Profile saved</string>
+    <string name="profile_discarded">Changes discarded</string>
+    <string name="profile_deleted">Profile deleted</string>
+    <string name="undo">Undo</string>
+
+    <!-- custom profile -->
+    <string name="custom_profile_header_name">Name</string>
+    <string name="custom_profile_header_tag">Tag</string>
+    <string name="custom_profile_header_package">Package</string>
+    <string name="custom_profile_header_conditions">Conditions</string>
+    <string name="custom_profile_header_ringtone">Ringtone</string>
+    <string name="custom_profile_header_extras">Extras</string>
+    <string name="custom_profile_label_unconnected_only">Unconnected only</string>
+    <string name="custom_profile_label_vibrate">Vibrate</string>
+    <string name="custom_profile_label_lights">Lights</string>
+
+    <!-- custom profile croutons & errors -->
+    <string name="custom_profile_fix_errors">Please fix the errors below and try again.</string>
+    <string name="custom_profile_error">An error has occurred</string>
+    <string name="custom_profile_invalid_empty">Field must not be empty</string>
+    <string name="custom_profile_invalid_unique">Field must be unique</string>
+
+    <!-- package picker -->
+    <string name="package_picker_title">Pick an application</string>
+    <string name="package_picker_cancel">Cancel</string>
+    <string name="package_picker_icon_description">App Icon</string>
+
+    <!-- menu items -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_accessibility">Enable accessibility service</string>
+    <string name="menu_configure_bluetooth">Configure bluetooth</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_discard">Discard</string>
+    <string name="menu_delete">Delete</string>
+
+    <!-- prefence headers -->
+    <string name="preference_header_devices">Manage Devices</string>
+    <string name="preference_header_general">General Settings</string>
+
+    <!-- preferences -->
+    <string name="preference_general_start_on_boot">Start on boot</string>
+    <string name="preference_general_mode_title">Mode</string>
+    <string name="preference_general_mode_summary">Should this device send notifications (primary) or receive notifications (secondary)?</string>
+    <string name="preference_general_analytics_title">Improve NotiSync</string>
+    <string name="preference_general_analytics_summary">Help improve NotiSync by sending anonymous usage data</string>
 
 </resources>

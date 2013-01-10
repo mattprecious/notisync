@@ -5,16 +5,16 @@
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_action_delete"
         android:showAsAction="ifRoom"
-        android:title="Delete"/>
+        android:title="@string/menu_delete"/>
     <item
         android:id="@+id/menu_discard"
         android:icon="@drawable/ic_action_discard"
         android:showAsAction="ifRoom"
-        android:title="Discard"/>
+        android:title="@string/menu_discard"/>
     <item
         android:id="@+id/menu_save"
         android:icon="@drawable/ic_action_save"
         android:showAsAction="ifRoom"
-        android:title="Save"/>
+        android:title="@string/menu_save"/>
     
 </menu>

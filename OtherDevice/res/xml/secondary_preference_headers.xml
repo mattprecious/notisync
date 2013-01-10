@@ -6,7 +6,7 @@
         holo:id="@+id/general_preferences"
         holo:fragment="com.mattprecious.otherdevice.preferences.BasicPreferenceFragment"
         holo:icon="@drawable/ic_settings_general"
-        holo:title="General Settings" >
+        holo:title="@string/preference_header_general" >
         <extra
             android:name="category"
             android:value="general" />

@@ -4,6 +4,6 @@
     <item
         android:id="@+id/menu_bt_devices"
         android:showAsAction="ifRoom"
-        android:title="Configure bluetooth"/>
+        android:title="@string/menu_configure_bluetooth"/>
 
 </menu>

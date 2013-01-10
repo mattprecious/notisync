@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:holo="http://schemas.android.com/apk/res-auto"
-    holo:title="General" >
+    holo:title="@string/preference_header_general" >
 
     <CheckBoxPreference
         holo:key="global_start_on_boot"
-        holo:title="Start on boot" />
+        holo:title="@string/preference_general_start_on_boot" />
 
     <ListPreference
         holo:entries="@array/mode_titles"
         holo:entryValues="@array/mode_values"
         holo:key="global_mode"
-        holo:title="Mode" />
-    
+        holo:summary="@string/preference_general_mode_summary"
+        holo:title="@string/preference_general_mode_title" />
+
     <CheckBoxPreference
         holo:key="global_analytics"
-        holo:title="Improve NotiSync"
-        holo:summary="Help improve NotiSync by sending anonymous usage data" />
+        holo:summary="@string/preference_general_analytics_summary"
+        holo:title="@string/preference_general_analytics_title" />
 
 </PreferenceScreen>

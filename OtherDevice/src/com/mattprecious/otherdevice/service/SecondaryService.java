@@ -164,15 +164,16 @@ public class SecondaryService extends Service {
         builder.setContentIntent(pendingIntent);
 
         if (!bluetoothAdapter.isEnabled()) {
-            builder.setContentText("Bluetooth is not enabled");
+            builder.setContentText(getString(R.string.noti_bt_not_enabled));
 
             PendingIntent bluetoothIntent = PendingIntent.getActivity(this, 0, new Intent(
                     BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
-            builder.addAction(R.drawable.ic_action_bluetooth, "Enable", bluetoothIntent);
+            builder.addAction(R.drawable.ic_action_bluetooth,
+                    getString(R.string.noti_action_enable_bt), bluetoothIntent);
         } else if (connectedDeviceName == null) {
-            builder.setContentText("Not connected");
+            builder.setContentText(getString(R.string.noti_not_connected));
         } else {
-            builder.setContentText("Connected to " + connectedDeviceName);
+            builder.setContentText(getString(R.string.noti_connected_to, connectedDeviceName));
         }
 
         return builder.build();
@@ -281,11 +282,11 @@ public class SecondaryService extends Service {
             incomingCallMessage = message;
 
             notificationId = NOTIFICATION_ID_PHONE_INCOMING;
-            builder.setContentTitle("Incoming call");
+            builder.setContentTitle(getString(R.string.noti_title_incoming_call));
             builder.setSmallIcon(R.drawable.ic_stat_incoming);
         } else if (message.type == PhoneCallMessage.Type.MISSED) {
             notificationId = NOTIFICATION_ID_PHONE_MISSED;
-            builder.setContentTitle("Missed call");
+            builder.setContentTitle(getString(R.string.noti_title_missed_call));
             builder.setSmallIcon(android.R.drawable.stat_notify_missed_call);
 
             if (incomingCallMessage != null && message.number != null
