@@ -13,7 +13,7 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Preferences.getBootOnStart(context)) {
+        if (Preferences.getStartOnBoot(context)) {
             if (Preferences.isPrimary(context)) {
                 context.startService(new Intent(context, PrimaryService.class));
             } else {

@@ -280,7 +280,7 @@ public class OtherDevice extends Activity implements UndoBarController.UndoListe
             Preferences.setMode(this, Preferences.Mode.SECONDARY);
         }
 
-        Preferences.populate(this);
+        Preferences.populateDefaults(this);
     }
 
     private BroadcastReceiver serviceStatusReceiver = new BroadcastReceiver() {

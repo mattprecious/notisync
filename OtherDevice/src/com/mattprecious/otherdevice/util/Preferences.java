@@ -1,22 +1,24 @@
 
 package com.mattprecious.otherdevice.util;
 
-import java.util.Set;
-
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Sets;
+
+import java.util.Set;
 
 public class Preferences {
     private static final Joiner commaJoiner = Joiner.on(',').skipNulls();
     private static final Splitter commaSplitter = Splitter.on(',').omitEmptyStrings();
 
     public static final String KEY_GLOBAL_MODE = "global_mode";
-    public static final String KEY_GLOBAL_BOOT_ON_START = "global_boot_on_start";
+    public static final String KEY_GLOBAL_START_ON_BOOT = "global_start_on_boot";
     public static final String KEY_GLOBAL_ANALYTICS = "global_analytics";
 
     public static final String KEY_PRIMARY_DEVICES = "primary_devices";
@@ -48,9 +50,9 @@ public class Preferences {
         SECONDARY;
     }
 
-    public static void populate(Context context) {
+    public static void populateDefaults(Context context) {
         setMode(context, getMode(context));
-        setBootOnStart(context, getBootOnStart(context));
+        setStartOnBoot(context, getStartOnBoot(context));
         setAnalytics(context, getAnalytics(context));
         setDevices(context, getDevices(context));
 
@@ -101,12 +103,12 @@ public class Preferences {
         return getMode(context) == Mode.PRIMARY;
     }
 
-    public static boolean getBootOnStart(Context context) {
-        return getPreferences(context).getBoolean(KEY_GLOBAL_BOOT_ON_START, true);
+    public static boolean getStartOnBoot(Context context) {
+        return getPreferences(context).getBoolean(KEY_GLOBAL_START_ON_BOOT, true);
     }
 
-    public static void setBootOnStart(Context context, boolean boot) {
-        getPreferences(context).edit().putBoolean(KEY_GLOBAL_BOOT_ON_START, boot).commit();
+    public static void setStartOnBoot(Context context, boolean boot) {
+        getPreferences(context).edit().putBoolean(KEY_GLOBAL_START_ON_BOOT, boot).commit();
     }
 
     public static boolean getAnalytics(Context context) {
@@ -200,7 +202,8 @@ public class Preferences {
     }
 
     public static String getSecondaryTextMessageRingtone(Context context) {
-        return getPreferences(context).getString(KEY_SECONDARY_TEXT_MESSAGE_RINGTONE, null);
+        return getPreferences(context).getString(KEY_SECONDARY_TEXT_MESSAGE_RINGTONE,
+                getDefaultRingtone());
     }
 
     public static void setSecondaryTextMessageRingtone(Context context, String ringtone) {
@@ -239,7 +242,8 @@ public class Preferences {
     }
 
     public static String getSecondaryPhoneCallRingtone(Context context) {
-        return getPreferences(context).getString(KEY_SECONDARY_PHONE_CALL_RINGTONE, null);
+        return getPreferences(context).getString(KEY_SECONDARY_PHONE_CALL_RINGTONE,
+                getDefaultRingtone());
     }
 
     public static void setSecondaryPhoneCallRingtone(Context context, String ringtone) {
@@ -285,7 +289,8 @@ public class Preferences {
     }
 
     public static String getSecondaryGtalkRingtone(Context context) {
-        return getPreferences(context).getString(KEY_SECONDARY_GTALK_RINGTONE, null);
+        return getPreferences(context)
+                .getString(KEY_SECONDARY_GTALK_RINGTONE, getDefaultRingtone());
     }
 
     public static void setSecondaryGtalkRingtone(Context context, String ringtone) {
@@ -306,5 +311,10 @@ public class Preferences {
 
     public static void setSecondaryGtalkLights(Context context, boolean lights) {
         getPreferences(context).edit().putBoolean(KEY_SECONDARY_GTALK_LIGHTS, lights).commit();
+    }
+
+    // quick helper function
+    private static String getDefaultRingtone() {
+        return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString();
     }
 }
