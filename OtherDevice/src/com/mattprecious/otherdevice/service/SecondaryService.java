@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
@@ -55,6 +56,7 @@ public class SecondaryService extends Service {
     private final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
     private DbAdapter dbAdapter;
+    private LocalBroadcastManager broadcastManager;
     private NotificationManager notificationManager;
     private BluetoothService bluetoothService;
     private String connectedDeviceName;
@@ -71,8 +73,10 @@ public class SecondaryService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        broadcastManager = LocalBroadcastManager.getInstance(this);
+
         running = true;
-        sendBroadcast(new Intent(Constants.ACTION_SECONDARY_SERVICE_STARTED));
+        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_SECONDARY_SERVICE_STARTED));
 
         if (bluetoothAdapter == null) {
             stopSelf();
@@ -87,9 +91,11 @@ public class SecondaryService extends Service {
 
         bluetoothService = new BluetoothService(this, new SecondaryHandler(this), true);
 
+        broadcastManager.registerReceiver(timerReceiver, new IntentFilter(
+                Constants.ACTION_UPDATE_TIMER));
+
         registerReceiver(bluetoothStateReceiver, new IntentFilter(
                 BluetoothAdapter.ACTION_STATE_CHANGED));
-        registerReceiver(timerReceiver, new IntentFilter(Constants.ACTION_UPDATE_TIMER));
 
         updateTimer();
     }
@@ -99,15 +105,16 @@ public class SecondaryService extends Service {
         super.onDestroy();
 
         running = false;
-        sendBroadcast(new Intent(Constants.ACTION_SECONDARY_SERVICE_STOPPED));
+        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_SECONDARY_SERVICE_STOPPED));
 
         if (timer != null) {
             timer.cancel();
         }
 
         try {
+            broadcastManager.unregisterReceiver(timerReceiver);
+
             unregisterReceiver(bluetoothStateReceiver);
-            unregisterReceiver(timerReceiver);
         } catch (IllegalArgumentException e) {
 
         }

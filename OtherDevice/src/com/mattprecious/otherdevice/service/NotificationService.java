@@ -10,6 +10,7 @@ import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.Notification;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
@@ -34,6 +35,7 @@ public class NotificationService extends AccessibilityService {
 
     private static boolean running = false;
 
+    private LocalBroadcastManager broadcastManager;
     private DbAdapter dbAdapter;
 
     @Override
@@ -42,6 +44,7 @@ public class NotificationService extends AccessibilityService {
 
         running = true;
 
+        broadcastManager = LocalBroadcastManager.getInstance(this);
         dbAdapter = new DbAdapter(this);
     }
 
@@ -142,7 +145,7 @@ public class NotificationService extends AccessibilityService {
     private void sendMessage(BaseMessage message) {
         Intent intent = new Intent(Constants.ACTION_SEND_MESSAGE);
         intent.putExtra("message", BaseMessage.toJsonString(message));
-        sendBroadcast(intent);
+        broadcastManager.sendBroadcast(intent);
     }
 
 }

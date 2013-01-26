@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
@@ -47,6 +48,8 @@ import org.holoeverywhere.widget.Switch;
 public class OtherDevice extends Activity implements UndoBarController.UndoListener {
     private final static String TAG = "OtherDevice";
 
+    private LocalBroadcastManager broadcastManager;
+
     private Switch actionBarSwitch;
     private MyPagerAdapter adapter;
     private ViewPager pager;
@@ -64,13 +67,15 @@ public class OtherDevice extends Activity implements UndoBarController.UndoListe
         setContentView(R.layout.pager);
         configureActionBar();
 
-        registerReceiver(serviceStatusReceiver, new IntentFilter(
+        broadcastManager = LocalBroadcastManager.getInstance(this);
+
+        broadcastManager.registerReceiver(serviceStatusReceiver, new IntentFilter(
                 Constants.ACTION_PRIMARY_SERVICE_STARTED));
-        registerReceiver(serviceStatusReceiver, new IntentFilter(
+        broadcastManager.registerReceiver(serviceStatusReceiver, new IntentFilter(
                 Constants.ACTION_PRIMARY_SERVICE_STOPPED));
-        registerReceiver(serviceStatusReceiver, new IntentFilter(
+        broadcastManager.registerReceiver(serviceStatusReceiver, new IntentFilter(
                 Constants.ACTION_SECONDARY_SERVICE_STARTED));
-        registerReceiver(serviceStatusReceiver, new IntentFilter(
+        broadcastManager.registerReceiver(serviceStatusReceiver, new IntentFilter(
                 Constants.ACTION_SECONDARY_SERVICE_STOPPED));
 
         adapter = new MyPagerAdapter(getSupportFragmentManager());
@@ -117,7 +122,7 @@ public class OtherDevice extends Activity implements UndoBarController.UndoListe
         Crouton.cancelAllCroutons();
 
         try {
-            unregisterReceiver(serviceStatusReceiver);
+            broadcastManager.unregisterReceiver(serviceStatusReceiver);
         } catch (IllegalArgumentException e) {
 
         }

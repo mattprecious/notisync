@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 
@@ -52,6 +53,7 @@ public class PrimaryService extends Service {
     private final Joiner notificationJoiner = Joiner.on(", ").skipNulls();
     private final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+    private LocalBroadcastManager broadcastManager;
     private NotificationManager notificationManager;
     private Map<String, BluetoothService> bluetoothServices = Maps.newHashMap();
     private PrimaryHandler handler;
@@ -63,8 +65,10 @@ public class PrimaryService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        broadcastManager = LocalBroadcastManager.getInstance(this);
+
         running = true;
-        sendBroadcast(new Intent(Constants.ACTION_PRIMARY_SERVICE_STARTED));
+        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_PRIMARY_SERVICE_STARTED));
 
         if (bluetoothAdapter == null) {
             stopSelf();
@@ -77,12 +81,17 @@ public class PrimaryService extends Service {
 
         handler = new PrimaryHandler(this);
 
+        broadcastManager.registerReceiver(reconnectReceiver, new IntentFilter(
+                Constants.ACTION_RECONNECT));
+        broadcastManager.registerReceiver(updateDevicesReceiver, new IntentFilter(
+                Constants.ACTION_UPDATE_DEVICES));
+        broadcastManager.registerReceiver(timerReceiver, new IntentFilter(
+                Constants.ACTION_UPDATE_TIMER));
+        broadcastManager.registerReceiver(sendMessageReceiver, new IntentFilter(
+                Constants.ACTION_SEND_MESSAGE));
+
         registerReceiver(bluetoothStateReceiver, new IntentFilter(
                 BluetoothAdapter.ACTION_STATE_CHANGED));
-        registerReceiver(reconnectReceiver, new IntentFilter(Constants.ACTION_RECONNECT));
-        registerReceiver(updateDevicesReceiver, new IntentFilter(Constants.ACTION_UPDATE_DEVICES));
-        registerReceiver(timerReceiver, new IntentFilter(Constants.ACTION_UPDATE_TIMER));
-        registerReceiver(sendMessageReceiver, new IntentFilter(Constants.ACTION_SEND_MESSAGE));
         registerReceiver(smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
         registerReceiver(phoneReceiver, new IntentFilter("android.intent.action.PHONE_STATE"));
 
@@ -94,18 +103,19 @@ public class PrimaryService extends Service {
         super.onDestroy();
 
         running = false;
-        sendBroadcast(new Intent(Constants.ACTION_PRIMARY_SERVICE_STOPPED));
+        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_PRIMARY_SERVICE_STOPPED));
 
         if (timer != null) {
             timer.cancel();
         }
 
         try {
+            broadcastManager.unregisterReceiver(reconnectReceiver);
+            broadcastManager.unregisterReceiver(updateDevicesReceiver);
+            broadcastManager.unregisterReceiver(timerReceiver);
+            broadcastManager.unregisterReceiver(sendMessageReceiver);
+
             unregisterReceiver(bluetoothStateReceiver);
-            unregisterReceiver(reconnectReceiver);
-            unregisterReceiver(updateDevicesReceiver);
-            unregisterReceiver(timerReceiver);
-            unregisterReceiver(sendMessageReceiver);
             unregisterReceiver(smsReceiver);
             unregisterReceiver(phoneReceiver);
         } catch (IllegalArgumentException e) {

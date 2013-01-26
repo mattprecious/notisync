@@ -15,6 +15,7 @@ import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.actionbarsherlock.view.Menu;
@@ -29,11 +30,15 @@ public class DevicePreferenceFragment extends PreferenceFragment {
 
     private final Set<String> localDeviceSet = new HashSet<String>();
 
+    private LocalBroadcastManager broadcastManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        broadcastManager = LocalBroadcastManager.getInstance(getActivity());
 
         setPreferenceScreen(getPreferenceManager().createPreferenceScreen(getActivity()));
     }
@@ -129,7 +134,7 @@ public class DevicePreferenceFragment extends PreferenceFragment {
             }
 
             Preferences.setDevices(getActivity(), localDeviceSet);
-            getActivity().sendBroadcast(new Intent(Constants.ACTION_UPDATE_DEVICES));
+            broadcastManager.sendBroadcast(new Intent(Constants.ACTION_UPDATE_DEVICES));
 
             return true;
         }
