@@ -4,12 +4,12 @@
 
     <header
         holo:id="@+id/device_preferences"
-        holo:fragment="com.mattprecious.otherdevice.preferences.DevicePreferenceFragment"
+        holo:fragment="com.mattprecious.notisync.preferences.DevicePreferenceFragment"
         holo:icon="@drawable/ic_settings_devices"
         holo:title="@string/preference_header_devices" />
     <header
         holo:id="@+id/general_preferences"
-        holo:fragment="com.mattprecious.otherdevice.preferences.BasicPreferenceFragment"
+        holo:fragment="com.mattprecious.notisync.preferences.BasicPreferenceFragment"
         holo:icon="@drawable/ic_settings_general"
         holo:title="@string/preference_header_general" >
         <extra

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mattprecious.otherdevice"
+    package="com.mattprecious.notisync"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -26,7 +26,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme" >
         <activity
-            android:name="com.mattprecious.otherdevice.activity.OtherDevice"
+            android:name="com.mattprecious.notisync.activity.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:uiOptions="splitActionBarWhenNarrow" >
@@ -37,24 +37,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mattprecious.otherdevice.activity.WizardActivity"
+            android:name="com.mattprecious.notisync.activity.WizardActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/WizardTheme" />
         <activity
-            android:name="com.mattprecious.otherdevice.preferences.SettingsActivity"
+            android:name="com.mattprecious.notisync.preferences.SettingsActivity"
             android:label="Preferences"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
-            android:name="com.mattprecious.otherdevice.preferences.BasicPreferenceActivity" />
+            android:name="com.mattprecious.notisync.preferences.BasicPreferenceActivity" />
         <activity
-            android:name="com.mattprecious.otherdevice.activity.PrimaryCustomProfileActivity" />
+            android:name="com.mattprecious.notisync.activity.PrimaryCustomProfileActivity" />
         <activity
-            android:name="com.mattprecious.otherdevice.activity.SecondaryCustomProfileActivity" />
+            android:name="com.mattprecious.notisync.activity.SecondaryCustomProfileActivity" />
 
-        <service android:name="com.mattprecious.otherdevice.service.PrimaryService" />
-        <service android:name="com.mattprecious.otherdevice.service.SecondaryService" />
+        <service android:name="com.mattprecious.notisync.service.PrimaryService" />
+        <service android:name="com.mattprecious.notisync.service.SecondaryService" />
         <service
-            android:name="com.mattprecious.otherdevice.service.NotificationService"
+            android:name="com.mattprecious.notisync.service.NotificationService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
@@ -64,7 +64,7 @@
                 android:resource="@xml/accessibility_service_config" />
         </service>
 
-        <receiver android:name="com.mattprecious.otherdevice.receiver.BootReceiver" >
+        <receiver android:name="com.mattprecious.notisync.receiver.BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -72,7 +72,7 @@
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
 
                 <data
-                    android:path="com.mattprecious.otherdevice"
+                    android:path="com.mattprecious.notisync"
                     android:scheme="package" />
             </intent-filter>
         </receiver>
