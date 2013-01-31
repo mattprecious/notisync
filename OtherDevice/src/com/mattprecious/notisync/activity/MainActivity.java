@@ -72,13 +72,9 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
         broadcastManager = LocalBroadcastManager.getInstance(this);
 
         broadcastManager.registerReceiver(serviceStatusReceiver, new IntentFilter(
-                Constants.ACTION_PRIMARY_SERVICE_STARTED));
+                Constants.ACTION_SERVICE_STARTED));
         broadcastManager.registerReceiver(serviceStatusReceiver, new IntentFilter(
-                Constants.ACTION_PRIMARY_SERVICE_STOPPED));
-        broadcastManager.registerReceiver(serviceStatusReceiver, new IntentFilter(
-                Constants.ACTION_SECONDARY_SERVICE_STARTED));
-        broadcastManager.registerReceiver(serviceStatusReceiver, new IntentFilter(
-                Constants.ACTION_SECONDARY_SERVICE_STOPPED));
+                Constants.ACTION_SERVICE_STOPPED));
 
         adapter = new MyPagerAdapter(getSupportFragmentManager());
 

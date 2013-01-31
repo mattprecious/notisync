@@ -68,7 +68,7 @@ public class PrimaryService extends Service {
         broadcastManager = LocalBroadcastManager.getInstance(this);
 
         running = true;
-        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_PRIMARY_SERVICE_STARTED));
+        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_SERVICE_STARTED));
 
         if (bluetoothAdapter == null) {
             stopSelf();
@@ -103,7 +103,7 @@ public class PrimaryService extends Service {
         super.onDestroy();
 
         running = false;
-        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_PRIMARY_SERVICE_STOPPED));
+        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_SERVICE_STOPPED));
 
         if (timer != null) {
             timer.cancel();

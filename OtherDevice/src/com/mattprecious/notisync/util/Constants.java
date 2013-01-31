@@ -7,8 +7,6 @@ public class Constants {
     public final static String ACTION_SEND_MESSAGE = "com.mattprecious.notisync.intent.action.SEND_MESSAGE";
     public final static String ACTION_UPDATE_TIMER = "com.mattprecious.notisync.intent.action.UPDATE_TIMER";
 
-    public final static String ACTION_PRIMARY_SERVICE_STARTED = "com.mattprecious.notisync.intent.action.PRIMARY_SERVICE_STARTED";
-    public final static String ACTION_PRIMARY_SERVICE_STOPPED = "com.mattprecious.notisync.intent.action.PRIMARY_SERVICE_STOPPED";
-    public final static String ACTION_SECONDARY_SERVICE_STARTED = "com.mattprecious.notisync.intent.action.SECONDARY_SERVICE_STARTED";
-    public final static String ACTION_SECONDARY_SERVICE_STOPPED = "com.mattprecious.notisync.intent.action.SECONDARY_SERVICE_STOPPED";
+    public final static String ACTION_SERVICE_STARTED = "com.mattprecious.notisync.intent.action.SERVICE_STARTED";
+    public final static String ACTION_SERVICE_STOPPED = "com.mattprecious.notisync.intent.action.SERVICE_STOPPED";
 }
