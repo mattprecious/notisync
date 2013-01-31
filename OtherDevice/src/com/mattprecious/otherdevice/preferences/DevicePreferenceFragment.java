@@ -27,6 +27,8 @@ import com.mattprecious.otherdevice.util.Preferences;
 
 public class DevicePreferenceFragment extends PreferenceFragment {
     private static final String TAG = "DevicePreferenceFragment";
+    
+    public static final String EXTRA_SHOW_MENU = "showMenu";
 
     private final Set<String> localDeviceSet = new HashSet<String>();
 
@@ -36,7 +38,9 @@ public class DevicePreferenceFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
+        if (getArguments() == null || getArguments().getBoolean(EXTRA_SHOW_MENU)) {
+            setHasOptionsMenu(true);
+        }
 
         broadcastManager = LocalBroadcastManager.getInstance(getActivity());
 

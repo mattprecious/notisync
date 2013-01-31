@@ -37,6 +37,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.mattprecious.otherdevice.activity.WizardActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/WizardTheme" />
+        <activity
             android:name="com.mattprecious.otherdevice.preferences.SettingsActivity"
             android:label="Preferences"
             android:uiOptions="splitActionBarWhenNarrow" />

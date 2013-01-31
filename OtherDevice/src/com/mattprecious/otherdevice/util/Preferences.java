@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -16,6 +15,8 @@ import java.util.Set;
 public class Preferences {
     private static final Joiner commaJoiner = Joiner.on(',').skipNulls();
     private static final Splitter commaSplitter = Splitter.on(',').omitEmptyStrings();
+
+    public static final String KEY_COMPLETED_WIZARD = "completed_wizard";
 
     public static final String KEY_GLOBAL_MODE = "global_mode";
     public static final String KEY_GLOBAL_START_ON_BOOT = "global_start_on_boot";
@@ -51,6 +52,8 @@ public class Preferences {
     }
 
     public static void populateDefaults(Context context) {
+        setCompletedWizard(context, getCompletedWizard(context));
+
         setMode(context, getMode(context));
         setStartOnBoot(context, getStartOnBoot(context));
         setAnalytics(context, getAnalytics(context));
@@ -79,12 +82,24 @@ public class Preferences {
         setSecondaryGtalkLights(context, getSecondaryGtalkLights(context));
     }
 
-    // /////////////////////
-    // GLOBAL
-    // /////////////////////
     private static SharedPreferences getPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
+
+    // /////////////////////
+    // PRIVATE
+    // /////////////////////
+    public static boolean getCompletedWizard(Context context) {
+        return getPreferences(context).getBoolean(KEY_COMPLETED_WIZARD, false);
+    }
+
+    public static void setCompletedWizard(Context context, boolean completed) {
+        getPreferences(context).edit().putBoolean(KEY_COMPLETED_WIZARD, completed).commit();
+    }
+
+    // /////////////////////
+    // GLOBAL
+    // /////////////////////
 
     public static boolean hasMode(Context context) {
         return getPreferences(context).contains(KEY_GLOBAL_MODE);

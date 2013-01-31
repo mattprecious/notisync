@@ -46,6 +46,8 @@ import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.Switch;
 
 public class OtherDevice extends Activity implements UndoBarController.UndoListener {
+    private final static int REQUEST_CODE_WIZARD = 1;
+
     private final static String TAG = "OtherDevice";
 
     private LocalBroadcastManager broadcastManager;
@@ -102,6 +104,10 @@ public class OtherDevice extends Activity implements UndoBarController.UndoListe
         adapter.notifyDataSetChanged();
 
         supportInvalidateOptionsMenu();
+
+        if (!Preferences.getCompletedWizard(this)) {
+            startActivityForResult(new Intent(this, WizardActivity.class), REQUEST_CODE_WIZARD);
+        }
     }
 
     @Override
@@ -181,8 +187,8 @@ public class OtherDevice extends Activity implements UndoBarController.UndoListe
 
     private class MyPagerAdapter extends FragmentStatePagerAdapter {
         private final int NUM_FRAGMENTS = 3;
-        private Fragment[] FRAGMENTS = new Fragment[NUM_FRAGMENTS];
-        private String[] TITLES = new String[NUM_FRAGMENTS];
+        private final Fragment[] FRAGMENTS = new Fragment[NUM_FRAGMENTS];
+        private final String[] TITLES = new String[NUM_FRAGMENTS];
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -268,12 +274,28 @@ public class OtherDevice extends Activity implements UndoBarController.UndoListe
                         .setAction(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 startActivity(accessibilityIntent);
                 return true;
+            case R.id.menu_wizard:
+                startActivity(new Intent(this, WizardActivity.class));
+                return true;
             case R.id.menu_preferences:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_WIZARD:
+                // don't really need the result code...
+                // we need to check this anyway for canceling a manual wizard launch
+                if (!Preferences.getCompletedWizard(this)) {
+                    finish();
+                }
+                break;
+        }
     }
 
     private void setDefaults() {
