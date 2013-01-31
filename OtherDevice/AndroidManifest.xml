@@ -41,6 +41,9 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/WizardTheme" />
         <activity
+            android:label="About"
+            android:name="com.mattprecious.notisync.activity.AboutActivity" />
+        <activity
             android:name="com.mattprecious.notisync.preferences.SettingsActivity"
             android:label="Preferences"
             android:uiOptions="splitActionBarWhenNarrow" />

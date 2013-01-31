@@ -275,6 +275,9 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
                         .setAction(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 startActivity(accessibilityIntent);
                 return true;
+            case R.id.menu_about:
+                startActivity(new Intent(this, AboutActivity.class));
+                return true;
             case R.id.menu_wizard:
                 startActivityForResult(new Intent(this, WizardActivity.class), REQUEST_CODE_WIZARD);
                 return true;
