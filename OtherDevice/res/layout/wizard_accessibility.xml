@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    style="@style/WizardPageContainer" >
 
     <TextView
-        android:id="@+id/title"
         style="@style/WizardPageTitle"
-        android:text="Accessibility Service" />
+        android:text="@string/wizard_accessibility_title" />
 
-    <TextView
-        android:id="@+id/content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dip"
-        android:layout_marginBottom="20dip"
-        android:fontFamily="sans-serif-thin"
-        android:paddingLeft="10dp"
-        android:text="In order for the Gtalk profile and your own custom profiles to work, NotiSync needs to be enabled as an Accessibility Service."
-        android:textSize="24sp" />
+        android:layout_height="match_parent" >
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?attr/dividerHorizontal" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/accessibilityButton"
-        style="?attr/buttonBarButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
-        android:gravity="center"
-        android:padding="5dip"
-        android:text="Enable now"
-        android:textSize="20sp" />
+            <TextView
+                android:id="@+id/content"
+                style="@style/WizardPageText"
+                android:layout_marginBottom="20dip"
+                android:text="@string/wizard_accessibility_content" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?attr/dividerHorizontal" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/dividerHorizontal" />
+
+            <Button
+                android:id="@+id/accessibilityButton"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center"
+                android:padding="5dip"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/dividerHorizontal" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

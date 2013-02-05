@@ -53,10 +53,10 @@ public class AccessibilityFragment extends Fragment {
     public void updateStatus() {
         if (NotificationService.isRunning()) {
             enableButton.setEnabled(false);
-            enableButton.setText("Enabled!");
+            enableButton.setText(R.string.wizard_accessibility_enabled);
         } else {
             enableButton.setEnabled(true);
-            enableButton.setText("Enable now");
+            enableButton.setText(R.string.wizard_accessibility_enable);
         }
     }
 }

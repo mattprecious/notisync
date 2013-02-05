@@ -3,6 +3,30 @@
 
     <string name="app_name">NotiSync</string>
 
+    <!-- wizard -->
+    <string name="wizard_previous">Previous</string>
+    <string name="wizard_next">Next</string>
+    <string name="wizard_finish">Finish</string>
+    <string name="wizard_welcome_title">Welcome to NotiSync!</string>
+    <string name="wizard_welcome_content">Let\'s get started!</string>
+    <string name="wizard_mode_title">What device is this?</string>
+    <string name="wizard_mode_primary_title">Primary</string>
+    <string name="wizard_mode_primary_description">This is your main phone or tablet. It will forward notifications to your other devices</string>
+    <string name="wizard_mode_secondary_title">Secondary</string>
+    <string name="wizard_mode_secondary_description">This phone or tablet will receive notifications from the primary device</string>
+    <string name="wizard_devices_title">Select your other devices</string>
+    <string name="wizard_devices_not_listed">Device not listed?</string>
+    <string name="wizard_accessibility_title">Accessibility service</string>
+    <string name="wizard_accessibility_content">In order for the Gtalk profile and your own custom profiles to work, NotiSync needs to be enabled as an Accessibility Service.</string>
+    <string name="wizard_accessibility_enable">Enable now</string>
+    <string name="wizard_accessibility_enabled">Enabled!</string>
+    <string name="wizard_customprofiles_title">Custom profiles</string>
+    <string name="wizard_customprofiles_content">Creating a custom profile will allow you to forward notifications from any app. Some definitions and stuff go here (or another page)</string>
+    <string name="wizard_bluetoothissue_title">Bluetooth issue</string>
+    <string name="wizard_bluetoothissue_content">It appears that you are running Android %s. There is currently a known Bluetooth bug that may occasionally prevent your devices connecting. If your devices don\'t connect, reset Bluetooth on both devices and try again.</string>
+    <string name="wizard_done_title">You\'re all set!</string>
+    <string name="wizard_done_content">Done!</string>
+
     <!-- accessibility -->
     <string name="accessibility_service_description">Description of how awesome this service is.</string>
 

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    style="@style/WizardPageContainer"
     android:paddingBottom="40dip" >
 
     <TextView
-        android:id="@+id/title"
         style="@style/WizardPageTitle"
-        android:text="Select your other devices" />
+        android:text="@string/wizard_devices_title" />
 
     <!-- Using a fragment causes the ViewPager to shit all over us when it re-inflates this layout. -->
 
@@ -19,7 +16,6 @@
         android:layout_weight="1" />
 
     <View
-        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?attr/dividerHorizontal" />
@@ -32,11 +28,10 @@
         android:fontFamily="sans-serif-thin"
         android:gravity="center"
         android:padding="5dip"
-        android:text="Device not listed?"
+        android:text="@string/wizard_devices_not_listed"
         android:textSize="26sp" />
 
     <View
-        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?attr/dividerHorizontal" />

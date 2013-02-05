@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    style="@style/WizardPageContainer" >
 
     <TextView
-        android:id="@+id/title"
         style="@style/WizardPageTitle"
-        android:text="Welcome to NotiSync!" />
+        android:text="@string/wizard_welcome_title" />
 
-    <TextView
-        android:id="@+id/content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dip"
-        android:fontFamily="sans-serif-thin"
-        android:paddingLeft="10dp"
-        android:text="Let&apos;s get started!"
-        android:textSize="26sp" />
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/content"
+            style="@style/WizardPageText"
+            android:text="@string/wizard_welcome_content" />
+    </ScrollView>
 
 </LinearLayout>

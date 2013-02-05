@@ -1,40 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    style="@style/WizardPageContainer" >
 
     <TextView
-        android:id="@+id/title"
         style="@style/WizardPageTitle"
-        android:text="What device is this?" />
+        android:text="@string/wizard_mode_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dip" >
 
-        <TextView
+        <LinearLayout
             android:id="@+id/primary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dip"
             android:layout_weight="1"
-            android:fontFamily="sans-serif-thin"
-            android:paddingLeft="10dp"
-            android:text="Primary"
-            android:textSize="26sp" />
+            android:orientation="horizontal" >
 
-        <TextView
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingRight="10dip" >
+
+                <TextView
+                    android:id="@+id/primary_title"
+                    style="@style/WizardPageText"
+                    android:text="@string/wizard_mode_primary_title" />
+
+                <TextView
+                    android:id="@+id/primary_description"
+                    style="@style/WizardPageText"
+                    android:text="@string/wizard_mode_primary_description"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/primary_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="top" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/secondary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dip"
             android:layout_weight="1"
-            android:fontFamily="sans-serif-thin"
-            android:paddingLeft="10dp"
-            android:text="Secondary"
-            android:textSize="26sp" />
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingRight="10dip" >
+
+                <TextView
+                    android:id="@+id/secondary_title"
+                    style="@style/WizardPageText"
+                    android:text="@string/wizard_mode_secondary_title" />
+
+                <TextView
+                    android:id="@+id/secondary_description"
+                    style="@style/WizardPageText"
+                    android:text="@string/wizard_mode_secondary_description"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/secondary_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="top" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

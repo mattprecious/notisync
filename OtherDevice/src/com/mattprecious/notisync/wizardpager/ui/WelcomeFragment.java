@@ -47,7 +47,7 @@ public class WelcomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.wizard_welcome, container, false);
 
-        titleText = (TextView) rootView.findViewById(R.id.title);
+        titleText = (TextView) rootView.findViewById(android.R.id.title);
         contentText = (TextView) rootView.findViewById(R.id.content);
 
         viewObserver = rootView.getViewTreeObserver();

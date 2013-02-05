@@ -4,7 +4,7 @@
 
     <TextView
         style="@style/WizardPageTitle"
-        android:text="@string/wizard_done_title" />
+        android:text="@string/wizard_customprofiles_title" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
 
         <TextView
             style="@style/WizardPageText"
-            android:text="@string/wizard_done_content" />
+            android:text="@string/wizard_customprofiles_content" />
     </ScrollView>
 
 </LinearLayout>
