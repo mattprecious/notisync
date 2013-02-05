@@ -17,7 +17,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.db.DbAdapter;
-import com.mattprecious.notisync.fragment.SecondaryCustomProfilesFragment;
+import com.mattprecious.notisync.fragment.SecondaryCustomProfileListFragment;
 import com.mattprecious.notisync.model.SecondaryProfile;
 import com.mattprecious.notisync.R;
 
@@ -191,7 +191,7 @@ public class SecondaryCustomProfileActivity extends Activity {
                 return true;
             case R.id.menu_delete:
                 if (delete()) {
-                    setResult(SecondaryCustomProfilesFragment.RESULT_CODE_PROFILE_DELETED,
+                    setResult(SecondaryCustomProfileListFragment.RESULT_CODE_PROFILE_DELETED,
                             getIntent());
                     finish();
                 } else {

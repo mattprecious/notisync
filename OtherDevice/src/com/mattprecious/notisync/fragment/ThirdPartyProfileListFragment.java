@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import com.mattprecious.notisync.R;
 
-public class ThirdPartyProfilesFragment extends Fragment {
+public class ThirdPartyProfileListFragment extends Fragment {
     @SuppressWarnings("unused")
-    private static final String TAG = "ThirdPartyProfilesFragment";
+    private static final String TAG = "ThirdPartyProfileListFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

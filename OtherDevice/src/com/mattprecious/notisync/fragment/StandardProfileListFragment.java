@@ -23,9 +23,9 @@ import com.mattprecious.notisync.preferences.BasicPreferenceActivity;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.R;
 
-public class StandardProfilesFragment extends Fragment {
+public class StandardProfileListFragment extends Fragment {
     @SuppressWarnings("unused")
-    private static final String TAG = "StandardProfilesFragment";
+    private static final String TAG = "StandardProfileListFragment";
 
     private static enum ProfileType {
         TEXT,

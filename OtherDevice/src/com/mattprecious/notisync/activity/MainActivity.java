@@ -23,10 +23,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.mattprecious.notisync.fragment.PrimaryCustomProfilesFragment;
-import com.mattprecious.notisync.fragment.SecondaryCustomProfilesFragment;
-import com.mattprecious.notisync.fragment.StandardProfilesFragment;
-import com.mattprecious.notisync.fragment.ThirdPartyProfilesFragment;
+import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.fragment.PrimaryCustomProfileListFragment;
+import com.mattprecious.notisync.fragment.SecondaryCustomProfileListFragment;
+import com.mattprecious.notisync.fragment.StandardProfileListFragment;
 import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.model.SecondaryProfile;
 import com.mattprecious.notisync.preferences.SettingsActivity;
@@ -36,7 +36,6 @@ import com.mattprecious.notisync.service.SecondaryService;
 import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.UndoBarController;
-import com.mattprecious.notisync.R;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -187,7 +186,7 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
     }
 
     private class MyPagerAdapter extends FragmentStatePagerAdapter {
-        private final int NUM_FRAGMENTS = 3;
+        private final int NUM_FRAGMENTS = 2;
         private final Fragment[] FRAGMENTS = new Fragment[NUM_FRAGMENTS];
         private final String[] TITLES = new String[NUM_FRAGMENTS];
 
@@ -195,20 +194,20 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
             super(fm);
 
             TITLES[0] = getString(R.string.pager_title_standard);
-            FRAGMENTS[0] = new StandardProfilesFragment();
+            FRAGMENTS[0] = new StandardProfileListFragment();
 
             TITLES[1] = getString(R.string.pager_title_custom);
             initCustom();
 
-            TITLES[2] = getString(R.string.pager_title_third_party);
-            FRAGMENTS[2] = new ThirdPartyProfilesFragment();
+//            TITLES[2] = getString(R.string.pager_title_third_party);
+//            FRAGMENTS[2] = new ThirdPartyProfileListFragment();
         }
 
         private void initCustom() {
             if (Preferences.isPrimary(getApplicationContext())) {
-                FRAGMENTS[1] = new PrimaryCustomProfilesFragment(undoBarController);
+                FRAGMENTS[1] = new PrimaryCustomProfileListFragment(undoBarController);
             } else {
-                FRAGMENTS[1] = new SecondaryCustomProfilesFragment(undoBarController);
+                FRAGMENTS[1] = new SecondaryCustomProfileListFragment(undoBarController);
             }
         }
 
@@ -326,11 +325,11 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
     @Override
     public void onUndo(Parcelable token) {
         if (token instanceof PrimaryProfile) {
-            PrimaryCustomProfilesFragment fragment = (PrimaryCustomProfilesFragment) adapter
+            PrimaryCustomProfileListFragment fragment = (PrimaryCustomProfileListFragment) adapter
                     .getItem(1);
             fragment.onUndo(token);
         } else if (token instanceof SecondaryProfile) {
-            SecondaryCustomProfilesFragment fragment = (SecondaryCustomProfilesFragment) adapter
+            SecondaryCustomProfileListFragment fragment = (SecondaryCustomProfileListFragment) adapter
                     .getItem(1);
             fragment.onUndo(token);
         }

@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,18 +23,19 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.google.common.collect.Lists;
-import com.mattprecious.notisync.activity.PrimaryCustomProfileActivity;
+import com.mattprecious.notisync.activity.SecondaryCustomProfileActivity;
 import com.mattprecious.notisync.db.DbAdapter;
-import com.mattprecious.notisync.model.PrimaryProfile;
+import com.mattprecious.notisync.model.SecondaryProfile;
 import com.mattprecious.notisync.util.UndoBarController;
 import com.mattprecious.notisync.R;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class PrimaryCustomProfilesFragment extends Fragment implements
+public class SecondaryCustomProfileListFragment extends Fragment implements
         UndoBarController.UndoListener {
-    private static final String TAG = "PrimaryCustomProfilesFragment";
+    @SuppressWarnings("unused")
+    private static final String TAG = "SecondaryCustomProfileListFragment";
 
     private static final int REQUEST_CODE_EDIT_PROFILE = 1;
 
@@ -46,11 +46,11 @@ public class PrimaryCustomProfilesFragment extends Fragment implements
     private CustomProfileAdapter listAdapter;
     private UndoBarController mUndoBarController;
 
-    public PrimaryCustomProfilesFragment() {
+    public SecondaryCustomProfileListFragment() {
 
     }
 
-    public PrimaryCustomProfilesFragment(UndoBarController undoBarController) {
+    public SecondaryCustomProfileListFragment(UndoBarController undoBarController) {
         mUndoBarController = undoBarController;
     }
 
@@ -71,10 +71,11 @@ public class PrimaryCustomProfilesFragment extends Fragment implements
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), PrimaryCustomProfileActivity.class);
+                Intent intent = new Intent(getActivity(), SecondaryCustomProfileActivity.class);
 
                 if (position < listView.getCount() - listView.getFooterViewsCount()) {
-                    PrimaryProfile profile = (PrimaryProfile) parent.getItemAtPosition(position);
+                    SecondaryProfile profile = (SecondaryProfile) parent
+                            .getItemAtPosition(position);
                     intent.putExtra("profile", profile);
                 }
 
@@ -94,7 +95,7 @@ public class PrimaryCustomProfilesFragment extends Fragment implements
 
     private void reloadProfiles() {
         dbAdapter.openReadable();
-        List<PrimaryProfile> profiles = dbAdapter.getPrimaryProfiles();
+        List<SecondaryProfile> profiles = dbAdapter.getSecondaryProfiles();
         dbAdapter.close();
 
         listAdapter.setData(profiles);
@@ -111,7 +112,6 @@ public class PrimaryCustomProfilesFragment extends Fragment implements
                         break;
                     case Activity.RESULT_CANCELED:
                         Crouton.showText(getActivity(), R.string.profile_discarded, Style.INFO);
-                        Log.d(TAG, "crouton shown");
                         break;
                     case RESULT_CODE_PROFILE_DELETED:
                         if (mUndoBarController != null) {
@@ -131,10 +131,10 @@ public class PrimaryCustomProfilesFragment extends Fragment implements
 
     @Override
     public void onUndo(Parcelable token) {
-        PrimaryProfile profile = (PrimaryProfile) token;
+        SecondaryProfile profile = (SecondaryProfile) token;
 
         dbAdapter.openWritable();
-        dbAdapter.insertPrimaryProfile(profile);
+        dbAdapter.insertSecondaryProfile(profile);
         dbAdapter.close();
 
         reloadProfiles();
@@ -142,14 +142,14 @@ public class PrimaryCustomProfilesFragment extends Fragment implements
 
     private class CustomProfileAdapter extends BaseAdapter {
         private LayoutInflater inflater;
-        private List<PrimaryProfile> data;
+        private List<SecondaryProfile> data;
 
         public CustomProfileAdapter(Context context) {
             inflater = LayoutInflater.from(context);
             data = Lists.newArrayList();
         }
 
-        public void setData(List<PrimaryProfile> data) {
+        public void setData(List<SecondaryProfile> data) {
             this.data = data;
         }
 
@@ -159,7 +159,7 @@ public class PrimaryCustomProfilesFragment extends Fragment implements
         }
 
         @Override
-        public PrimaryProfile getItem(int position) throws IndexOutOfBoundsException {
+        public SecondaryProfile getItem(int position) throws IndexOutOfBoundsException {
             return data.get(position);
         }
 
@@ -179,7 +179,7 @@ public class PrimaryCustomProfilesFragment extends Fragment implements
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            PrimaryProfile profile = getItem(position);
+            SecondaryProfile profile = getItem(position);
 
             if (convertView == null) { // If the View is not cached
                 // Inflates the Common View from XML file
@@ -198,11 +198,11 @@ public class PrimaryCustomProfilesFragment extends Fragment implements
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     View parent = (View) buttonView.getParent();
-                    PrimaryProfile profile = (PrimaryProfile) parent.getTag();
+                    SecondaryProfile profile = (SecondaryProfile) parent.getTag();
                     profile.setEnabled(isChecked);
 
                     dbAdapter.openWritable();
-                    dbAdapter.updatePrimaryProfile(profile);
+                    dbAdapter.updateSecondaryProfile(profile);
                     dbAdapter.close();
                 }
             });
