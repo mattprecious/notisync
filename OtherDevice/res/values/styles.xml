@@ -1,15 +1,30 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme" parent="AppTheme">
-        <item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>
-        <item name="actionBarItemBackground">@drawable/selectable_background</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView</item>
-        <item name="actionDropDownStyle">@style/DropDownNav</item>
-        <item name="actionBarWidgetTheme">@style/AbWidget</item>
-        <item name="android:actionBarItemBackground">@drawable/selectable_background</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
-        <item name="android:actionDropDownStyle">@style/DropDownNav</item>
-        <item name="android:actionBarWidgetTheme">@style/AbWidget</item>
+
+        <!-- <item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item> -->
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+        <item name="actionBarItemBackground">@drawable/selectable_background_orange</item>
+        <item name="popupMenuStyle">@style/orange_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/orange_DropDownListView</item>
+        <item name="actionBarTabStyle">@style/orange_ActionBarTabStyle</item>
+        <item name="actionDropDownStyle">@style/orange_DropDownNav</item>
+        <item name="actionBarStyle">@style/orange_solid_ActionBar</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_orange</item>
+        <item name="android:popupMenuStyle">@style/orange_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/orange_DropDownListView</item>
+        <item name="android:actionBarTabStyle">@style/orange_ActionBarTabStyle</item>
+        <item name="android:actionDropDownStyle">@style/orange_DropDownNav</item>
+        <item name="android:actionBarStyle">@style/orange_solid_ActionBar</item>
+        <item name="android:panelBackground">@drawable/menu_hardkey_panel_orange</item>
+
+        <!-- Light.DarkActionBar specific -->
+        <item name="actionBarWidgetTheme">@style/Theme.orange.widget</item>
+        <item name="android:actionBarWidgetTheme">@style/Theme.orange.widget</item>
+    </style>
+
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/tab_indicator_ab_orange</item>
     </style>
 
     <style name="CustomTitlePageIndicator">
@@ -25,19 +40,6 @@
     <style name="Switch.TextAppearance" parent="Holo.Switch.TextAppearance">
         <item name="android:textColor">#FFFFFFFF</item>
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="DropDownListView" parent="@style/Widget.Sherlock.ListView.DropDown">
-        <item name="android:listSelector">@drawable/selectable_background</item>
-    </style>
-
-    <style name="DropDownNav" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
-        <item name="android:dropDownSelector">@drawable/selectable_background</item>
-    </style>
-
-    <style name="AbWidget" parent="@style/Theme.Sherlock">
-        <item name="dropDownListViewStyle">@style/DropDownListView</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
     </style>
 
     <!-- wizard pager -->

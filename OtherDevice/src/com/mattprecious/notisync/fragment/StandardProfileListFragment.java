@@ -19,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import com.mattprecious.notisync.activity.StandardProfileActivity;
 import com.mattprecious.notisync.preferences.BasicPreferenceActivity;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.R;
@@ -57,11 +58,11 @@ public class StandardProfileListFragment extends Fragment {
                 String mode = Preferences.getMode(getActivity()).name();
 
                 Intent intent = new Intent();
+                // TODO: merge these two TYPE enums/ints
                 switch (type) {
                     case TEXT:
-                        intent.setClass(getActivity(), BasicPreferenceActivity.class);
-                        intent.putExtra("mode", mode);
-                        intent.putExtra("category", "textmessage");
+                        intent.setClass(getActivity(), StandardProfileActivity.class);
+                        intent.putExtra(StandardProfileActivity.EXTRA_TYPE, StandardProfileActivity.TYPE_TEXT_MESSAGE);
                         break;
                     case PHONE:
                         intent.setClass(getActivity(), BasicPreferenceActivity.class);

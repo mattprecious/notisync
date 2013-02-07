@@ -36,7 +36,7 @@ import com.mattprecious.notisync.service.SecondaryService;
 import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.UndoBarController;
-import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.TabPageIndicator;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
     private Switch actionBarSwitch;
     private MyPagerAdapter adapter;
     private ViewPager pager;
-    private TitlePageIndicator indicator;
+    private TabPageIndicator indicator;
     private UndoBarController undoBarController;
 
     @Override
@@ -81,7 +81,7 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
         pager.setAdapter(adapter);
         pager.setOffscreenPageLimit(1);
 
-        indicator = (TitlePageIndicator) findViewById(R.id.indicator);
+        indicator = (TabPageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(pager);
 
         undoBarController = new UndoBarController(findViewById(R.id.undobar), this);

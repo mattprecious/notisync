@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="pressed">#CCFF8800</color>
-
     <!-- wizard pager -->
     <color name="step_pager_previous_tab_color">#44FFBB33</color>
     <color name="step_pager_selected_tab_color">#FFFF8800</color>
@@ -10,6 +8,5 @@
     <color name="step_pager_next_tab_color">#10000000</color>
     <color name="review_green">#FF669900</color>
     <color name="review_green_disabled">#44669900</color>
-    <color name="text_light">#66000000</color>
 
 </resources>
