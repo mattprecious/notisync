@@ -97,7 +97,9 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                validatePackage();
+                if (!hasFocus) {
+                    validatePackage();
+                }
             }
 
         });
