@@ -129,10 +129,10 @@
         <item name="android:padding">10dip</item>
     </style>
 
-    <!-- custom profile styles -->
-    <style name="CustomProfile"></style>
+    <!-- profile styles -->
+    <style name="Profile"></style>
 
-    <style name="CustomProfile.Wrapper">
+    <style name="Profile.Wrapper">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:focusable">true</item>
@@ -140,15 +140,24 @@
         <item name="android:orientation">vertical</item>
         <item name="android:padding">15dip</item>
     </style>
+    
+    <style name="Profile.Empty">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#44000000</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 
-    <style name="CustomProfile.Section">
+    <style name="Profile.Section">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">15dip</item>
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="CustomProfile.Header">
+    <style name="Profile.Header">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAllCaps">true</item>
@@ -156,29 +165,29 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="CustomProfile.Divider">
+    <style name="Profile.Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dip</item>
         <item name="android:background">#000000</item>
     </style>
 
-    <style name="CustomProfile.Item">
+    <style name="Profile.Item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">5dip</item>
     </style>
 
-    <style name="CustomProfile.Item.EditText">
+    <style name="Profile.Item.EditText">
         <item name="android:ems">10</item>
     </style>
 
-    <style name="CustomProfile.Item.CheckBox">
+    <style name="Profile.Item.CheckBox">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="CustomProfile.Item.FauxSpinner" parent="@style/SpinnerAppTheme">
+    <style name="Profile.Item.FauxSpinner" parent="@style/SpinnerAppTheme">
 
-        <!-- can't multiple-inherit, same as CustomProfile.Item -->
+        <!-- can't multiple-inherit, same as Profile.Item -->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">5dip</item>

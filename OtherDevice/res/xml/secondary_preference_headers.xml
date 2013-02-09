@@ -4,12 +4,8 @@
 
     <header
         holo:id="@+id/general_preferences"
-        holo:fragment="com.mattprecious.notisync.preferences.BasicPreferenceFragment"
+        holo:fragment="com.mattprecious.notisync.preferences.GeneralPreferenceFragment"
         holo:icon="@drawable/ic_settings_general"
-        holo:title="@string/preference_header_general" >
-        <extra
-            android:name="category"
-            android:value="general" />
-    </header>
+        holo:title="@string/preference_header_general" />
 
 </preference-headers>

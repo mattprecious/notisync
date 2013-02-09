@@ -39,14 +39,13 @@ import com.mattprecious.notisync.util.UndoBarController;
 import com.viewpagerindicator.TabPageIndicator;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.Switch;
 
 public class MainActivity extends Activity implements UndoBarController.UndoListener {
-    private final static int REQUEST_CODE_WIZARD = 1;
-
     private final static String TAG = "MainActivity";
 
     private LocalBroadcastManager broadcastManager;
@@ -101,7 +100,8 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
         supportInvalidateOptionsMenu();
 
         if (!Preferences.getCompletedWizard(this)) {
-            startActivityForResult(new Intent(this, WizardActivity.class), REQUEST_CODE_WIZARD);
+            startActivityForResult(new Intent(this, WizardActivity.class),
+                    Constants.REQUEST_CODE_WIZARD);
         }
     }
 
@@ -199,15 +199,15 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
             TITLES[1] = getString(R.string.pager_title_custom);
             initCustom();
 
-//            TITLES[2] = getString(R.string.pager_title_third_party);
-//            FRAGMENTS[2] = new ThirdPartyProfileListFragment();
+            // TITLES[2] = getString(R.string.pager_title_third_party);
+            // FRAGMENTS[2] = new ThirdPartyProfileListFragment();
         }
 
         private void initCustom() {
             if (Preferences.isPrimary(getApplicationContext())) {
-                FRAGMENTS[1] = new PrimaryCustomProfileListFragment(undoBarController);
+                FRAGMENTS[1] = new PrimaryCustomProfileListFragment();
             } else {
-                FRAGMENTS[1] = new SecondaryCustomProfileListFragment(undoBarController);
+                FRAGMENTS[1] = new SecondaryCustomProfileListFragment();
             }
         }
 
@@ -274,14 +274,17 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
                         .setAction(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 startActivity(accessibilityIntent);
                 return true;
-            case R.id.menu_about:
-                startActivity(new Intent(this, AboutActivity.class));
-                return true;
-            case R.id.menu_wizard:
-                startActivityForResult(new Intent(this, WizardActivity.class), REQUEST_CODE_WIZARD);
-                return true;
             case R.id.menu_preferences:
                 startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.menu_wizard:
+                startActivityForResult(new Intent(this, WizardActivity.class),
+                        Constants.REQUEST_CODE_WIZARD);
+                return true;
+            case R.id.menu_help:
+                return true;
+            case R.id.menu_about:
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
         }
 
@@ -290,14 +293,38 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, String.format("onActivityResult(%d, %d, data)", requestCode, resultCode));
         switch (requestCode) {
-            case REQUEST_CODE_WIZARD:
+            case Constants.REQUEST_CODE_WIZARD:
                 if (resultCode == RESULT_OK) {
                     startService();
                 } else if (!Preferences.getCompletedWizard(this)) {
                     finish();
                 }
 
+                break;
+            case Constants.REQUEST_CODE_EDIT_PROFILE:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        Crouton.showText(this, R.string.profile_saved, Style.CONFIRM,
+                                R.id.content_wrapper);
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Crouton.showText(this, R.string.profile_discarded, Style.INFO,
+                                R.id.content_wrapper);
+                        break;
+                    case Constants.RESULT_CODE_PROFILE_DELETED:
+                        if (undoBarController != null) {
+                            undoBarController.showUndoBar(true,
+                                    getString(R.string.profile_deleted),
+                                    data.getParcelableExtra("profile"));
+                        }
+                        break;
+                }
+
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
                 break;
         }
     }

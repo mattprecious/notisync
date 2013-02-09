@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout style="@style/Profile.Wrapper" >
+
+        <LinearLayout style="@style/Profile.Section" >
+
+            <TextView
+                style="@style/Profile.Header"
+                android:text="@string/custom_profile_header_conditions" />
+
+            <View style="@style/Profile.Divider" />
+
+            <CheckBox
+                android:id="@+id/unconnectedOnlyCheckBox"
+                style="@style/Profile.Item.CheckBox"
+                android:text="@string/custom_profile_label_unconnected_only" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Profile.Section" >
+
+            <TextView
+                style="@style/Profile.Header"
+                android:text="@string/custom_profile_header_ringtone" />
+
+            <View style="@style/Profile.Divider" />
+
+            <TextView
+                android:id="@+id/ringtoneSelector"
+                style="@style/Profile.Item.FauxSpinner" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Profile.Section" >
+
+            <TextView
+                style="@style/Profile.Header"
+                android:text="@string/custom_profile_header_extras" />
+
+            <View style="@style/Profile.Divider" />
+
+            <CheckBox
+                android:id="@+id/vibrateCheckBox"
+                style="@style/Profile.Item.CheckBox"
+                android:text="@string/custom_profile_label_vibrate" />
+
+            <CheckBox
+                android:id="@+id/lightsCheckBox"
+                style="@style/Profile.Item.CheckBox"
+                android:text="@string/custom_profile_label_lights" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

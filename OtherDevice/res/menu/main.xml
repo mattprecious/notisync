@@ -5,17 +5,17 @@
         android:id="@+id/menu_accessibility"
         android:icon="@drawable/ic_action_warning"
         android:showAsAction="ifRoom"
-        android:title="@string/menu_accessibility"/>
+        android:title="@string/menu_accessibility" />
     <item
         android:id="@+id/menu_preferences"
         android:icon="@drawable/ic_action_settings"
         android:showAsAction="never"
-        android:title="@string/menu_settings"/>
+        android:title="@string/menu_settings" />
     <item
         android:id="@+id/menu_wizard"
         android:icon="@drawable/ic_action_wizard"
         android:showAsAction="never"
-        android:title="Wizard"/>
+        android:title="@string/menu_wizard" />
     <item
         android:id="@+id/menu_help"
         android:icon="@drawable/ic_action_help"
@@ -25,6 +25,6 @@
         android:id="@+id/menu_about"
         android:icon="@drawable/ic_action_about"
         android:showAsAction="never"
-        android:title="@string/menu_about"/>
+        android:title="@string/menu_about" />
 
 </menu>

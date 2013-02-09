@@ -19,20 +19,15 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import com.mattprecious.notisync.activity.StandardProfileActivity;
-import com.mattprecious.notisync.preferences.BasicPreferenceActivity;
+import com.mattprecious.notisync.profile.StandardProfileActivity;
+import com.mattprecious.notisync.profile.StandardProfileActivity.ProfileType;
+import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.R;
 
 public class StandardProfileListFragment extends Fragment {
     @SuppressWarnings("unused")
-    private static final String TAG = "StandardProfileListFragment";
-
-    private static enum ProfileType {
-        TEXT,
-        PHONE,
-        GTALK,
-    }
+    private final String TAG = getClass().getName();
 
     private ListView listView;
     private StandardProfileAdapter listAdapter;
@@ -55,28 +50,12 @@ public class StandardProfileListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ProfileType type = (ProfileType) parent.getItemAtPosition(position);
-                String mode = Preferences.getMode(getActivity()).name();
 
                 Intent intent = new Intent();
-                // TODO: merge these two TYPE enums/ints
-                switch (type) {
-                    case TEXT:
-                        intent.setClass(getActivity(), StandardProfileActivity.class);
-                        intent.putExtra(StandardProfileActivity.EXTRA_TYPE, StandardProfileActivity.TYPE_TEXT_MESSAGE);
-                        break;
-                    case PHONE:
-                        intent.setClass(getActivity(), BasicPreferenceActivity.class);
-                        intent.putExtra("mode", mode);
-                        intent.putExtra("category", "phonecall");
-                        break;
-                    case GTALK:
-                        intent.setClass(getActivity(), BasicPreferenceActivity.class);
-                        intent.putExtra("mode", mode);
-                        intent.putExtra("category", "gtalk");
-                        break;
-                }
+                intent.setClass(getActivity(), StandardProfileActivity.class);
+                intent.putExtra(StandardProfileActivity.EXTRA_TYPE, type);
 
-                startActivity(intent);
+                getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_EDIT_PROFILE);
             }
         });
 

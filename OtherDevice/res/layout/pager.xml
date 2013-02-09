@@ -15,23 +15,28 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+    <FrameLayout
+        android:id="@+id/content_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:id="@+id/undobar"
-        style="@style/UndoBar" >
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/undobar_message"
-            style="@style/UndoBarMessage" />
+        <LinearLayout
+            android:id="@+id/undobar"
+            style="@style/UndoBar" >
 
-        <Button
-            android:id="@+id/undobar_button"
-            style="@style/UndoBarButton" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/undobar_message"
+                style="@style/UndoBarMessage" />
+
+            <Button
+                android:id="@+id/undobar_button"
+                style="@style/UndoBarButton" />
+        </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

@@ -3,82 +3,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout style="@style/CustomProfile.Wrapper" >
+    <LinearLayout style="@style/Profile.Wrapper" >
 
-        <LinearLayout style="@style/CustomProfile.Section" >
+        <LinearLayout style="@style/Profile.Section" >
 
             <TextView
-                style="@style/CustomProfile.Header"
+                style="@style/Profile.Header"
                 android:text="@string/custom_profile_header_name" />
 
-            <View style="@style/CustomProfile.Divider" />
+            <View style="@style/Profile.Divider" />
 
             <EditText
                 android:id="@+id/nameField"
-                style="@style/CustomProfile.Item.EditText"
+                style="@style/Profile.Item.EditText"
                 android:hint="@string/custom_profile_header_name"
                 android:imeOptions="actionNext" >
             </EditText>
         </LinearLayout>
 
-        <LinearLayout style="@style/CustomProfile.Section" >
+        <LinearLayout style="@style/Profile.Section" >
 
             <TextView
-                style="@style/CustomProfile.Header"
+                style="@style/Profile.Header"
                 android:text="@string/custom_profile_header_tag" />
 
-            <View style="@style/CustomProfile.Divider" />
+            <View style="@style/Profile.Divider" />
 
             <EditText
                 android:id="@+id/tagField"
-                style="@style/CustomProfile.Item.EditText"
+                style="@style/Profile.Item.EditText"
                 android:hint="@string/custom_profile_header_tag"
                 android:imeOptions="actionDone" />
         </LinearLayout>
 
-        <LinearLayout style="@style/CustomProfile.Section" >
+        <LinearLayout style="@style/Profile.Section" >
 
             <TextView
-                style="@style/CustomProfile.Header"
+                style="@style/Profile.Header"
                 android:text="@string/custom_profile_header_conditions" />
 
-            <View style="@style/CustomProfile.Divider" />
+            <View style="@style/Profile.Divider" />
 
             <CheckBox
                 android:id="@+id/unconnectedOnlyCheckBox"
-                style="@style/CustomProfile.Item.CheckBox"
+                style="@style/Profile.Item.CheckBox"
                 android:text="@string/custom_profile_label_unconnected_only" />
         </LinearLayout>
 
-        <LinearLayout style="@style/CustomProfile.Section" >
+        <LinearLayout style="@style/Profile.Section" >
 
             <TextView
-                style="@style/CustomProfile.Header"
+                style="@style/Profile.Header"
                 android:text="@string/custom_profile_header_ringtone" />
 
-            <View style="@style/CustomProfile.Divider" />
+            <View style="@style/Profile.Divider" />
 
             <TextView
                 android:id="@+id/ringtoneSelector"
-                style="@style/CustomProfile.Item.FauxSpinner" />
+                style="@style/Profile.Item.FauxSpinner" />
         </LinearLayout>
 
-        <LinearLayout style="@style/CustomProfile.Section" >
+        <LinearLayout style="@style/Profile.Section" >
 
             <TextView
-                style="@style/CustomProfile.Header"
+                style="@style/Profile.Header"
                 android:text="@string/custom_profile_header_extras" />
 
-            <View style="@style/CustomProfile.Divider" />
+            <View style="@style/Profile.Divider" />
 
             <CheckBox
                 android:id="@+id/vibrateCheckBox"
-                style="@style/CustomProfile.Item.CheckBox"
+                style="@style/Profile.Item.CheckBox"
                 android:text="@string/custom_profile_label_vibrate" />
 
             <CheckBox
                 android:id="@+id/lightsCheckBox"
-                style="@style/CustomProfile.Item.CheckBox"
+                style="@style/Profile.Item.CheckBox"
                 android:text="@string/custom_profile_label_lights" />
         </LinearLayout>
     </LinearLayout>

@@ -144,14 +144,14 @@ public class WizardActivity extends Activity implements
     private void updateBottomBar() {
         int position = mPager.getCurrentItem();
         if (position == mCurrentPageSequence.size() - 1) {
-            mNextButton.setText("Finish");
+            mNextButton.setText(R.string.wizard_finish);
             mNextButton.setBackgroundResource(R.drawable.finish_background);
             mNextButton.setTextAppearance(this, R.style.TextAppearanceFinish);
 
             Page page = mCurrentPageSequence.get(position);
             mNextButton.setEnabled(!page.isRequired() || page.isCompleted());
         } else {
-            mNextButton.setText("Next");
+            mNextButton.setText(R.string.wizard_next);
             mNextButton.setBackgroundResource(R.drawable.selectable_item_background);
             TypedValue v = new TypedValue();
             getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, v, true);

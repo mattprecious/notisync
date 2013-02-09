@@ -3,47 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout style="@style/CustomProfile.Wrapper" >
+    <LinearLayout style="@style/Profile.Wrapper" >
 
-        <LinearLayout style="@style/CustomProfile.Section" >
+        <LinearLayout style="@style/Profile.Section" >
 
             <TextView
-                style="@style/CustomProfile.Header"
+                style="@style/Profile.Header"
                 android:text="@string/custom_profile_header_name" />
 
-            <View style="@style/CustomProfile.Divider" />
+            <View style="@style/Profile.Divider" />
 
             <EditText
                 android:id="@+id/nameField"
-                style="@style/CustomProfile.Item.EditText"
+                style="@style/Profile.Item.EditText"
                 android:hint="@string/custom_profile_header_name"
                 android:imeOptions="actionNext" />
         </LinearLayout>
 
-        <LinearLayout style="@style/CustomProfile.Section" >
+        <LinearLayout style="@style/Profile.Section" >
 
             <TextView
-                style="@style/CustomProfile.Header"
+                style="@style/Profile.Header"
                 android:text="@string/custom_profile_header_tag" />
 
-            <View style="@style/CustomProfile.Divider" />
+            <View style="@style/Profile.Divider" />
 
             <EditText
                 android:id="@+id/tagField"
-                style="@style/CustomProfile.Item.EditText"
+                style="@style/Profile.Item.EditText"
                 android:hint="@string/custom_profile_header_tag"
                 android:imeOptions="actionNext" />
         </LinearLayout>
 
-        <LinearLayout style="@style/CustomProfile.Section" >
+        <LinearLayout style="@style/Profile.Section" >
 
             <TextView
-                style="@style/CustomProfile.Header"
+                style="@style/Profile.Header"
                 android:text="@string/custom_profile_header_package" />
 
-            <View style="@style/CustomProfile.Divider" />
+            <View style="@style/Profile.Divider" />
 
-            <LinearLayout style="@style/CustomProfile.Item" >
+            <LinearLayout style="@style/Profile.Item" >
 
                 <EditText
                     android:id="@+id/packageField"

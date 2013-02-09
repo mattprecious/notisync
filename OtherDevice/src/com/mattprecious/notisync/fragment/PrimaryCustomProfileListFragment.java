@@ -1,20 +1,10 @@
 
 package com.mattprecious.notisync.fragment;
 
-import java.util.List;
-
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.Switch;
-import org.holoeverywhere.widget.TextView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,35 +14,29 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.google.common.collect.Lists;
-import com.mattprecious.notisync.activity.PrimaryCustomProfileActivity;
+import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.db.DbAdapter;
 import com.mattprecious.notisync.model.PrimaryProfile;
+import com.mattprecious.notisync.profile.PrimaryCustomProfileActivity;
+import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.UndoBarController;
-import com.mattprecious.notisync.R;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.Switch;
+import org.holoeverywhere.widget.TextView;
+
+import java.util.List;
 
 public class PrimaryCustomProfileListFragment extends Fragment implements
         UndoBarController.UndoListener {
-    private static final String TAG = "PrimaryCustomProfileListFragment";
-
-    private static final int REQUEST_CODE_EDIT_PROFILE = 1;
-
-    public static final int RESULT_CODE_PROFILE_DELETED = 2;
+    @SuppressWarnings("unused")
+    private final String TAG = getClass().getName();
 
     private DbAdapter dbAdapter;
     private ListView listView;
     private CustomProfileAdapter listAdapter;
-    private UndoBarController mUndoBarController;
-
-    public PrimaryCustomProfileListFragment() {
-
-    }
-
-    public PrimaryCustomProfileListFragment(UndoBarController undoBarController) {
-        mUndoBarController = undoBarController;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,13 +62,13 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
                     intent.putExtra("profile", profile);
                 }
 
-                startActivityForResult(intent, REQUEST_CODE_EDIT_PROFILE);
+                getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_EDIT_PROFILE);
             }
         });
 
         return view;
     }
-
+    
     @Override
     public void onResume() {
         super.onResume();
@@ -99,34 +83,6 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
 
         listAdapter.setData(profiles);
         listAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE_EDIT_PROFILE:
-                switch (resultCode) {
-                    case Activity.RESULT_OK:
-                        Crouton.showText(getActivity(), R.string.profile_saved, Style.CONFIRM);
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        Crouton.showText(getActivity(), R.string.profile_discarded, Style.INFO);
-                        Log.d(TAG, "crouton shown");
-                        break;
-                    case RESULT_CODE_PROFILE_DELETED:
-                        if (mUndoBarController != null) {
-                            mUndoBarController.showUndoBar(true,
-                                    getString(R.string.profile_deleted),
-                                    data.getParcelableExtra("profile"));
-                        }
-                        break;
-                }
-
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-                break;
-        }
     }
 
     @Override

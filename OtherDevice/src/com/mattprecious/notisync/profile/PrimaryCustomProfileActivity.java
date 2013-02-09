@@ -1,57 +1,57 @@
 
-package com.mattprecious.notisync.activity;
+package com.mattprecious.notisync.profile;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.ImageButton;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.mattprecious.notisync.db.DbAdapter;
-import com.mattprecious.notisync.fragment.SecondaryCustomProfileListFragment;
-import com.mattprecious.notisync.model.SecondaryProfile;
 import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.db.DbAdapter;
+import com.mattprecious.notisync.fragment.PackagePickerFragment;
+import com.mattprecious.notisync.model.PrimaryProfile;
+import com.mattprecious.notisync.util.Constants;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.CheckBox;
+import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.TextView;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class SecondaryCustomProfileActivity extends Activity {
+import roboguice.inject.InjectView;
+
+public class PrimaryCustomProfileActivity extends Activity implements
+        PackagePickerFragment.OnPackageSelectedListener {
     private final int ERROR_FLAG_NAME = 1 << 0;
     private final int ERROR_FLAG_TAG = 1 << 1;
-
-    private final int REQUEST_CODE_RINGTONE_PICKER = 1;
+    private final int ERROR_FLAG_PACKAGE = 1 << 2;
 
     private DbAdapter dbAdapter;
-    private SecondaryProfile profile;
+    private PrimaryProfile profile;
 
     private int errorFlags = 0;
 
+    @InjectView
     private EditText nameField;
+    @InjectView
     private EditText tagField;
-    private CheckBox unconnectedOnlyCheckBox;
-    private TextView ringtoneSelector;
-    private CheckBox vibrateCheckBox;
-    private CheckBox lightsCheckBox;
+    @InjectView
+    private EditText packageField;
+    @InjectView
+    private ImageButton packageButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.secondary_custom_profile);
+        setContentView(R.layout.profile_custom_primary);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -60,7 +60,7 @@ public class SecondaryCustomProfileActivity extends Activity {
         if (getIntent().hasExtra("profile")) {
             profile = getIntent().getParcelableExtra("profile");
         } else {
-            profile = new SecondaryProfile();
+            profile = new PrimaryProfile();
             profile.setEnabled(true);
         }
 
@@ -91,36 +91,32 @@ public class SecondaryCustomProfileActivity extends Activity {
 
         });
 
-        unconnectedOnlyCheckBox = (CheckBox) findViewById(R.id.unconnectedOnlyCheckBox);
-        unconnectedOnlyCheckBox.setChecked(profile.isUnconnectedOnly());
+        packageField = (EditText) findViewById(R.id.packageField);
+        packageField.setText(profile.getPackageName());
+        packageField.setOnFocusChangeListener(new OnFocusChangeListener() {
 
-        ringtoneSelector = (TextView) findViewById(R.id.ringtoneSelector);
-        ringtoneSelector.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                validatePackage();
+            }
+
+        });
+
+        packageButton = (ImageButton) findViewById(R.id.packageButton);
+        packageButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE,
-                        RingtoneManager.TYPE_NOTIFICATION);
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
-                        RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI,
-                        getRingtoneUri(profile.getRingtone()));
+                DialogFragment newFragment = new PackagePickerFragment();
 
-                startActivityForResult(intent, REQUEST_CODE_RINGTONE_PICKER);
-
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(newFragment, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
+
         });
-
-        vibrateCheckBox = (CheckBox) findViewById(R.id.vibrateCheckBox);
-        vibrateCheckBox.setChecked(profile.isVibrate());
-
-        lightsCheckBox = (CheckBox) findViewById(R.id.lightsCheckBox);
-        lightsCheckBox.setChecked(profile.isLed());
-
-        updateRingtoneSelector();
     }
 
     @Override
@@ -191,7 +187,7 @@ public class SecondaryCustomProfileActivity extends Activity {
                 return true;
             case R.id.menu_delete:
                 if (delete()) {
-                    setResult(SecondaryCustomProfileListFragment.RESULT_CODE_PROFILE_DELETED,
+                    setResult(Constants.RESULT_CODE_PROFILE_DELETED,
                             getIntent());
                     finish();
                 } else {
@@ -204,34 +200,6 @@ public class SecondaryCustomProfileActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE_RINGTONE_PICKER:
-                if (resultCode == RESULT_OK) {
-                    Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-                    if (uri == null) {
-                        profile.setRingtone(null);
-                    } else {
-                        profile.setRingtone(uri.toString());
-                    }
-
-                    updateRingtoneSelector();
-                }
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-                break;
-        }
-    }
-
-    private void updateRingtoneSelector() {
-        Ringtone ringtone = RingtoneManager
-                .getRingtone(this, getRingtoneUri(profile.getRingtone()));
-
-        ringtoneSelector.setText(ringtone.getTitle(this));
-    }
-
     private void setError(int flag) {
         errorFlags |= flag;
     }
@@ -240,20 +208,23 @@ public class SecondaryCustomProfileActivity extends Activity {
         errorFlags &= ~flag;
     }
 
+    @Override
+    public void onPackageSelected(CharSequence packageName) {
+        packageField.setText(packageName);
+    }
+
     private boolean save() {
         boolean result = false;
 
         profile.setName(nameField.getText().toString());
         profile.setTag(tagField.getText().toString());
-        profile.setUnconnectedOnly(unconnectedOnlyCheckBox.isChecked());
-        profile.setVibrate(vibrateCheckBox.isChecked());
-        profile.setLed(lightsCheckBox.isChecked());
+        profile.setPackageName(packageField.getText().toString());
 
         dbAdapter.openWritable();
         if (profile.getId() != 0) {
-            result = dbAdapter.updateSecondaryProfile(profile);
+            result = dbAdapter.updatePrimaryProfile(profile);
         } else {
-            result = dbAdapter.insertSecondaryProfile(profile);
+            result = dbAdapter.insertPrimaryProfile(profile);
         }
         dbAdapter.close();
 
@@ -262,19 +233,16 @@ public class SecondaryCustomProfileActivity extends Activity {
 
     private boolean delete() {
         dbAdapter.openWritable();
-        boolean result = dbAdapter.deleteSecondaryProfile(profile);
+        boolean result = dbAdapter.deletePrimaryProfile(profile);
         dbAdapter.close();
 
         return result;
     }
 
-    private Uri getRingtoneUri(String ringtone) {
-        return (ringtone == null) ? null : Uri.parse(ringtone);
-    }
-
     private void validate() {
         validateName();
         validateTag();
+        validatePackage();
     }
 
     private void validateName() {
@@ -293,7 +261,7 @@ public class SecondaryCustomProfileActivity extends Activity {
             setError(ERROR_FLAG_TAG);
         } else {
             dbAdapter.openReadable();
-            SecondaryProfile tagProfile = dbAdapter.getSecondaryProfileByTag(tagField.getText()
+            PrimaryProfile tagProfile = dbAdapter.getPrimaryProfileByTag(tagField.getText()
                     .toString());
             dbAdapter.close();
 
@@ -304,6 +272,16 @@ public class SecondaryCustomProfileActivity extends Activity {
                 tagField.setError(null);
                 removeError(ERROR_FLAG_TAG);
             }
+        }
+    }
+
+    private void validatePackage() {
+        if (packageField.getText().length() == 0) {
+            packageField.setError(getString(R.string.custom_profile_invalid_empty));
+            setError(ERROR_FLAG_PACKAGE);
+        } else {
+            packageField.setError(null);
+            removeError(ERROR_FLAG_PACKAGE);
         }
     }
 }

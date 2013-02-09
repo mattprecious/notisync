@@ -50,12 +50,15 @@
         <activity
             android:name="com.mattprecious.notisync.preferences.BasicPreferenceActivity" />
         <activity
-            android:name="com.mattprecious.notisync.activity.PrimaryCustomProfileActivity" />
+            android:name="com.mattprecious.notisync.profile.StandardProfileActivity" />
         <activity
-            android:name="com.mattprecious.notisync.activity.SecondaryCustomProfileActivity" />
+            android:name="com.mattprecious.notisync.profile.PrimaryCustomProfileActivity" />
+        <activity
+            android:name="com.mattprecious.notisync.profile.SecondaryCustomProfileActivity" />
 
         <service android:name="com.mattprecious.notisync.service.PrimaryService" />
         <service android:name="com.mattprecious.notisync.service.SecondaryService" />
+        <service android:name="com.mattprecious.notisync.service.BluetoothFixService" />
         <service
             android:name="com.mattprecious.notisync.service.NotificationService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
