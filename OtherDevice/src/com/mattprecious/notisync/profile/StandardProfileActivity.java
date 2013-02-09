@@ -21,7 +21,6 @@ public class StandardProfileActivity extends Activity {
     }
 
     private StandardProfileFragment fragment;
-    private boolean hasOptionsMenu = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,22 +31,35 @@ public class StandardProfileActivity extends Activity {
                     String.format("Must pass %s as an extra", EXTRA_TYPE));
         }
 
-        if (Preferences.isPrimary(this)) {
-            fragment = new EmptyFragment();
-            hasOptionsMenu = false;
-        } else {
-            ProfileType type = (ProfileType) getIntent().getExtras().getSerializable(EXTRA_TYPE);
-            switch (type) {
-                case TEXT:
+        ProfileType type = (ProfileType) getIntent().getExtras().getSerializable(EXTRA_TYPE);
+        switch (type) {
+            case TEXT:
+                setTitle(R.string.profile_text_messages);
+                if (Preferences.isPrimary(this)) {
+                    fragment = new EmptyFragment();
+                } else {
                     fragment = new TextMessageFragment();
-                    break;
-                case PHONE:
+                }
+
+                break;
+            case PHONE:
+                setTitle(R.string.profile_phone_calls);
+                if (Preferences.isPrimary(this)) {
+                    fragment = new EmptyFragment();
+                } else {
                     fragment = new PhoneCallFragment();
-                    break;
-                case GTALK:
+                }
+
+                break;
+            case GTALK:
+                setTitle(R.string.profile_gtalk);
+                if (Preferences.isPrimary(this)) {
+                    fragment = new EmptyFragment();
+                } else {
                     fragment = new GtalkFragment();
-                    break;
-            }
+                }
+
+                break;
         }
 
         getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment)
@@ -69,9 +81,14 @@ public class StandardProfileActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.standard_profile, menu);
-        return hasOptionsMenu;
+        if (fragment instanceof EmptyFragment) {
+            return false;
+        } else {
+            MenuInflater inflater = getSupportMenuInflater();
+            inflater.inflate(R.menu.standard_profile, menu);
+
+            return true;
+        }
     }
 
     @Override

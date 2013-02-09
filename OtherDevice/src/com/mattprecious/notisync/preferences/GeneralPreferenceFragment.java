@@ -7,14 +7,15 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.service.SecondaryService;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.Preferences.Mode;
-import com.mattprecious.notisync.R;
 
 import org.holoeverywhere.preference.Preference;
 import org.holoeverywhere.preference.Preference.OnPreferenceChangeListener;
+import org.holoeverywhere.preference.PreferenceActivity;
 import org.holoeverywhere.preference.PreferenceFragment;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -24,12 +25,6 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.global_general_preferences);
-
-        if (Preferences.isPrimary(getActivity())) {
-            addPreferencesFromResource(R.xml.primary_general_preferences);
-        } else {
-            addPreferencesFromResource(R.xml.secondary_general_preferences);
-        }
 
         findPreference(Preferences.KEY_GLOBAL_MODE).setOnPreferenceChangeListener(
                 new OnPreferenceChangeListener() {
@@ -49,10 +44,16 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
                                     new Intent(getActivity(), SecondaryService.class));
                         }
 
-                        // TODO: Restart activity straight to this fragment
-                        Intent intent = new Intent(getActivity(), SettingsActivity.class);
-                        getActivity().finish();
-                        startActivity(intent);
+                        if (((PreferenceActivity) getActivity()).onIsMultiPane()) {
+                            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                                    GeneralPreferenceFragment.class.getName());
+
+                            getActivity().finish();
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(0, 0);
+                        }
 
                         return true;
                     }

@@ -2,13 +2,15 @@
 package com.mattprecious.notisync.preferences;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Helpers;
 import com.mattprecious.notisync.util.Preferences;
-import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.util.Preferences.Mode;
 
 import org.holoeverywhere.preference.PreferenceActivity;
 
@@ -17,17 +19,35 @@ import java.util.List;
 public class SettingsActivity extends PreferenceActivity {
     public static final String EXTRA_SELECT_HEADER = "selectHeader";
 
+    private Mode originalMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        originalMode = Preferences.getMode(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (Preferences.getMode(this) != originalMode) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+            finish();
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        }
     }
 
     @Override

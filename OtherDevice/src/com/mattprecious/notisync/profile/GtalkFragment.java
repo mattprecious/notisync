@@ -31,7 +31,7 @@ public class GtalkFragment extends StandardProfileFragment {
     private CheckBox lightsCheckBox;
 
     private Uri ringtoneUri;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.profile_gtalk_secondary, container, false);

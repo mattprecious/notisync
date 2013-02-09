@@ -45,7 +45,7 @@
             android:name="com.mattprecious.notisync.activity.AboutActivity" />
         <activity
             android:name="com.mattprecious.notisync.preferences.SettingsActivity"
-            android:label="Preferences"
+            android:label="@string/settings_title"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name="com.mattprecious.notisync.preferences.BasicPreferenceActivity" />

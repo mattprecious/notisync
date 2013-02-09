@@ -46,8 +46,8 @@
     <string name="pager_title_third_party">Third Party</string>
 
     <!-- standard fragment -->
-    <string name="profile_text_messages">Text Messages</string>
-    <string name="profile_phone_calls">Phone Calls</string>
+    <string name="profile_text_messages">Text messages</string>
+    <string name="profile_phone_calls">Phone calls</string>
     <string name="profile_gtalk">Gtalk</string>
 
     <!-- custom fragment -->
@@ -101,6 +101,7 @@
     <string name="preference_header_bluetooth_fix">Bluetooth fix</string>
 
     <!-- preferences -->
+    <string name="settings_title">Settings</string>
     <string name="preference_general_start_on_boot">Start on boot</string>
     <string name="preference_general_mode_title">Mode</string>
     <string name="preference_general_mode_summary">Should this device send notifications (primary) or receive notifications (secondary)?</string>

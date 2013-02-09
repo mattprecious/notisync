@@ -1,3 +1,4 @@
+
 package com.mattprecious.notisync.profile;
 
 import android.content.Intent;
@@ -18,9 +19,8 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.TextView;
 
-
 public class PhoneCallFragment extends StandardProfileFragment {
-    
+
     private TextView ringtoneSelector;
     private CheckBox vibrateCheckBox;
     private CheckBox lightsCheckBox;
