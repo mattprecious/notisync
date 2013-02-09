@@ -15,10 +15,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?attr/dividerHorizontal" />
+    <View style="@style/WizardPageDivider" />
 
     <Button
         android:id="@+id/bluetoothButton"
@@ -29,11 +26,8 @@
         android:gravity="center"
         android:padding="5dip"
         android:text="@string/wizard_devices_not_listed"
-        android:textSize="26sp" />
+        android:textSize="20sp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?attr/dividerHorizontal" />
+    <View style="@style/WizardPageDivider" />
 
 </LinearLayout>

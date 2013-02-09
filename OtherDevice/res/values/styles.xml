@@ -71,6 +71,12 @@
         <item name="android:textSize">26sp</item>
     </style>
 
+    <style name="WizardPageDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?attr/dividerHorizontal</item>
+    </style>
+
     <!-- undo bar -->
     <style name="UndoBar">
         <item name="android:layout_width">match_parent</item>
@@ -140,7 +146,7 @@
         <item name="android:orientation">vertical</item>
         <item name="android:padding">15dip</item>
     </style>
-    
+
     <style name="Profile.Empty">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
