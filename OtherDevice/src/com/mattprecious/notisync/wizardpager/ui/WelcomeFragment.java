@@ -93,7 +93,6 @@ public class WelcomeFragment extends Fragment {
                                 .yBy(-yShift)
                                 .setDuration(1000)
                                 .setListener(new AnimatorListenerAdapter() {
-
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
                                         animate(contentText)
@@ -106,8 +105,10 @@ public class WelcomeFragment extends Fragment {
                                                         contentText.setVisibility(View.VISIBLE);
                                                     }
                                                 });
+
                                     }
-                                });
+                                })
+                                .start();
                     }
                 });
 
