@@ -1,16 +1,20 @@
 Bluetooth icons:
 image: 26dp
 padding: 14dp
+naming: ic_bt_*
 
 Settings icons:
-image: 32dp
+image: 26dp
 padding: 8dp
+naming: ic_settings_*
 
 Packages button icon:
 image: 30dp
 padding: 0
+name: ic_button_folder
 
 Card:
 source density: mdpi
 stretch regions: 6px from outside border
-content padding: 20px from outside border (10x10px result) 
+content padding: 20px from outside border (10x10px result)
+name: card_{focused,normal,pressed}
