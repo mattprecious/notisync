@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.mattprecious.notisync.util.Helpers;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.R;
 
@@ -59,6 +60,10 @@ public class SettingsActivity extends PreferenceActivity {
                 if (BluetoothAdapter.getDefaultAdapter() == null) {
                     target.remove(header);
                 }
+            } else if (id == R.id.bluetoothfix_preferences) {
+                if (!Helpers.hasBluetoothIssue() && !Preferences.getBluetoothFixEnabled(this)) {
+                    target.remove(header);
+                }
             }
 
             if (i < target.size() && target.get(i) == header) {
@@ -68,15 +73,21 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     private void updateSecondaryHeaderList(List<Header> target) {
-        // int i = 0;
-        // while (i < target.size()) {
-        // Header header = target.get(i);
-        // int id = (int) header.id;
-        //
-        // if (i < target.size() && target.get(i) == header) {
-        // i++;
-        // }
-        // }
+        int i = 0;
+        while (i < target.size()) {
+            Header header = target.get(i);
+            int id = (int) header.id;
+
+            if (id == R.id.bluetoothfix_preferences) {
+                if (!Helpers.hasBluetoothIssue() && !Preferences.getBluetoothFixEnabled(this)) {
+                    target.remove(header);
+                }
+            }
+
+            if (i < target.size() && target.get(i) == header) {
+                i++;
+            }
+        }
     }
 
     @Override

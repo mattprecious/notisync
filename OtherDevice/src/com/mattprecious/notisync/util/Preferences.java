@@ -22,6 +22,9 @@ public class Preferences {
     public static final String KEY_GLOBAL_START_ON_BOOT = "global_start_on_boot";
     public static final String KEY_GLOBAL_ANALYTICS = "global_analytics";
 
+    public static final String KEY_GLOBAL_BLUETOOTH_FIX_ENABLED = "global_bluetooth_fix_enabled";
+    public static final String KEY_GLOBAL_BLUETOOTH_FIX_TIME = "global_bluetooth_fix_time";
+
     public static final String KEY_PRIMARY_DEVICES = "primary_devices";
     public static final String KEY_PRIMARY_RECONNECT_DELAY = "primary_reconnect_delay";
     public static final String KEY_PRIMARY_TEXT_MESSAGE_ENABLED = "primary_text_message_enabled";
@@ -58,6 +61,9 @@ public class Preferences {
         setStartOnBoot(context, getStartOnBoot(context));
         setAnalytics(context, getAnalytics(context));
         setDevices(context, getDevices(context));
+
+        setBluetoothFixEnabled(context, getBluetoothFixEnabled(context));
+        setBluetoothFixTime(context, getBluetoothFixTime(context));
 
         setPrimaryReconnectDelay(context, getPrimaryReconnectDelay(context));
         setPrimaryTextMessageEnabled(context, getPrimaryTextMessageEnabled(context));
@@ -132,6 +138,25 @@ public class Preferences {
 
     public static void setAnalytics(Context context, boolean analytics) {
         getPreferences(context).edit().putBoolean(KEY_GLOBAL_ANALYTICS, analytics).commit();
+    }
+
+    public static boolean getBluetoothFixEnabled(Context context) {
+        return getPreferences(context).getBoolean(KEY_GLOBAL_BLUETOOTH_FIX_ENABLED,
+                Helpers.hasBluetoothIssue());
+    }
+
+    public static void setBluetoothFixEnabled(Context context, boolean enabled) {
+        getPreferences(context).edit().putBoolean(KEY_GLOBAL_BLUETOOTH_FIX_ENABLED, enabled)
+                .commit();
+    }
+
+    public static String getBluetoothFixTime(Context context) {
+        return getPreferences(context).getString(KEY_GLOBAL_BLUETOOTH_FIX_TIME, "0:00");
+    }
+
+    public static void setBluetoothFixTime(Context context, String time) {
+        getPreferences(context).edit().putString(KEY_GLOBAL_BLUETOOTH_FIX_TIME, time)
+                .commit();
     }
 
     // /////////////////////

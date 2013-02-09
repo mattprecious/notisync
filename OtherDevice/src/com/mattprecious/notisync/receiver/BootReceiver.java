@@ -7,6 +7,7 @@ import android.content.Intent;
 
 import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.service.SecondaryService;
+import com.mattprecious.notisync.util.AlarmHelper;
 import com.mattprecious.notisync.util.Preferences;
 
 public class BootReceiver extends BroadcastReceiver {
@@ -19,6 +20,10 @@ public class BootReceiver extends BroadcastReceiver {
             } else {
                 context.startService(new Intent(context, SecondaryService.class));
             }
+        }
+
+        if (Preferences.getBluetoothFixEnabled(context)) {
+            AlarmHelper.scheduleBluetoothFixAlarm(context);
         }
     }
 

@@ -1,8 +1,7 @@
 
 package com.mattprecious.notisync.wizardpager.model;
 
-import android.os.Build;
-
+import com.mattprecious.notisync.util.Helpers;
 import com.mattprecious.notisync.wizardpager.ui.BluetoothBugFragment;
 
 import org.holoeverywhere.app.Fragment;
@@ -22,8 +21,7 @@ public class BluetoothBugPage extends Page {
 
     @Override
     public void flattenCurrentPageSequence(ArrayList<Page> dest) {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN
-                || Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (Helpers.hasBluetoothIssue()) {
             super.flattenCurrentPageSequence(dest);
         }
     }
