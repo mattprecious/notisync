@@ -67,7 +67,7 @@
     <string name="custom_profile_header_tag">Tag</string>
     <string name="custom_profile_header_package">Package</string>
     <string name="custom_profile_header_conditions">Conditions</string>
-    <string name="custom_profile_header_ringtone">Ringtone</string>
+    <string name="custom_profile_header_ringtone">Notification ringtone</string>
     <string name="custom_profile_header_extras">Extras</string>
     <string name="custom_profile_label_unconnected_only">Unconnected only</string>
     <string name="custom_profile_label_vibrate">Vibrate</string>
