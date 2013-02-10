@@ -48,8 +48,6 @@
             android:label="@string/settings_title"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
-            android:name="com.mattprecious.notisync.preferences.BasicPreferenceActivity" />
-        <activity
             android:name="com.mattprecious.notisync.profile.StandardProfileActivity" />
         <activity
             android:name="com.mattprecious.notisync.profile.PrimaryCustomProfileActivity" />
