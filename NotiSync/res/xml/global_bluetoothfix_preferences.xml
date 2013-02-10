@@ -5,10 +5,12 @@
 
     <CheckBoxPreference
         holo:key="global_bluetooth_fix_enabled"
-        holo:title="@string/preference_bluetooth_fix_enabled" />
-    
+        holo:summary="@string/preference_bluetooth_fix_enabled_summary"
+        holo:title="@string/preference_bluetooth_fix_enabled_title" />
+
     <com.mattprecious.notisync.preference.TimePreference
         holo:key="global_bluetooth_fix_time"
-        holo:title="@string/preference_bluetooth_fix_time" />
+        holo:summary="@string/preference_bluetooth_fix_time_summary"
+        holo:title="@string/preference_bluetooth_fix_time_title" />
 
 </PreferenceScreen>

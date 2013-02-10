@@ -26,6 +26,7 @@ public class BluetoothFixService extends Service {
 
         if (bluetoothAdapter.isEnabled()) {
             // if we're still running after 1 minute, then bail
+            selfDestructTimer = new Timer();
             selfDestructTimer.schedule(selfDestructTask, 60000);
 
             bluetoothAdapter.disable();
@@ -38,7 +39,9 @@ public class BluetoothFixService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        selfDestructTimer.cancel();
+        if (selfDestructTimer != null) {
+            selfDestructTimer.cancel();
+        }
 
         try {
             unregisterReceiver(bluetoothReceiver);

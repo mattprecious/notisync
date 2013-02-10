@@ -112,7 +112,9 @@
     <string name="preference_general_mode_summary">Should this device send notifications (primary) or receive notifications (secondary)?</string>
     <string name="preference_general_analytics_title">Improve NotiSync</string>
     <string name="preference_general_analytics_summary">Help improve NotiSync by sending anonymous usage data</string>
-    <string name="preference_bluetooth_fix_enabled">Enable Bluetooth fix</string>
-    <string name="preference_bluetooth_fix_time">Time to run</string>
+    <string name="preference_bluetooth_fix_enabled_title">Enable Bluetooth fix</string>
+    <string name="preference_bluetooth_fix_enabled_summary">Let NotiSync reset your Bluetooth once a day to fix a known issue in Android 4.2</string>
+    <string name="preference_bluetooth_fix_time_title">Time to run</string>
+    <string name="preference_bluetooth_fix_time_summary">The time of the day to run this fix</string>
 
 </resources>
