@@ -293,7 +293,6 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, String.format("onActivityResult(%d, %d, data)", requestCode, resultCode));
         switch (requestCode) {
             case Constants.REQUEST_CODE_WIZARD:
                 if (resultCode == RESULT_OK) {
