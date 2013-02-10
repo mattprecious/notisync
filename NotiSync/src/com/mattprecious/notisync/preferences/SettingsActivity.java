@@ -17,8 +17,6 @@ import org.holoeverywhere.preference.PreferenceActivity;
 import java.util.List;
 
 public class SettingsActivity extends PreferenceActivity {
-    public static final String EXTRA_SELECT_HEADER = "selectHeader";
-
     private Mode originalMode;
 
     @Override
@@ -58,47 +56,21 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public void onBuildHeaders(List<Header> target) {
-        if (Preferences.isPrimary(this)) {
-            loadHeadersFromResource(R.xml.primary_preference_headers, target);
-            updatePrimaryHeaderList(target);
-        } else {
-            loadHeadersFromResource(R.xml.secondary_preference_headers, target);
-            updateSecondaryHeaderList(target);
-        }
-
+        loadHeadersFromResource(R.xml.preference_headers, target);
+        updateHeaderList(target);
     }
 
-    private void updatePrimaryHeaderList(List<Header> target) {
+    private void updateHeaderList(List<Header> target) {
         int i = 0;
         while (i < target.size()) {
             Header header = target.get(i);
             int id = (int) header.id;
 
             if (id == R.id.device_preferences) {
-                // this should be caught well before getting here, but just in
-                // case
-                if (BluetoothAdapter.getDefaultAdapter() == null) {
+                if (!Preferences.isPrimary(this) || BluetoothAdapter.getDefaultAdapter() == null) {
                     target.remove(header);
                 }
             } else if (id == R.id.bluetoothfix_preferences) {
-                if (!Helpers.hasBluetoothIssue() && !Preferences.getBluetoothFixEnabled(this)) {
-                    target.remove(header);
-                }
-            }
-
-            if (i < target.size() && target.get(i) == header) {
-                i++;
-            }
-        }
-    }
-
-    private void updateSecondaryHeaderList(List<Header> target) {
-        int i = 0;
-        while (i < target.size()) {
-            Header header = target.get(i);
-            int id = (int) header.id;
-
-            if (id == R.id.bluetoothfix_preferences) {
                 if (!Helpers.hasBluetoothIssue() && !Preferences.getBluetoothFixEnabled(this)) {
                     target.remove(header);
                 }
