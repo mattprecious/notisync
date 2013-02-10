@@ -30,6 +30,11 @@
 
     <!-- accessibility -->
     <string name="accessibility_service_description">Description of how awesome this service is.</string>
+    <string name="accessibility_dialog_title">Accessibility service</string>
+    <string name="accessibility_dialog_message">In order for the Gtalk profile and your own custom profiles to work, NotiSync needs to be enabled as an Accessibility Service.</string>
+    <string name="accessibility_dialog_positive">Enable</string>
+    <string name="accessibility_dialog_neutral">Not now</string>
+    <string name="accessibility_dialog_negative">Never</string>
 
     <!-- notifications -->
     <string name="noti_connected_to">Connected to %s</string>

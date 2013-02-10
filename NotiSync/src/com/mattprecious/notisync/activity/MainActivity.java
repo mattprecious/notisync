@@ -24,6 +24,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.fragment.AccessibilityDialogFragment;
+import com.mattprecious.notisync.fragment.AccessibilityDialogFragment.AccessibilityDialogListener;
 import com.mattprecious.notisync.fragment.PrimaryCustomProfileListFragment;
 import com.mattprecious.notisync.fragment.SecondaryCustomProfileListFragment;
 import com.mattprecious.notisync.fragment.StandardProfileListFragment;
@@ -36,17 +38,21 @@ import com.mattprecious.notisync.service.SecondaryService;
 import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.UndoBarController;
+import com.mattprecious.notisync.util.UndoBarController.UndoListener;
 import com.viewpagerindicator.TabPageIndicator;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.Switch;
 
-public class MainActivity extends Activity implements UndoBarController.UndoListener {
+public class MainActivity extends Activity implements UndoListener, AccessibilityDialogListener {
     private final static String TAG = "MainActivity";
+
+    private final String KEY_IGNORE_ACCESSIBILITY = "ignore_accessibility";
 
     private LocalBroadcastManager broadcastManager;
 
@@ -260,6 +266,10 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean showAccessibilityAction = Preferences.isPrimary(this)
                 && !NotificationService.isRunning();
+
+        showAccessibilityAction &= !getPreferences(Activity.MODE_PRIVATE).getBoolean(
+                KEY_IGNORE_ACCESSIBILITY, false);
+
         menu.findItem(R.id.menu_accessibility).setVisible(showAccessibilityAction);
 
         return super.onPrepareOptionsMenu(menu);
@@ -269,10 +279,9 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_accessibility:
-                Intent accessibilityIntent = new Intent();
-                accessibilityIntent
-                        .setAction(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                startActivity(accessibilityIntent);
+                DialogFragment newFragment = new AccessibilityDialogFragment();
+                newFragment.show(getSupportFragmentManager());
+
                 return true;
             case R.id.menu_preferences:
                 startActivity(new Intent(this, SettingsActivity.class));
@@ -361,4 +370,22 @@ public class MainActivity extends Activity implements UndoBarController.UndoList
         }
     }
 
+    @Override
+    public void onAccessibilityPositive() {
+        Intent accessibilityIntent = new Intent();
+        accessibilityIntent
+                .setAction(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        startActivity(accessibilityIntent);
+    }
+
+    @Override
+    public void onAccessibilityNeutral() {
+    }
+
+    @Override
+    public void onAccessibilityNegative() {
+        getPreferences(Activity.MODE_PRIVATE).edit().putBoolean(KEY_IGNORE_ACCESSIBILITY, true)
+                .commit();
+        supportInvalidateOptionsMenu();
+    }
 }
