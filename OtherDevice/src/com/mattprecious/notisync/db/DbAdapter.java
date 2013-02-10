@@ -1,9 +1,6 @@
 
 package com.mattprecious.notisync.db;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,6 +10,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.model.SecondaryProfile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DbAdapter {
 
@@ -195,6 +195,11 @@ public class DbAdapter {
         values.put(DbHelper.PRIMARY_PROFILES_KEY_TAG, profile.getTag());
         values.put(DbHelper.PRIMARY_PROFILES_KEY_PACKAGE, profile.getPackageName());
         values.put(DbHelper.PRIMARY_PROFILES_KEY_ENABLED, profile.isEnabled());
+
+        if (profile.getId() != 0) {
+            values.put(DbHelper.PRIMARY_PROFILES_KEY_ID, profile.getId());
+        }
+
         return values;
     }
 
@@ -221,6 +226,11 @@ public class DbAdapter {
         values.put(DbHelper.SECONDARY_PROFILES_KEY_RINGTONE, profile.getRingtone());
         values.put(DbHelper.SECONDARY_PROFILES_KEY_VIBRATE, profile.isVibrate());
         values.put(DbHelper.SECONDARY_PROFILES_KEY_LED, profile.isLed());
+
+        if (profile.getId() != 0) {
+            values.put(DbHelper.PRIMARY_PROFILES_KEY_ID, profile.getId());
+        }
+
         return values;
     }
 
