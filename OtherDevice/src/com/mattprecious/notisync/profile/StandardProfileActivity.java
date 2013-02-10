@@ -31,6 +31,8 @@ public class StandardProfileActivity extends Activity {
                     String.format("Must pass %s as an extra", EXTRA_TYPE));
         }
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ProfileType type = (ProfileType) getIntent().getExtras().getSerializable(EXTRA_TYPE);
         switch (type) {
             case TEXT:
