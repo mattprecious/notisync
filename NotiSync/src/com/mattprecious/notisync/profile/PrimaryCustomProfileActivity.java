@@ -26,8 +26,6 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.widget.EditText;
 
-import roboguice.inject.InjectView;
-
 public class PrimaryCustomProfileActivity extends Activity implements
         PackagePickerFragment.OnPackageSelectedListener {
     private final int ERROR_FLAG_NAME = 1 << 0;
@@ -39,13 +37,9 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private int errorFlags = 0;
 
-    @InjectView
     private EditText nameField;
-    @InjectView
     private EditText tagField;
-    @InjectView
     private EditText packageField;
-    @InjectView
     private ImageButton packageButton;
 
     @Override
