@@ -294,7 +294,7 @@ public class SecondaryService extends Service {
         } else if (message.type == PhoneCallMessage.Type.MISSED) {
             notificationId = NOTIFICATION_ID_PHONE_MISSED;
             builder.setContentTitle(getString(R.string.noti_title_missed_call));
-            builder.setSmallIcon(android.R.drawable.stat_notify_missed_call);
+            builder.setSmallIcon(R.drawable.ic_stat_missed_call);
 
             if (incomingCallMessage != null && message.number != null
                     && message.number.equals(incomingCallMessage.number)) {
@@ -339,7 +339,7 @@ public class SecondaryService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentTitle(message.sender);
         builder.setContentText(message.message);
-        builder.setSmallIcon(android.R.drawable.stat_notify_chat);
+        builder.setSmallIcon(R.drawable.ic_stat_chat);
         builder.setSound(getRingtoneUri(Preferences.getSecondaryGtalkRingtone(this)));
         builder.setAutoCancel(true);
 
