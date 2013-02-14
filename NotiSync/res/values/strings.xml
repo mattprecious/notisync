@@ -63,7 +63,7 @@
     <string name="profile_discarded">Changes discarded</string>
     <string name="profile_deleted">Profile deleted</string>
     <string name="undo">Undo</string>
-    
+
     <!-- standard profile -->
     <string name="standard_profile_empty">This profile doesn\'t have any options</string>
 
@@ -104,6 +104,7 @@
     <string name="preference_header_devices">Manage devices</string>
     <string name="preference_header_general">General settings</string>
     <string name="preference_header_bluetooth_fix">Bluetooth fix</string>
+    <string name="preference_header_about">About</string>
 
     <!-- preferences -->
     <string name="settings_title">Settings</string>
@@ -116,5 +117,47 @@
     <string name="preference_bluetooth_fix_enabled_summary">Let NotiSync reset your Bluetooth once a day to fix a known issue in Android 4.2</string>
     <string name="preference_bluetooth_fix_time_title">Time to run</string>
     <string name="preference_bluetooth_fix_time_summary">The time of the day to run this fix</string>
+
+    <!-- open source stuff -->
+    <string name="attributions">
+<![CDATA[
+       Thanks to all of these open source tools:<br /><br />
+       
+       <b><a href="http://actionbarsherlock.com">ActionBarSherlock</a></b><br />
+       by Jake Wharton<br /><br />
+       
+       <b><a href="http://nineoldandroids.com/">NineOldAndroids</a></b><br />
+       by Jake Wharton<br /><br />
+       
+       <b><a href="https://github.com/ChristopheVersieux/HoloEverywhere">HoloEverywhere</a></b><br />
+       by Christophe Versieux and Sergey Shatunov<br /><br />
+       
+       <b><a href="https://github.com/keyboardsurfer/Crouton">Crouton</a></b><br />
+       by Benjamin Weiss<br /><br />
+       
+       <b><a href="http://code.google.com/p/romannurik-code/source/browse/misc/wizardpager">WizardPager</a></b><br />
+       by Roman Nurik<br /><br />
+       
+       <b><a href="http://code.google.com/p/romannurik-code/source/browse/misc/undobar">UndoBar</a></b><br />
+       by Roman Nurik<br /><br />
+       
+       <b><a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html">Android Asset Studio</a></b><br />
+       by Roman Nurik
+       
+       <b><a href="http://jgilfelt.github.com/android-actionbarstylegenerator/">Android Action Bar Style Generator</a></b><br />
+       by Jeff Gilfelt<br /><br />
+       
+       <b><a href="http://android-holo-colors.com/">Android Holo Colors Generator</a></b><br />
+       by Jérôme Van Der Linden<br /><br />
+       
+       <b><a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/nine-patches.html">Simple Nine-Patch Generator</a></b><br />
+       by Roman Nurik<br /><br />
+       
+       And thanks to these designers:<br /><br />
+       
+       <b><a href="http://thenounproject.com/noun/wizard-hat/#icon-No6223">Wizard Hat</a></b><br />
+       by <b><a href="http://thenounproject.com/jasmine.friedrich">Jasmine Rae Friedrich</a></b> from <b><a href="http://thenounproject.com">The Noun Project</a></b>  
+    ]]>
+    </string>
 
 </resources>

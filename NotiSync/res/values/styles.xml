@@ -1,9 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme" parent="AppTheme">
-
-        <!-- <item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item> -->
-        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
         <item name="actionBarItemBackground">@drawable/selectable_background_orange</item>
         <item name="popupMenuStyle">@style/orange_PopupMenu</item>
         <item name="dropDownListViewStyle">@style/orange_DropDownListView</item>
@@ -21,20 +18,6 @@
         <!-- Light.DarkActionBar specific -->
         <item name="actionBarWidgetTheme">@style/Theme.orange.widget</item>
         <item name="android:actionBarWidgetTheme">@style/Theme.orange.widget</item>
-    </style>
-
-    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
-        <item name="android:background">@drawable/tab_indicator_ab_orange</item>
-    </style>
-
-    <style name="CustomTitlePageIndicator">
-        <item name="android:background">#FFFF8800</item>
-        <item name="footerLineHeight">0dip</item>
-        <item name="footerIndicatorStyle">none</item>
-        <item name="android:textColor">#AAFFFFFF</item>
-        <item name="topPadding">3dip</item>
-        <item name="footerPadding">5dip</item>
-        <item name="selectedColor">#FFFFFFFF</item>
     </style>
 
     <style name="Switch.TextAppearance" parent="Holo.Switch.TextAppearance">

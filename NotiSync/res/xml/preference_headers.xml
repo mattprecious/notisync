@@ -17,5 +17,10 @@
         holo:fragment="com.mattprecious.notisync.preferences.BluetoothFixPreferenceFragment"
         holo:icon="@drawable/ic_settings_bluetoothfix"
         holo:title="@string/preference_header_bluetooth_fix" />
+    <header
+        holo:id="@+id/about_preferences"
+        holo:fragment="com.mattprecious.notisync.preferences.AboutPreferenceFragment"
+        holo:icon="@drawable/ic_settings_about"
+        holo:title="@string/preference_header_about" />
 
 </preference-headers>

@@ -20,7 +20,7 @@
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light</item>
         <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo</item>
     </style>
-    
+
     <style name="WizardTheme" parent="Holo.Theme.Light.NoActionBar">
         <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
         <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewAppTheme</item>
@@ -39,5 +39,5 @@
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light</item>
         <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo</item>
     </style>
-
+    
 </resources>

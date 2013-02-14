@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:holo="http://schemas.android.com/apk/res-auto"
+    holo:title="@string/preference_header_about" >
+
+    <Preference
+        holo:key="about_version"
+        holo:title="Version" />
+    <!-- <Preference
+        holo:key="about_changelog"
+        holo:title="Change log" /> -->
+    <Preference
+        holo:key="about_attribution"
+        holo:title="Attributions" />
+    <Preference
+        holo:key="about_feedback"
+        holo:summary="Report a bug or suggest improvements"
+        holo:title="Feedback" >
+    </Preference>
+
+</PreferenceScreen>

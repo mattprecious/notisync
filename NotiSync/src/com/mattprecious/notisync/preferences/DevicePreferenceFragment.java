@@ -1,15 +1,6 @@
 
 package com.mattprecious.notisync.preferences;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.holoeverywhere.preference.CheckBoxPreference;
-import org.holoeverywhere.preference.Preference;
-import org.holoeverywhere.preference.Preference.OnPreferenceChangeListener;
-import org.holoeverywhere.preference.PreferenceFragment;
-import org.holoeverywhere.preference.PreferenceScreen;
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
@@ -21,9 +12,18 @@ import android.util.Log;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.Preferences;
-import com.mattprecious.notisync.R;
+
+import org.holoeverywhere.preference.CheckBoxPreference;
+import org.holoeverywhere.preference.Preference;
+import org.holoeverywhere.preference.Preference.OnPreferenceChangeListener;
+import org.holoeverywhere.preference.PreferenceFragment;
+import org.holoeverywhere.preference.PreferenceScreen;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class DevicePreferenceFragment extends PreferenceFragment {
     private static final String TAG = "DevicePreferenceFragment";

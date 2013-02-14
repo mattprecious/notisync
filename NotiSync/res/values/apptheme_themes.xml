@@ -22,7 +22,7 @@
         <item name="android:listViewWhiteStyle">@style/ListViewAppTheme.White</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
     </style>
-    
+
     <style name="WizardTheme" parent="Holo.Theme.Light.NoActionBar">
         <item name="android:editTextStyle">@style/EditTextAppTheme</item>
         <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewAppTheme</item>

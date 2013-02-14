@@ -16,11 +16,11 @@
         android:icon="@drawable/ic_action_wizard"
         android:showAsAction="never"
         android:title="@string/menu_wizard" />
-    <item
+    <!-- <item
         android:id="@+id/menu_help"
         android:icon="@drawable/ic_action_help"
         android:showAsAction="never"
-        android:title="@string/menu_help" />
+        android:title="@string/menu_help" /> -->
     <item
         android:id="@+id/menu_about"
         android:icon="@drawable/ic_action_about"

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -19,6 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -31,6 +34,7 @@ import com.mattprecious.notisync.fragment.SecondaryCustomProfileListFragment;
 import com.mattprecious.notisync.fragment.StandardProfileListFragment;
 import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.model.SecondaryProfile;
+import com.mattprecious.notisync.preferences.AboutPreferenceFragment;
 import com.mattprecious.notisync.preferences.SettingsActivity;
 import com.mattprecious.notisync.service.NotificationService;
 import com.mattprecious.notisync.service.PrimaryService;
@@ -39,7 +43,6 @@ import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.UndoBarController;
 import com.mattprecious.notisync.util.UndoBarController.UndoListener;
-import com.viewpagerindicator.TabPageIndicator;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -47,6 +50,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.preference.PreferenceActivity;
 import org.holoeverywhere.widget.Switch;
 
 public class MainActivity extends Activity implements UndoListener, AccessibilityDialogListener {
@@ -59,7 +63,6 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
     private Switch actionBarSwitch;
     private MyPagerAdapter adapter;
     private ViewPager pager;
-    private TabPageIndicator indicator;
     private UndoBarController undoBarController;
 
     @Override
@@ -69,9 +72,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         }
 
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.pager);
-        configureActionBar();
 
         broadcastManager = LocalBroadcastManager.getInstance(this);
 
@@ -85,11 +86,17 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
         pager.setOffscreenPageLimit(1);
-
-        indicator = (TabPageIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
+        pager.setOnPageChangeListener(
+                new ViewPager.SimpleOnPageChangeListener() {
+                    @Override
+                    public void onPageSelected(int position) {
+                        getSupportActionBar().setSelectedNavigationItem(position);
+                    }
+                });
 
         undoBarController = new UndoBarController(findViewById(R.id.undobar), this);
+
+        configureActionBar();
     }
 
     @Override
@@ -137,6 +144,28 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
 
     private void configureActionBar() {
         ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        for (int i = 0; i < adapter.getCount(); i++) {
+            actionBar.addTab(
+                    actionBar.newTab()
+                            .setText(adapter.getPageTitle(i))
+                            .setTabListener(new TabListener() {
+
+                                @Override
+                                public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+                                }
+
+                                @Override
+                                public void onTabSelected(Tab tab, FragmentTransaction ft) {
+                                    pager.setCurrentItem(tab.getPosition());
+                                }
+
+                                @Override
+                                public void onTabReselected(Tab tab, FragmentTransaction ft) {
+                                }
+                            }));
+        }
 
         actionBarSwitch = new Switch(this);
         actionBarSwitch.setSwitchTextAppearance(this, R.style.Switch_TextAppearance);
@@ -289,11 +318,14 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
             case R.id.menu_wizard:
                 startActivityForResult(new Intent(this, WizardActivity.class),
                         Constants.REQUEST_CODE_WIZARD);
-                return true;
-            case R.id.menu_help:
+
                 return true;
             case R.id.menu_about:
-                startActivity(new Intent(this, AboutActivity.class));
+                Intent aboutIntent = new Intent(this, SettingsActivity.class);
+                aboutIntent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                        AboutPreferenceFragment.class.getName());
+                startActivity(aboutIntent);
+
                 return true;
         }
 
