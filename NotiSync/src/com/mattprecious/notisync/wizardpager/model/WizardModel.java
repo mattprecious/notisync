@@ -33,7 +33,7 @@ public class WizardModel extends AbstractWizardModel {
                 new ModePage(this, "Mode", mContext)
                         .setPrimaryBranch(new DevicePage(this, "Devices"),
                                 new AccessibilityPage(this, "Accessibility")),
-                new LayoutPage(this, "CustomProfiles")
+                new CustomProfilesPage(this, "CustomProfiles")
                         .setLayout(R.layout.wizard_custom_profiles),
                 new BluetoothBugPage(this, "BluetoothBug"),
                 new LayoutPage(this, "Done")

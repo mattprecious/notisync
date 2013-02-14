@@ -11,7 +11,7 @@ import org.holoeverywhere.app.Fragment;
 public class LayoutFragment extends Fragment {
     public static final String EXTRA_LAYOUT_ID = "layoutId";
 
-    private int layoutId;
+    protected int layoutId;
 
     public static LayoutFragment create(int layoutId) {
         Bundle args = new Bundle();

@@ -21,7 +21,31 @@
     <string name="wizard_accessibility_enable">Enable now</string>
     <string name="wizard_accessibility_enabled">Enabled!</string>
     <string name="wizard_customprofiles_title">Custom profiles</string>
-    <string name="wizard_customprofiles_content">Creating a custom profile will allow you to forward notifications from any app. Some definitions and stuff go here (or another page)</string>
+    <string name="wizard_customprofiles_content_primary">
+<![CDATA[
+        Creating a custom profile will allow you to forward notifications from almost any app. Here are some important things to know.<br /><br />
+        
+        <b>Name</b><br />
+        Help yourself identify your profiles with a simple display name.<br /><br />
+        
+        <b>Tag</b><br />
+        For every custom profile that you create, you will need to set a unique \'tag\'. Create a custom profile on your other devices with a matching tag to configure how those notifications are received.
+        ]]>
+    </string>
+    <string name="wizard_customprofiles_content_secondary">
+<![CDATA[
+        If you\'ve created any custom profiles on your primary device, create a matching profile here to configure your notifications. Here are some important things to know.<br /><br />
+        
+        <b>Name</b><br />
+        Help yourself identify your profiles with a simple display name.<br /><br />
+        
+        <b>Tag</b><br />
+        This tag must match a tag that you\'ve used on your primary device. This is how NotiSync identifies custom notifications when they are received.<br /><br />
+        
+        <b>Unconnected only</b><br />
+        Enable this to only display these notifications when you do not have an internet connection. This is useful if you already have the app on this device, but it requires a connection to notify you.
+        ]]>
+    </string>
     <string name="wizard_bluetoothissue_title">Bluetooth issue</string>
     <string name="wizard_bluetoothissue_content">It appears that you are running Android %s. There is a known Bluetooth bug that may occasionally prevent your devices connecting, but this can be fixed by restarting Bluetooth. Would you like to schedule NotiSync to do this automatically?</string>
     <string name="wizard_bluetoothissue_button">Schedule fix</string>
@@ -29,7 +53,7 @@
     <string name="wizard_done_content">Done!</string>
 
     <!-- accessibility -->
-    <string name="accessibility_service_description">Description of how awesome this service is.</string>
+    <string name="accessibility_service_description">Enabling NotiSync as an accessibility service allows NotiSync to receive notifications from other apps. This is required for the Gtalk profile or any of your custom profiles to work.</string>
     <string name="accessibility_dialog_title">Accessibility service</string>
     <string name="accessibility_dialog_message">In order for the Gtalk profile and your own custom profiles to work, NotiSync needs to be enabled as an Accessibility Service.</string>
     <string name="accessibility_dialog_positive">Enable</string>

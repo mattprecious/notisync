@@ -11,8 +11,8 @@
         android:layout_height="match_parent" >
 
         <TextView
-            style="@style/WizardPageText"
-            android:text="@string/wizard_customprofiles_content" />
+            android:id="@android:id/content"
+            style="@style/WizardPageText" />
     </ScrollView>
 
 </LinearLayout>

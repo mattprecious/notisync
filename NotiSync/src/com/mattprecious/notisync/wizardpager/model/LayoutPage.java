@@ -6,7 +6,7 @@ import com.mattprecious.notisync.wizardpager.ui.LayoutFragment;
 import org.holoeverywhere.app.Fragment;
 
 public class LayoutPage extends Page {
-    private int layoutId;
+    protected int layoutId;
 
     protected LayoutPage(ModelCallbacks callbacks, String title) {
         super(callbacks, title);
