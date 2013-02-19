@@ -26,6 +26,8 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.widget.EditText;
 
+import java.util.Locale;
+
 public class PrimaryCustomProfileActivity extends Activity implements
         PackagePickerFragment.OnPackageSelectedListener {
     private final int ERROR_FLAG_NAME = 1 << 0;
@@ -66,6 +68,11 @@ public class PrimaryCustomProfileActivity extends Activity implements
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     validateName();
+
+                    if (tagField.getText().length() == 0) {
+                        tagField.setText(nameField.getText().toString()
+                                .toLowerCase(Locale.getDefault()).replaceAll("\\s", ""));
+                    }
                 }
             }
 

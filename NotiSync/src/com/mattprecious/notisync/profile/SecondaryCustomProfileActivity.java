@@ -29,6 +29,8 @@ import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.TextView;
 
+import java.util.Locale;
+
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class SecondaryCustomProfileActivity extends Activity {
     private final int ERROR_FLAG_NAME = 1 << 0;
@@ -70,6 +72,11 @@ public class SecondaryCustomProfileActivity extends Activity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     validateName();
+
+                    if (tagField.getText().length() == 0) {
+                        tagField.setText(nameField.getText().toString()
+                                .toLowerCase(Locale.getDefault()).replaceAll("\\s", ""));
+                    }
                 }
             }
 
