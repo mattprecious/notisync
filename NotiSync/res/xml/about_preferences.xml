@@ -4,18 +4,21 @@
     holo:title="@string/preference_header_about" >
 
     <Preference
+        holo:summary="@string/about_feedback_summary"
+        holo:title="@string/about_feedback_title" />
+    <Preference
         holo:key="about_version"
-        holo:title="Version" />
+        holo:title="@string/about_version_title" />
     <!-- <Preference
         holo:key="about_changelog"
-        holo:title="Change log" /> -->
+        holo:title="@string/about_change_log_title" /> -->
     <Preference
         holo:key="about_attribution"
-        holo:title="Attributions" />
+        holo:title="@string/about_attributions_title" />
     <Preference
         holo:key="about_feedback"
-        holo:summary="Report a bug or suggest improvements"
-        holo:title="Feedback" >
+        holo:summary="@string/about_feedback_summary"
+        holo:title="@string/about_feedback_title" >
     </Preference>
 
 </PreferenceScreen>

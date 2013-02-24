@@ -142,6 +142,15 @@
     <string name="preference_bluetooth_fix_time_title">Time to run</string>
     <string name="preference_bluetooth_fix_time_summary">The time of the day to run this fix</string>
 
+    <!-- about -->
+    <string name="about_author_title">Author</string>
+    <string name="about_author_summary">Matthew Precious</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_change_log_title">Change log</string>
+    <string name="about_attributions_title">Attributions</string>
+    <string name="about_feedback_title">Feedback</string>
+    <string name="about_feedback_summary">Report a bug or suggest improvements</string>
+
     <!-- open source stuff -->
     <string name="attributions">
 <![CDATA[
