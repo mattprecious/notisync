@@ -4,7 +4,6 @@ package com.mattprecious.notisync.profile;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -94,9 +93,15 @@ public class GtalkFragment extends StandardProfileFragment {
     }
 
     private void updateRingtoneSelector() {
-        Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
+        String ringtoneName = null;
+        if (ringtoneUri == null) {
+            ringtoneName = getString(R.string.ringtone_silent);
+        } else {
+            ringtoneName = RingtoneManager
+                    .getRingtone(getActivity(), ringtoneUri).getTitle(getActivity());
+        }
 
-        ringtoneSelector.setText(ringtone.getTitle(getActivity()));
+        ringtoneSelector.setText(ringtoneName);
     }
 
     private Uri getRingtoneUri(String ringtone) {

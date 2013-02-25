@@ -88,6 +88,10 @@
     <string name="profile_deleted">Profile deleted</string>
     <string name="undo">Undo</string>
 
+    <!-- misc -->
+    <!-- TODO: this string changed in 4.2.2 to None -->
+    <string name="ringtone_silent">Silent</string>
+
     <!-- standard profile -->
     <string name="standard_profile_empty">This profile doesn\'t have any options</string>
 

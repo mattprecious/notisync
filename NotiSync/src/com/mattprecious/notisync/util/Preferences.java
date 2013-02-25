@@ -73,17 +73,17 @@ public class Preferences {
         setSecondaryReconnectDelay(context, getSecondaryReconnectDelay(context));
 
         setSecondaryTextMessageEnabled(context, getSecondaryTextMessageEnabled(context));
-        setSecondaryTextMessageRingtone(context, getSecondaryTextMessageRingtone(context));
+        setSecondaryTextMessageRingtone(context, getDefaultRingtone());
         setSecondaryTextMessageVibrate(context, getSecondaryTextMessageVibrate(context));
         setSecondaryTextMessageLights(context, getSecondaryTextMessageLights(context));
 
         setSecondaryPhoneCallEnabled(context, getSecondaryPhoneCallEnabled(context));
-        setSecondaryPhoneCallRingtone(context, getSecondaryPhoneCallRingtone(context));
+        setSecondaryPhoneCallRingtone(context, getDefaultRingtone());
         setSecondaryPhoneCallVibrate(context, getSecondaryPhoneCallVibrate(context));
         setSecondaryPhoneCallLights(context, getSecondaryPhoneCallLights(context));
 
         setSecondaryGtalkEnabled(context, getSecondaryGtalkEnabled(context));
-        setSecondaryGtalkRingtone(context, getSecondaryGtalkRingtone(context));
+        setSecondaryGtalkRingtone(context, getDefaultRingtone());
         setSecondaryGtalkVibrate(context, getSecondaryGtalkVibrate(context));
         setSecondaryGtalkLights(context, getSecondaryGtalkLights(context));
     }
@@ -243,7 +243,7 @@ public class Preferences {
 
     public static String getSecondaryTextMessageRingtone(Context context) {
         return getPreferences(context).getString(KEY_SECONDARY_TEXT_MESSAGE_RINGTONE,
-                getDefaultRingtone());
+                null);
     }
 
     public static void setSecondaryTextMessageRingtone(Context context, String ringtone) {
@@ -283,7 +283,7 @@ public class Preferences {
 
     public static String getSecondaryPhoneCallRingtone(Context context) {
         return getPreferences(context).getString(KEY_SECONDARY_PHONE_CALL_RINGTONE,
-                getDefaultRingtone());
+                null);
     }
 
     public static void setSecondaryPhoneCallRingtone(Context context, String ringtone) {
@@ -330,7 +330,7 @@ public class Preferences {
 
     public static String getSecondaryGtalkRingtone(Context context) {
         return getPreferences(context)
-                .getString(KEY_SECONDARY_GTALK_RINGTONE, getDefaultRingtone());
+                .getString(KEY_SECONDARY_GTALK_RINGTONE, null);
     }
 
     public static void setSecondaryGtalkRingtone(Context context, String ringtone) {

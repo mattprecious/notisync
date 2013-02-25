@@ -3,7 +3,6 @@ package com.mattprecious.notisync.profile;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -231,10 +230,17 @@ public class SecondaryCustomProfileActivity extends Activity {
     }
 
     private void updateRingtoneSelector() {
-        Ringtone ringtone = RingtoneManager
-                .getRingtone(this, getRingtoneUri(profile.getRingtone()));
+        Uri ringtoneUri = getRingtoneUri(profile.getRingtone());
 
-        ringtoneSelector.setText(ringtone.getTitle(this));
+        String ringtoneName = null;
+        if (ringtoneUri == null) {
+            ringtoneName = getString(R.string.ringtone_silent);
+        } else {
+            ringtoneName = RingtoneManager
+                    .getRingtone(this, getRingtoneUri(profile.getRingtone())).getTitle(this);
+        }
+
+        ringtoneSelector.setText(ringtoneName);
     }
 
     private void setError(int flag) {

@@ -2,13 +2,12 @@
 package com.mattprecious.notisync.profile;
 
 import android.content.Intent;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Constants;
@@ -72,9 +71,15 @@ public class TextMessageFragment extends StandardProfileFragment {
     }
 
     private void updateRingtoneSelector() {
-        Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
+        String ringtoneName = null;
+        if (ringtoneUri == null) {
+            ringtoneName = getString(R.string.ringtone_silent);
+        } else {
+            ringtoneName = RingtoneManager
+                    .getRingtone(getActivity(), ringtoneUri).getTitle(getActivity());
+        }
 
-        ringtoneSelector.setText(ringtone.getTitle(getActivity()));
+        ringtoneSelector.setText(ringtoneName);
     }
 
     private Uri getRingtoneUri(String ringtone) {
