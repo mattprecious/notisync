@@ -139,7 +139,7 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
 
             if (convertView == null) { // If the View is not cached
                 // Inflates the Common View from XML file
-                convertView = this.inflater.inflate(R.layout.list_row, null);
+                convertView = this.inflater.inflate(R.layout.profile_list_item, null);
             }
 
             convertView.setTag(profile);
