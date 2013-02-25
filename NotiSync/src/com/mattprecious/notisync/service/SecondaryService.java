@@ -160,7 +160,7 @@ public class SecondaryService extends Service {
 
     private Notification buildRunningNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setPriority(Notification.PRIORITY_MIN);
+        builder.setPriority(NotificationCompat.PRIORITY_MIN);
         builder.setSmallIcon(R.drawable.ic_stat_logo);
         builder.setContentTitle(getString(R.string.app_name));
 

@@ -188,7 +188,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(actionBarSwitch, new ActionBar.LayoutParams(
                 ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER_VERTICAL | Gravity.END));
+                Gravity.CENTER_VERTICAL | Gravity.RIGHT));
     }
 
     private void startService() {
