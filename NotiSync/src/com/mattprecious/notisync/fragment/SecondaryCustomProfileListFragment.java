@@ -147,6 +147,7 @@ public class SecondaryCustomProfileListFragment extends Fragment implements
 
             TextView nameView = (TextView) convertView.findViewById(R.id.profile_name);
             nameView.setText(profile.getName());
+            nameView.setEnabled(profile.isEnabled());
 
             Switch profileSwitch = (Switch) convertView.findViewById(R.id.profile_switch);
             profileSwitch.setChecked(profile.isEnabled());
@@ -157,6 +158,9 @@ public class SecondaryCustomProfileListFragment extends Fragment implements
                     View parent = (View) buttonView.getParent();
                     SecondaryProfile profile = (SecondaryProfile) parent.getTag();
                     profile.setEnabled(isChecked);
+
+                    // TODO: not this
+                    parent.findViewById(R.id.profile_name).setEnabled(isChecked);
 
                     dbAdapter.openWritable();
                     dbAdapter.updateSecondaryProfile(profile);

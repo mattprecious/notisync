@@ -3,8 +3,7 @@
     xmlns:holo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dip"
-    android:background="@drawable/card" >
+    android:padding="15dip" >
 
     <org.holoeverywhere.widget.Switch
         android:id="@+id/profile_switch"
@@ -22,7 +21,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="15dip"
         android:layout_toLeftOf="@id/profile_switch"
-        android:textColor="#FF707070"
-        android:textSize="30sp" />
+        android:textColor="@color/list_title"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

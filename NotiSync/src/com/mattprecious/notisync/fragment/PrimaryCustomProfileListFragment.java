@@ -68,7 +68,7 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
 
         return view;
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
@@ -146,6 +146,7 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
 
             TextView nameView = (TextView) convertView.findViewById(R.id.profile_name);
             nameView.setText(profile.getName());
+            nameView.setEnabled(profile.isEnabled());
 
             Switch profileSwitch = (Switch) convertView.findViewById(R.id.profile_switch);
             profileSwitch.setChecked(profile.isEnabled());
@@ -156,6 +157,9 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
                     View parent = (View) buttonView.getParent();
                     PrimaryProfile profile = (PrimaryProfile) parent.getTag();
                     profile.setEnabled(isChecked);
+
+                    // TODO: not this
+                    parent.findViewById(R.id.profile_name).setEnabled(isChecked);
 
                     dbAdapter.openWritable();
                     dbAdapter.updatePrimaryProfile(profile);

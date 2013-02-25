@@ -189,6 +189,7 @@ public class StandardProfileListFragment extends Fragment {
 
             TextView nameView = (TextView) convertView.findViewById(R.id.profile_name);
             nameView.setText(getNameFromType(type));
+            nameView.setEnabled(isEnabledFromType(type));
 
             Switch profileSwitch = (Switch) convertView.findViewById(R.id.profile_switch);
             profileSwitch.setChecked(isEnabledFromType(type));
@@ -199,6 +200,9 @@ public class StandardProfileListFragment extends Fragment {
                     View parent = (View) buttonView.getParent();
                     ProfileType type = (ProfileType) parent.getTag();
                     setEnabledFromType(type, isChecked);
+
+                    // TODO: not this
+                    parent.findViewById(R.id.profile_name).setEnabled(isChecked);
                 }
             });
 
