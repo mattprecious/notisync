@@ -1,17 +1,11 @@
 
 package com.mattprecious.notisync.service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.Notification;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.mattprecious.notisync.db.DbAdapter;
@@ -20,7 +14,13 @@ import com.mattprecious.notisync.message.CustomMessage;
 import com.mattprecious.notisync.message.GtalkMessage;
 import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.util.Constants;
+import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NotificationService extends AccessibilityService {
     private final static String TAG = "NotificationService";
@@ -61,7 +61,7 @@ public class NotificationService extends AccessibilityService {
 
     @Override
     protected void onServiceConnected() {
-        Log.d(TAG, "Service connected");
+        MyLog.d(TAG, "Service connected");
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
         info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
@@ -72,9 +72,9 @@ public class NotificationService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        Log.d(TAG, "onAcessibilityEvent()");
+        MyLog.d(TAG, "onAcessibilityEvent()");
         if (!Preferences.isPrimary(this)) {
-            Log.d(TAG, "not primary mode");
+            MyLog.d(TAG, "not primary mode");
             return;
         }
 
@@ -82,7 +82,7 @@ public class NotificationService extends AccessibilityService {
             String packageName = (String) event.getPackageName();
             Notification notification = (Notification) event.getParcelableData();
             if (notification == null) {
-                Log.d(TAG, "notification is null");
+                MyLog.d(TAG, "notification is null");
                 return;
             }
 
@@ -99,7 +99,7 @@ public class NotificationService extends AccessibilityService {
                 }
 
                 if (tickerText == null) {
-                    Log.e(TAG, "gtalk ticker text is null");
+                    MyLog.e(TAG, "gtalk ticker text is null");
                     return;
                 }
 
@@ -113,7 +113,7 @@ public class NotificationService extends AccessibilityService {
 
                     sendMessage(gtalkMessage);
                 } else {
-                    Log.d(TAG, "Pattern does not match: " + tickerText);
+                    MyLog.d(TAG, "Pattern does not match: " + tickerText);
                 }
                 return;
             } else {
@@ -131,8 +131,8 @@ public class NotificationService extends AccessibilityService {
                 }
             }
 
-            Log.d(TAG, "packageName: " + packageName);
-            // Log.d(TAG, notification.tickerText);
+            MyLog.d(TAG, "packageName: " + packageName);
+            // MyLog.d(TAG, notification.tickerText);
         }
 
     }

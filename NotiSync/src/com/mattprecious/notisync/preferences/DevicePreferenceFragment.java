@@ -7,13 +7,13 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Constants;
+import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
 
 import org.holoeverywhere.preference.CheckBoxPreference;
@@ -121,7 +121,7 @@ public class DevicePreferenceFragment extends PreferenceFragment {
                     // unrecognized device class; continue
             }
         } else {
-            Log.w(TAG, "mBtClass is null");
+            MyLog.w(TAG, "mBtClass is null");
         }
 
         return 0;

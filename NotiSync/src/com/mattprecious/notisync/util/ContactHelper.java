@@ -1,9 +1,6 @@
 
 package com.mattprecious.notisync.util;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,7 +9,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
-import android.util.Log;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class ContactHelper {
     private static final String TAG = "ContactHelper";
@@ -62,7 +61,7 @@ public class ContactHelper {
         try {
             stream = context.getContentResolver().openInputStream(photoUri);
         } catch (FileNotFoundException e) {
-            Log.d(TAG, "could not find contact picture");
+            MyLog.d(TAG, "could not find contact picture");
             return null;
         }
 

@@ -1,11 +1,10 @@
 
 package com.mattprecious.notisync.message;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mattprecious.notisync.util.MyLog;
 
 public class BaseMessage {
     @SuppressWarnings("unused")
@@ -35,7 +34,7 @@ public class BaseMessage {
                 message = (BaseMessage) new Gson().fromJson(json, dataType);
             }
         } catch (ClassNotFoundException e) {
-            Log.e("BaseMessage", "Failed to convert to BaseMessage", e);
+            MyLog.e("BaseMessage", "Failed to convert to BaseMessage", e);
         }
 
         return message;

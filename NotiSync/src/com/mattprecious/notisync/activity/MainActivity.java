@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -40,6 +39,7 @@ import com.mattprecious.notisync.service.NotificationService;
 import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.service.SecondaryService;
 import com.mattprecious.notisync.util.Constants;
+import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.UndoBarController;
 import com.mattprecious.notisync.util.UndoBarController.UndoListener;
@@ -258,7 +258,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                 return FRAGMENTS[position];
             }
 
-            Log.e(TAG, "invalid getItem position: " + position);
+            MyLog.e(TAG, "invalid getItem position: " + position);
             return null;
         }
 
@@ -273,7 +273,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                 return TITLES[position];
             }
 
-            Log.e(TAG, "invalid getPageTitle position: " + position);
+            MyLog.e(TAG, "invalid getPageTitle position: " + position);
             return null;
         }
 

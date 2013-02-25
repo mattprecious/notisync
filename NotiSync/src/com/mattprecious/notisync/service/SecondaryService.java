@@ -1,10 +1,6 @@
 
 package com.mattprecious.notisync.service;
 
-import java.lang.ref.WeakReference;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -24,8 +20,8 @@ import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 
+import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.bluetooth.BluetoothService;
 import com.mattprecious.notisync.db.DbAdapter;
@@ -38,8 +34,12 @@ import com.mattprecious.notisync.message.TextMessage;
 import com.mattprecious.notisync.model.SecondaryProfile;
 import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.ContactHelper;
+import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
-import com.mattprecious.notisync.R;
+
+import java.lang.ref.WeakReference;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SecondaryService extends Service {
     private final static String TAG = "SecondaryService";
@@ -188,32 +188,32 @@ public class SecondaryService extends Service {
 
     private void receiveMessage(BaseMessage message) {
         if (message instanceof TextMessage) {
-            Log.d(TAG, "handling message of type: TextMessage");
+            MyLog.d(TAG, "handling message of type: TextMessage");
 
             TextMessage textMessage = (TextMessage) message;
             handleTextMessage(textMessage);
         } else if (message instanceof PhoneCallMessage) {
-            Log.d(TAG, "handing message of type: PhoneCallMessage");
+            MyLog.d(TAG, "handing message of type: PhoneCallMessage");
 
             PhoneCallMessage phoneMessage = (PhoneCallMessage) message;
             handlePhoneCallMessage(phoneMessage);
         } else if (message instanceof GtalkMessage) {
-            Log.d(TAG, "handling message of type: GtalkMessage");
+            MyLog.d(TAG, "handling message of type: GtalkMessage");
 
             GtalkMessage gtalkMessage = (GtalkMessage) message;
             handleGtalkMessage(gtalkMessage);
         } else if (message instanceof CustomMessage) {
-            Log.d(TAG, "handling message of type: CustomMessage");
+            MyLog.d(TAG, "handling message of type: CustomMessage");
 
             CustomMessage customMessage = (CustomMessage) message;
             handleCustomMessage(customMessage);
         } else if (message instanceof ClearMessage) {
-            Log.d(TAG, "handling message of type: ClearMessage");
+            MyLog.d(TAG, "handling message of type: ClearMessage");
 
             ClearMessage clearMessage = (ClearMessage) message;
             handleClearMessage(clearMessage);
         } else {
-            Log.e(TAG, "no handler for message: " + message);
+            MyLog.e(TAG, "no handler for message: " + message);
         }
     }
 
@@ -417,7 +417,7 @@ public class SecondaryService extends Service {
     }
 
     private void handleClearMessage(ClearMessage message) {
-        Log.d(TAG, message.message.toString());
+        MyLog.d(TAG, message.message.toString());
         if (message.message instanceof PhoneCallMessage) {
             PhoneCallMessage phoneMessage = (PhoneCallMessage) message.message;
             handleClearPhoneCallMessage(phoneMessage);
@@ -457,7 +457,7 @@ public class SecondaryService extends Service {
                 case BluetoothService.MESSAGE_READ:
                     // construct a string from the valid bytes in the buffer
                     String readMessage = (String) msg.obj;
-                    Log.d("DEBUG", "Received: " + readMessage);
+                    MyLog.d("DEBUG", "Received: " + readMessage);
 
                     service.receiveMessage(BaseMessage.fromJsonString(readMessage));
                     break;
