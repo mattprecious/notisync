@@ -24,6 +24,7 @@
         android:name="org.holoeverywhere.app.Application"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
+        android:logo="@drawable/ab_home"
         android:label="@string/app_name"
         android:theme="@style/Theme" >
         <activity
