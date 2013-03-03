@@ -4,8 +4,8 @@
     holo:title="@string/preference_header_about" >
 
     <Preference
-        holo:summary="@string/about_feedback_summary"
-        holo:title="@string/about_feedback_title" />
+        holo:summary="@string/about_author_summary"
+        holo:title="@string/about_author_title" />
     <Preference
         holo:key="about_version"
         holo:title="@string/about_version_title" />
