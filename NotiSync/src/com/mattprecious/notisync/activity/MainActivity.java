@@ -324,6 +324,8 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                 Intent aboutIntent = new Intent(this, SettingsActivity.class);
                 aboutIntent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
                         AboutPreferenceFragment.class.getName());
+                aboutIntent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT_TITLE,
+                        R.string.preference_header_about);
                 startActivity(aboutIntent);
 
                 return true;
