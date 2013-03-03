@@ -226,12 +226,12 @@ public class PrimaryService extends Service {
         Bundle notificationBundle = new Bundle();
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setPriority(Notification.PRIORITY_MIN);
+        builder.setPriority(NotificationCompat.PRIORITY_MIN);
         builder.setSmallIcon(R.drawable.ic_stat_logo);
         builder.setContentTitle(getString(R.string.app_name));
 
         Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         builder.setContentIntent(pendingIntent);
