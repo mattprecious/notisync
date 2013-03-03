@@ -13,7 +13,6 @@ import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.message.CustomMessage;
 import com.mattprecious.notisync.message.GtalkMessage;
 import com.mattprecious.notisync.model.PrimaryProfile;
-import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
 
@@ -143,7 +142,7 @@ public class NotificationService extends AccessibilityService {
     }
 
     private void sendMessage(BaseMessage message) {
-        Intent intent = new Intent(Constants.ACTION_SEND_MESSAGE);
+        Intent intent = new Intent(PrimaryService.ACTION_SEND_MESSAGE);
         intent.putExtra("message", BaseMessage.toJsonString(message));
         broadcastManager.sendBroadcast(intent);
     }

@@ -35,10 +35,10 @@ import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.model.SecondaryProfile;
 import com.mattprecious.notisync.preferences.AboutPreferenceFragment;
 import com.mattprecious.notisync.preferences.SettingsActivity;
+import com.mattprecious.notisync.service.ServiceActions;
 import com.mattprecious.notisync.service.NotificationService;
 import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.service.SecondaryService;
-import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.UndoBarController;
@@ -55,6 +55,12 @@ import org.holoeverywhere.widget.Switch;
 
 public class MainActivity extends Activity implements UndoListener, AccessibilityDialogListener {
     private final static String TAG = "MainActivity";
+
+    private final int REQUEST_CODE_WIZARD = 1;
+
+    public final static int REQUEST_CODE_EDIT_PROFILE = 2;
+
+    public final static int RESULT_CODE_PROFILE_DELETED = 11;
 
     private final String KEY_IGNORE_ACCESSIBILITY = "ignore_accessibility";
 
@@ -77,9 +83,9 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         broadcastManager = LocalBroadcastManager.getInstance(this);
 
         broadcastManager.registerReceiver(serviceStatusReceiver, new IntentFilter(
-                Constants.ACTION_SERVICE_STARTED));
+                ServiceActions.ACTION_SERVICE_STARTED));
         broadcastManager.registerReceiver(serviceStatusReceiver, new IntentFilter(
-                Constants.ACTION_SERVICE_STOPPED));
+                ServiceActions.ACTION_SERVICE_STOPPED));
 
         adapter = new MyPagerAdapter(getSupportFragmentManager());
 
@@ -114,7 +120,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
 
         if (!Preferences.getCompletedWizard(this)) {
             startActivityForResult(new Intent(this, WizardActivity.class),
-                    Constants.REQUEST_CODE_WIZARD);
+                    REQUEST_CODE_WIZARD);
         }
     }
 
@@ -317,7 +323,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                 return true;
             case R.id.menu_wizard:
                 startActivityForResult(new Intent(this, WizardActivity.class),
-                        Constants.REQUEST_CODE_WIZARD);
+                        REQUEST_CODE_WIZARD);
 
                 return true;
             case R.id.menu_about:
@@ -337,7 +343,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case Constants.REQUEST_CODE_WIZARD:
+            case REQUEST_CODE_WIZARD:
                 if (resultCode == RESULT_OK) {
                     startService();
                 } else if (!Preferences.getCompletedWizard(this)) {
@@ -345,7 +351,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                 }
 
                 break;
-            case Constants.REQUEST_CODE_EDIT_PROFILE:
+            case REQUEST_CODE_EDIT_PROFILE:
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         Crouton.showText(this, R.string.profile_saved, Style.CONFIRM,
@@ -355,7 +361,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                         Crouton.showText(this, R.string.profile_discarded, Style.INFO,
                                 R.id.content_wrapper);
                         break;
-                    case Constants.RESULT_CODE_PROFILE_DELETED:
+                    case RESULT_CODE_PROFILE_DELETED:
                         if (undoBarController != null) {
                             undoBarController.showUndoBar(true,
                                     getString(R.string.profile_deleted),

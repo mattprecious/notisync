@@ -12,7 +12,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.mattprecious.notisync.R;
-import com.mattprecious.notisync.util.Constants;
+import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
 
@@ -138,7 +138,7 @@ public class DevicePreferenceFragment extends PreferenceFragment {
             }
 
             Preferences.setDevices(getActivity(), localDeviceSet);
-            broadcastManager.sendBroadcast(new Intent(Constants.ACTION_UPDATE_DEVICES));
+            broadcastManager.sendBroadcast(new Intent(PrimaryService.ACTION_UPDATE_DEVICES));
 
             return true;
         }

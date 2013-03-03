@@ -35,7 +35,6 @@ import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.message.ClearMessage;
 import com.mattprecious.notisync.message.PhoneCallMessage;
 import com.mattprecious.notisync.message.TextMessage;
-import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.ContactHelper;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.R;
@@ -43,6 +42,10 @@ import com.mattprecious.notisync.R;
 public class PrimaryService extends Service {
     @SuppressWarnings("unused")
     private final static String TAG = "PrimaryService";
+
+    public final static String ACTION_RECONNECT = "com.mattprecious.notisync.service.PrimaryService.ACTION_RECONNECT";
+    public final static String ACTION_UPDATE_DEVICES = "com.mattprecious.notisync.service.PrimaryService.ACTION_UPDATE_DEVICES";
+    public final static String ACTION_SEND_MESSAGE = "com.mattprecious.notisync.service.PrimaryService.ACTION_SEND_MESSAGE";
 
     private static boolean running = false;
 
@@ -68,7 +71,7 @@ public class PrimaryService extends Service {
         broadcastManager = LocalBroadcastManager.getInstance(this);
 
         running = true;
-        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_SERVICE_STARTED));
+        broadcastManager.sendBroadcast(new Intent(ServiceActions.ACTION_SERVICE_STARTED));
 
         if (bluetoothAdapter == null) {
             stopSelf();
@@ -82,13 +85,13 @@ public class PrimaryService extends Service {
         handler = new PrimaryHandler(this);
 
         broadcastManager.registerReceiver(reconnectReceiver, new IntentFilter(
-                Constants.ACTION_RECONNECT));
+                ACTION_RECONNECT));
         broadcastManager.registerReceiver(updateDevicesReceiver, new IntentFilter(
-                Constants.ACTION_UPDATE_DEVICES));
+                ACTION_UPDATE_DEVICES));
         broadcastManager.registerReceiver(timerReceiver, new IntentFilter(
-                Constants.ACTION_UPDATE_TIMER));
+                ServiceActions.ACTION_UPDATE_TIMER));
         broadcastManager.registerReceiver(sendMessageReceiver, new IntentFilter(
-                Constants.ACTION_SEND_MESSAGE));
+                ACTION_SEND_MESSAGE));
 
         registerReceiver(bluetoothStateReceiver, new IntentFilter(
                 BluetoothAdapter.ACTION_STATE_CHANGED));
@@ -103,7 +106,7 @@ public class PrimaryService extends Service {
         super.onDestroy();
 
         running = false;
-        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_SERVICE_STOPPED));
+        broadcastManager.sendBroadcast(new Intent(ServiceActions.ACTION_SERVICE_STOPPED));
 
         if (timer != null) {
             timer.cancel();
@@ -249,7 +252,7 @@ public class PrimaryService extends Service {
 
             if (connectedNames.size() != Preferences.getDevices(this).size()) {
                 PendingIntent reconnectIntent = PendingIntent.getBroadcast(this, 0, new Intent(
-                        Constants.ACTION_RECONNECT), 0);
+                        ACTION_RECONNECT), 0);
                 builder.addAction(R.drawable.ic_action_refresh,
                         getString(R.string.noti_action_connect), reconnectIntent);
 

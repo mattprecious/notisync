@@ -15,10 +15,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
 import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.profile.PrimaryCustomProfileActivity;
-import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.UndoBarController;
 
 import org.holoeverywhere.LayoutInflater;
@@ -62,7 +62,7 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
                     intent.putExtra("profile", profile);
                 }
 
-                getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_EDIT_PROFILE);
+                getActivity().startActivityForResult(intent, MainActivity.REQUEST_CODE_EDIT_PROFILE);
             }
         });
 

@@ -14,10 +14,10 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
 import com.mattprecious.notisync.fragment.PackagePickerFragment;
 import com.mattprecious.notisync.model.PrimaryProfile;
-import com.mattprecious.notisync.util.Constants;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -190,7 +190,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
                 return true;
             case R.id.menu_delete:
                 if (delete()) {
-                    setResult(Constants.RESULT_CODE_PROFILE_DELETED,
+                    setResult(MainActivity.RESULT_CODE_PROFILE_DELETED,
                             getIntent());
                     finish();
                 } else {

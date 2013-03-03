@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.mattprecious.notisync.R;
-import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.Preferences;
 
 import org.holoeverywhere.LayoutInflater;
@@ -19,6 +18,7 @@ import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.TextView;
 
 public class TextMessageFragment extends StandardProfileFragment {
+    private final int REQUEST_CODE_RINGTONE_PICKER = 1;
 
     private TextView ringtoneSelector;
     private CheckBox vibrateCheckBox;
@@ -46,7 +46,7 @@ public class TextMessageFragment extends StandardProfileFragment {
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, ringtoneUri);
 
-                startActivityForResult(intent, Constants.REQUEST_CODE_RINGTONE_PICKER);
+                startActivityForResult(intent, REQUEST_CODE_RINGTONE_PICKER);
 
             }
         });
@@ -93,7 +93,7 @@ public class TextMessageFragment extends StandardProfileFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case Constants.REQUEST_CODE_RINGTONE_PICKER:
+            case REQUEST_CODE_RINGTONE_PICKER:
                 if (resultCode == Activity.RESULT_OK) {
                     Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
                     ringtoneUri = uri;

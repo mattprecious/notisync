@@ -16,9 +16,9 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
 import com.mattprecious.notisync.model.SecondaryProfile;
-import com.mattprecious.notisync.util.Constants;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -34,6 +34,8 @@ import java.util.Locale;
 public class SecondaryCustomProfileActivity extends Activity {
     private final int ERROR_FLAG_NAME = 1 << 0;
     private final int ERROR_FLAG_TAG = 1 << 1;
+    
+    private final int REQUEST_CODE_RINGTONE_PICKER = 1;
 
     private DbAdapter dbAdapter;
     private SecondaryProfile profile;
@@ -113,7 +115,7 @@ public class SecondaryCustomProfileActivity extends Activity {
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI,
                         getRingtoneUri(profile.getRingtone()));
 
-                startActivityForResult(intent, Constants.REQUEST_CODE_RINGTONE_PICKER);
+                startActivityForResult(intent, REQUEST_CODE_RINGTONE_PICKER);
 
             }
         });
@@ -195,7 +197,7 @@ public class SecondaryCustomProfileActivity extends Activity {
                 return true;
             case R.id.menu_delete:
                 if (delete()) {
-                    setResult(Constants.RESULT_CODE_PROFILE_DELETED,
+                    setResult(MainActivity.RESULT_CODE_PROFILE_DELETED,
                             getIntent());
                     finish();
                 } else {
@@ -211,7 +213,7 @@ public class SecondaryCustomProfileActivity extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case Constants.REQUEST_CODE_RINGTONE_PICKER:
+            case REQUEST_CODE_RINGTONE_PICKER:
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
                     if (uri == null) {

@@ -1,14 +1,6 @@
 
 package com.mattprecious.notisync.fragment;
 
-import java.util.ArrayList;
-
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.Switch;
-import org.holoeverywhere.widget.TextView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,11 +11,19 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.profile.StandardProfileActivity;
 import com.mattprecious.notisync.profile.StandardProfileActivity.ProfileType;
-import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.Preferences;
-import com.mattprecious.notisync.R;
+
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.Switch;
+import org.holoeverywhere.widget.TextView;
+
+import java.util.ArrayList;
 
 public class StandardProfileListFragment extends Fragment {
     @SuppressWarnings("unused")
@@ -55,7 +55,7 @@ public class StandardProfileListFragment extends Fragment {
                 intent.setClass(getActivity(), StandardProfileActivity.class);
                 intent.putExtra(StandardProfileActivity.EXTRA_TYPE, type);
 
-                getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_EDIT_PROFILE);
+                getActivity().startActivityForResult(intent, MainActivity.REQUEST_CODE_EDIT_PROFILE);
             }
         });
 

@@ -32,7 +32,6 @@ import com.mattprecious.notisync.message.GtalkMessage;
 import com.mattprecious.notisync.message.PhoneCallMessage;
 import com.mattprecious.notisync.message.TextMessage;
 import com.mattprecious.notisync.model.SecondaryProfile;
-import com.mattprecious.notisync.util.Constants;
 import com.mattprecious.notisync.util.ContactHelper;
 import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
@@ -76,7 +75,7 @@ public class SecondaryService extends Service {
         broadcastManager = LocalBroadcastManager.getInstance(this);
 
         running = true;
-        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_SERVICE_STARTED));
+        broadcastManager.sendBroadcast(new Intent(ServiceActions.ACTION_SERVICE_STARTED));
 
         if (bluetoothAdapter == null) {
             stopSelf();
@@ -92,7 +91,7 @@ public class SecondaryService extends Service {
         bluetoothService = new BluetoothService(this, new SecondaryHandler(this), true);
 
         broadcastManager.registerReceiver(timerReceiver, new IntentFilter(
-                Constants.ACTION_UPDATE_TIMER));
+                ServiceActions.ACTION_UPDATE_TIMER));
 
         registerReceiver(bluetoothStateReceiver, new IntentFilter(
                 BluetoothAdapter.ACTION_STATE_CHANGED));
@@ -105,7 +104,7 @@ public class SecondaryService extends Service {
         super.onDestroy();
 
         running = false;
-        broadcastManager.sendBroadcast(new Intent(Constants.ACTION_SERVICE_STOPPED));
+        broadcastManager.sendBroadcast(new Intent(ServiceActions.ACTION_SERVICE_STOPPED));
 
         if (timer != null) {
             timer.cancel();
