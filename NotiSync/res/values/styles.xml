@@ -168,6 +168,7 @@
 
     <style name="Profile.Item.EditText">
         <item name="android:ems">10</item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="Profile.Item.CheckBox">
