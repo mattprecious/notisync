@@ -60,6 +60,11 @@
         <item name="android:background">?attr/dividerHorizontal</item>
     </style>
 
+    <style name="WizardPageScrollView">
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:scrollbarStyle">outsideInset</item>
+    </style>
+
     <!-- undo bar -->
     <style name="UndoBar">
         <item name="android:layout_width">match_parent</item>
