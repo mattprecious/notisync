@@ -17,7 +17,8 @@
                 android:id="@+id/nameField"
                 style="@style/Profile.Item.EditText"
                 android:hint="@string/custom_profile_header_name"
-                android:imeOptions="actionNext" />
+                android:imeOptions="actionNext"
+                android:inputType="textCapSentences" />
         </LinearLayout>
 
         <LinearLayout style="@style/Profile.Section" >
