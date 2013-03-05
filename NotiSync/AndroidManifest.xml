@@ -41,7 +41,6 @@
         <activity
             android:name="com.mattprecious.notisync.activity.WizardActivity"
             android:configChanges="orientation|screenSize"
-            android:launchMode="singleTask"
             android:theme="@style/WizardTheme" />
         <activity
             android:label="About"
