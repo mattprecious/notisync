@@ -35,15 +35,13 @@ public class DeviceFragment extends Fragment {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.deviceFragment, deviceFragment)
                 .commit();
-        
+
         Button bluetoothButton = (Button) rootView.findViewById(R.id.bluetoothButton);
         bluetoothButton.setOnClickListener(new OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
-                startActivity(intent);
+                startActivity(new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS));
             }
         });
 
