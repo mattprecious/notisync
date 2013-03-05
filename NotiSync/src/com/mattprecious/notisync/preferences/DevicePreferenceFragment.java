@@ -52,6 +52,9 @@ public class DevicePreferenceFragment extends PreferenceFragment {
         super.onResume();
 
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (btAdapter == null) {
+            return;
+        }
 
         PreferenceScreen screen = getPreferenceScreen();
         screen.removeAll();
