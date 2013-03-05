@@ -17,7 +17,7 @@
     <string name="wizard_devices_title">Select your other devices</string>
     <string name="wizard_devices_not_listed">Device not listed?</string>
     <string name="wizard_accessibility_title">Accessibility service</string>
-    <string name="wizard_accessibility_content">In order for the Gtalk profile and your own custom profiles to work, NotiSync needs to be enabled as an Accessibility Service.</string>
+    <string name="wizard_accessibility_content">In order for the Gtalk profile and your own custom profiles to work, NotiSync needs to be enabled as an Accessibility Service. This is an optional step, and NotiSync will not collect any information provided.</string>
     <string name="wizard_accessibility_enable">Enable now</string>
     <string name="wizard_accessibility_enabled">Enabled!</string>
     <string name="wizard_customprofiles_title">Custom profiles</string>
@@ -53,7 +53,7 @@
     <string name="wizard_done_content">Done!</string>
 
     <!-- accessibility -->
-    <string name="accessibility_service_description">Enabling NotiSync as an accessibility service allows NotiSync to receive notifications from other apps. This is required for the Gtalk profile or any of your custom profiles to work.</string>
+    <string name="accessibility_service_description">Enabling NotiSync as an accessibility service allows NotiSync to receive notifications from other apps. This is required for the Gtalk profile or any of your custom profiles to work.\n\nNote that NotiSync is only forwarding your notifications, and is not collecting any information.</string>
     <string name="accessibility_dialog_title">Accessibility service</string>
     <string name="accessibility_dialog_message">In order for the Gtalk profile and your own custom profiles to work, NotiSync needs to be enabled as an Accessibility Service.</string>
     <string name="accessibility_dialog_positive">Enable</string>
