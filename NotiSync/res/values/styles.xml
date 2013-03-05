@@ -13,7 +13,6 @@
         <item name="android:actionBarTabStyle">@style/orange_ActionBarTabStyle</item>
         <item name="android:actionDropDownStyle">@style/orange_DropDownNav</item>
         <item name="android:actionBarStyle">@style/orange_solid_ActionBar</item>
-        <item name="android:panelBackground">@drawable/menu_hardkey_panel_orange</item>
 
         <!-- Light.DarkActionBar specific -->
         <item name="actionBarWidgetTheme">@style/Theme.orange.widget</item>
