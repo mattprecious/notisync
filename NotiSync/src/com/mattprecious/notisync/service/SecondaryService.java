@@ -30,6 +30,7 @@ import com.mattprecious.notisync.message.ClearMessage;
 import com.mattprecious.notisync.message.CustomMessage;
 import com.mattprecious.notisync.message.GtalkMessage;
 import com.mattprecious.notisync.message.PhoneCallMessage;
+import com.mattprecious.notisync.message.TagPushMessage;
 import com.mattprecious.notisync.message.TextMessage;
 import com.mattprecious.notisync.model.SecondaryProfile;
 import com.mattprecious.notisync.util.ContactHelper;
@@ -211,6 +212,11 @@ public class SecondaryService extends Service {
 
             ClearMessage clearMessage = (ClearMessage) message;
             handleClearMessage(clearMessage);
+        } else if (message instanceof TagPushMessage) {
+            MyLog.d(TAG, "handling message of type: TagPushMessage");
+
+            TagPushMessage tagPushMessage = (TagPushMessage) message;
+            handleTagPushMessage(tagPushMessage);
         } else {
             MyLog.e(TAG, "no handler for message: " + message);
         }
@@ -421,6 +427,17 @@ public class SecondaryService extends Service {
             PhoneCallMessage phoneMessage = (PhoneCallMessage) message.message;
             handleClearPhoneCallMessage(phoneMessage);
         }
+    }
+
+    private void handleTagPushMessage(TagPushMessage message) {
+        SecondaryProfile profile = new SecondaryProfile();
+        profile.setEnabled(true);
+        profile.setName(message.name);
+        profile.setTag(message.tag);
+
+        dbAdapter.openWritable();
+        dbAdapter.insertSecondaryProfile(profile);
+        dbAdapter.close();
     }
 
     private boolean isNetworkAvailable() {

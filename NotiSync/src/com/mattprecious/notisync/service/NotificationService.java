@@ -143,7 +143,7 @@ public class NotificationService extends AccessibilityService {
 
     private void sendMessage(BaseMessage message) {
         Intent intent = new Intent(PrimaryService.ACTION_SEND_MESSAGE);
-        intent.putExtra("message", BaseMessage.toJsonString(message));
+        intent.putExtra(PrimaryService.EXTRA_MESSAGE, BaseMessage.toJsonString(message));
         broadcastManager.sendBroadcast(intent);
     }
 

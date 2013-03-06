@@ -1,9 +1,11 @@
 
 package com.mattprecious.notisync.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -17,7 +19,10 @@ import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
 import com.mattprecious.notisync.fragment.PackagePickerFragment;
+import com.mattprecious.notisync.message.BaseMessage;
+import com.mattprecious.notisync.message.TagPushMessage;
 import com.mattprecious.notisync.model.PrimaryProfile;
+import com.mattprecious.notisync.service.PrimaryService;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -35,6 +40,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
     private final int ERROR_FLAG_PACKAGE = 1 << 2;
 
     private DbAdapter dbAdapter;
+    private LocalBroadcastManager broadcastManager;
     private PrimaryProfile profile;
 
     private int errorFlags = 0;
@@ -52,6 +58,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dbAdapter = new DbAdapter(this);
+        broadcastManager = LocalBroadcastManager.getInstance(this);
 
         if (getIntent().hasExtra("profile")) {
             profile = getIntent().getParcelableExtra("profile");
@@ -230,6 +237,15 @@ public class PrimaryCustomProfileActivity extends Activity implements
             result = dbAdapter.insertPrimaryProfile(profile);
         }
         dbAdapter.close();
+
+        if (profile.getId() == 0) {
+            TagPushMessage message = new TagPushMessage.Builder().name(profile.getName())
+                    .tag(profile.getTag()).build();
+
+            Intent intent = new Intent(PrimaryService.ACTION_SEND_MESSAGE);
+            intent.putExtra(PrimaryService.EXTRA_MESSAGE, BaseMessage.toJsonString(message));
+            broadcastManager.sendBroadcast(intent);
+        }
 
         return result;
     }
