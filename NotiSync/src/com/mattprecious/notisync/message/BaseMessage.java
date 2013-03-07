@@ -7,7 +7,6 @@ import com.google.gson.JsonParser;
 import com.mattprecious.notisync.util.MyLog;
 
 public class BaseMessage {
-    @SuppressWarnings("unused")
     private final String DATA_TYPE;
 
     public BaseMessage() {
@@ -38,6 +37,31 @@ public class BaseMessage {
         }
 
         return message;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((DATA_TYPE == null) ? 0 : DATA_TYPE.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BaseMessage other = (BaseMessage) obj;
+        if (DATA_TYPE == null) {
+            if (other.DATA_TYPE != null)
+                return false;
+        } else if (!DATA_TYPE.equals(other.DATA_TYPE))
+            return false;
+        return true;
     }
 
 }

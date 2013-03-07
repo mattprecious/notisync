@@ -44,9 +44,12 @@ public class PrimaryService extends Service {
     @SuppressWarnings("unused")
     private final static String TAG = "PrimaryService";
 
-    public final static String ACTION_RECONNECT = "com.mattprecious.notisync.service.PrimaryService.ACTION_RECONNECT";
-    public final static String ACTION_UPDATE_DEVICES = "com.mattprecious.notisync.service.PrimaryService.ACTION_UPDATE_DEVICES";
-    public final static String ACTION_SEND_MESSAGE = "com.mattprecious.notisync.service.PrimaryService.ACTION_SEND_MESSAGE";
+    public final static String ACTION_RECONNECT =
+            "notisync.service.PrimaryService.ACTION_RECONNECT";
+    public final static String ACTION_UPDATE_DEVICES =
+            "notisync.service.PrimaryService.ACTION_UPDATE_DEVICES";
+    public final static String ACTION_SEND_MESSAGE =
+            "notisync.service.PrimaryService.ACTION_SEND_MESSAGE";
 
     private static boolean running = false;
 
