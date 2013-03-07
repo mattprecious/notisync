@@ -33,6 +33,7 @@ import com.google.common.collect.Sets;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.bluetooth.BluetoothService;
 import com.mattprecious.notisync.db.DbAdapter;
+import com.mattprecious.notisync.devtools.DevToolsActivity;
 import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.message.ClearMessage;
 import com.mattprecious.notisync.message.PhoneCallMessage;
@@ -102,6 +103,8 @@ public class PrimaryService extends Service {
                 ServiceActions.ACTION_UPDATE_TIMER));
         broadcastManager.registerReceiver(sendMessageReceiver, new IntentFilter(
                 ACTION_SEND_MESSAGE));
+        broadcastManager.registerReceiver(devToolsSendMessageReceiver, new IntentFilter(
+                DevToolsActivity.ACTION_SEND_MESSAGE));
 
         registerReceiver(bluetoothStateReceiver, new IntentFilter(
                 BluetoothAdapter.ACTION_STATE_CHANGED));
@@ -127,6 +130,7 @@ public class PrimaryService extends Service {
             broadcastManager.unregisterReceiver(updateDevicesReceiver);
             broadcastManager.unregisterReceiver(timerReceiver);
             broadcastManager.unregisterReceiver(sendMessageReceiver);
+            broadcastManager.unregisterReceiver(devToolsSendMessageReceiver);
 
             unregisterReceiver(bluetoothStateReceiver);
             unregisterReceiver(smsReceiver);
@@ -420,6 +424,14 @@ public class PrimaryService extends Service {
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra(EXTRA_MESSAGE);
             sendMessage(message);
+        }
+    };
+
+    private final BroadcastReceiver devToolsSendMessageReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            sendMessageReceiver.onReceive(context, intent);
         }
     };
 

@@ -30,11 +30,26 @@
 
             <View style="@style/Profile.Divider" />
 
-            <EditText
-                android:id="@+id/tagField"
-                style="@style/Profile.Item.EditText"
-                android:hint="@string/custom_profile_header_tag"
-                android:imeOptions="actionDone" />
+            <LinearLayout style="@style/Profile.Item" >
+
+                <EditText
+                    android:id="@+id/tagField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/custom_profile_header_tag"
+                    android:imeOptions="actionDone" />
+                
+                <ImageButton
+                    android:id="@+id/tagRequestButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/selectable_background_orange"
+                    android:contentDescription="Request tags from connected device"
+                    android:src="@drawable/ic_button_folder" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout style="@style/Profile.Section" >

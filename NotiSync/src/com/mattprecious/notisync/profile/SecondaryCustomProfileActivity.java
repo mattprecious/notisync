@@ -7,9 +7,12 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.ImageButton;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -18,12 +21,14 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
+import com.mattprecious.notisync.fragment.PackagePickerFragment;
 import com.mattprecious.notisync.model.SecondaryProfile;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.TextView;
@@ -34,7 +39,7 @@ import java.util.Locale;
 public class SecondaryCustomProfileActivity extends Activity {
     private final int ERROR_FLAG_NAME = 1 << 0;
     private final int ERROR_FLAG_TAG = 1 << 1;
-    
+
     private final int REQUEST_CODE_RINGTONE_PICKER = 1;
 
     private DbAdapter dbAdapter;
@@ -44,6 +49,7 @@ public class SecondaryCustomProfileActivity extends Activity {
 
     private EditText nameField;
     private EditText tagField;
+    private ImageButton tagRequestButton;
     private CheckBox unconnectedOnlyCheckBox;
     private TextView ringtoneSelector;
     private CheckBox vibrateCheckBox;
@@ -93,6 +99,22 @@ public class SecondaryCustomProfileActivity extends Activity {
                     validateTag();
                 }
 
+            }
+
+        });
+
+        tagRequestButton = (ImageButton) findViewById(R.id.tagRequestButton);
+        tagRequestButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new PackagePickerFragment();
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(newFragment, null);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
 
         });
