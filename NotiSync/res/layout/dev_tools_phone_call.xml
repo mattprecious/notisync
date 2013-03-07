@@ -29,13 +29,10 @@
                 android:hint="Name"
                 android:inputType="textCapWords" />
 
-            <EditText
-                android:id="@+id/message"
+            <Spinner
+                android:id="@+id/type"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Message"
-                android:inputType="textCapSentences"
-                android:minLines="3" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <include

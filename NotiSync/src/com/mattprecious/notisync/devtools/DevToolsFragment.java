@@ -24,7 +24,29 @@ public class DevToolsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(android.R.id.content, new TestMessageFragment())
+                        .replace(android.R.id.content, new TextMessageFragment())
+                        .addToBackStack(null).commit();
+            }
+        });
+
+        View phoneCall = rootView.findViewById(R.id.phone_call);
+        phoneCall.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(android.R.id.content, new PhoneCallFragment())
+                        .addToBackStack(null).commit();
+            }
+        });
+
+        View gtalkMessage = rootView.findViewById(R.id.gtalk_message);
+        gtalkMessage.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(android.R.id.content, new GtalkMessageFragment())
                         .addToBackStack(null).commit();
             }
         });

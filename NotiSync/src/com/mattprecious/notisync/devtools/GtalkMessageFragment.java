@@ -10,25 +10,23 @@ import android.view.ViewGroup;
 
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.message.BaseMessage;
-import com.mattprecious.notisync.message.TextMessage;
+import com.mattprecious.notisync.message.GtalkMessage;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.EditText;
 
-public class TestMessageFragment extends Fragment {
-    private EditText numberText;
-    private EditText nameText;
+public class GtalkMessageFragment extends Fragment {
+    private EditText senderText;
     private EditText messageText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.dev_tools_text_message, container, false);
+        View rootView = inflater.inflate(R.layout.dev_tools_gtalk_message, container, false);
 
-        getActivity().setTitle("Text message");
+        getActivity().setTitle("Gtalk message");
 
-        numberText = (EditText) rootView.findViewById(R.id.number);
-        nameText = (EditText) rootView.findViewById(R.id.name);
+        senderText = (EditText) rootView.findViewById(R.id.sender);
         messageText = (EditText) rootView.findViewById(R.id.message);
 
         rootView.findViewById(R.id.back).setOnClickListener(new OnClickListener() {
@@ -51,12 +49,11 @@ public class TestMessageFragment extends Fragment {
     }
 
     private void send() {
-        TextMessage.Builder builder = new TextMessage.Builder();
-        builder.number(numberText.getText().toString());
-        builder.name(nameText.getText().toString());
+        GtalkMessage.Builder builder = new GtalkMessage.Builder();
+        builder.sender(senderText.getText().toString());
         builder.message(messageText.getText().toString());
 
-        TextMessage message = builder.build();
+        GtalkMessage message = builder.build();
 
         Intent intent = new Intent(DevToolsActivity.ACTION_RECEIVE_MESSAGE);
         intent.putExtra("message", BaseMessage.toJsonString(message));
