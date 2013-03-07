@@ -1,16 +1,13 @@
 
 package com.mattprecious.notisync.devtools;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
-import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.message.PhoneCallMessage;
 import com.mattprecious.notisync.message.PhoneCallMessage.Type;
 
@@ -72,10 +69,6 @@ public class PhoneCallFragment extends Fragment {
         builder.type(Type.values()[typeSpinner.getSelectedItemPosition()]);
 
         PhoneCallMessage message = builder.build();
-
-        Intent intent = new Intent(DevToolsActivity.ACTION_RECEIVE_MESSAGE);
-        intent.putExtra("message", BaseMessage.toJsonString(message));
-
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        ((DevToolsActivity) getActivity()).sendMessage(message);
     }
 }

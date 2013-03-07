@@ -93,8 +93,6 @@ public class SecondaryService extends Service {
 
         broadcastManager.registerReceiver(timerReceiver, new IntentFilter(
                 ServiceActions.ACTION_UPDATE_TIMER));
-
-        // debug
         broadcastManager.registerReceiver(devToolsMessageReceiver,
                 new IntentFilter(DevToolsActivity.ACTION_RECEIVE_MESSAGE));
 
