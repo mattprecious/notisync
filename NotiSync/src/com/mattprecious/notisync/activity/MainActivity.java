@@ -25,6 +25,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.mattprecious.notisync.BuildConfig;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.devtools.DevToolsActivity;
 import com.mattprecious.notisync.fragment.AccessibilityDialogFragment;
@@ -295,6 +296,11 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.main, menu);
+
+        if (BuildConfig.DEBUG) {
+            menu.findItem(R.id.menu_dev_tools).setVisible(true);
+        }
+
         return true;
     }
 
