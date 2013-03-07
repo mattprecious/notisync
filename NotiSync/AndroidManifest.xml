@@ -55,6 +55,9 @@
             android:name="com.mattprecious.notisync.profile.PrimaryCustomProfileActivity" />
         <activity
             android:name="com.mattprecious.notisync.profile.SecondaryCustomProfileActivity" />
+        <activity
+            android:name="com.mattprecious.notisync.devtools.DevToolsActivity"
+            android:theme="@style/DevToolsTheme" />
 
         <service android:name="com.mattprecious.notisync.service.PrimaryService" />
         <service android:name="com.mattprecious.notisync.service.SecondaryService" />

@@ -25,6 +25,7 @@ import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.bluetooth.BluetoothService;
 import com.mattprecious.notisync.db.DbAdapter;
+import com.mattprecious.notisync.devtools.DevToolsActivity;
 import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.message.ClearMessage;
 import com.mattprecious.notisync.message.CustomMessage;
@@ -93,6 +94,10 @@ public class SecondaryService extends Service {
         broadcastManager.registerReceiver(timerReceiver, new IntentFilter(
                 ServiceActions.ACTION_UPDATE_TIMER));
 
+        // debug
+        broadcastManager.registerReceiver(devToolsMessageReceiver,
+                new IntentFilter(DevToolsActivity.ACTION_RECEIVE_MESSAGE));
+
         registerReceiver(bluetoothStateReceiver, new IntentFilter(
                 BluetoothAdapter.ACTION_STATE_CHANGED));
 
@@ -112,6 +117,7 @@ public class SecondaryService extends Service {
 
         try {
             broadcastManager.unregisterReceiver(timerReceiver);
+            broadcastManager.unregisterReceiver(devToolsMessageReceiver);
 
             unregisterReceiver(bluetoothStateReceiver);
         } catch (IllegalArgumentException e) {
@@ -164,7 +170,7 @@ public class SecondaryService extends Service {
         builder.setContentTitle(getString(R.string.app_name));
 
         Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         builder.setContentIntent(pendingIntent);
@@ -489,6 +495,16 @@ public class SecondaryService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             updateTimer();
+        }
+
+    };
+
+    private final BroadcastReceiver devToolsMessageReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+            receiveMessage(BaseMessage.fromJsonString(message));
         }
 
     };

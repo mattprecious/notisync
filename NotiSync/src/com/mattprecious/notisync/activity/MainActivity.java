@@ -26,6 +26,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.devtools.DevToolsActivity;
 import com.mattprecious.notisync.fragment.AccessibilityDialogFragment;
 import com.mattprecious.notisync.fragment.AccessibilityDialogFragment.AccessibilityDialogListener;
 import com.mattprecious.notisync.fragment.PrimaryCustomProfileListFragment;
@@ -35,10 +36,10 @@ import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.model.SecondaryProfile;
 import com.mattprecious.notisync.preferences.AboutPreferenceFragment;
 import com.mattprecious.notisync.preferences.SettingsActivity;
-import com.mattprecious.notisync.service.ServiceActions;
 import com.mattprecious.notisync.service.NotificationService;
 import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.service.SecondaryService;
+import com.mattprecious.notisync.service.ServiceActions;
 import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.UndoBarController;
@@ -334,6 +335,9 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                         R.string.preference_header_about);
                 startActivity(aboutIntent);
 
+                return true;
+            case R.id.menu_dev_tools:
+                startActivity(new Intent(this, DevToolsActivity.class));
                 return true;
         }
 

@@ -1,0 +1,66 @@
+
+package com.mattprecious.notisync.devtools;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+
+import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.message.BaseMessage;
+import com.mattprecious.notisync.message.TextMessage;
+
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.widget.EditText;
+
+public class TestMessageFragment extends Fragment {
+    private EditText numberText;
+    private EditText nameText;
+    private EditText messageText;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.dev_tools_text_message, container, false);
+
+        getActivity().setTitle("Text message");
+
+        numberText = (EditText) rootView.findViewById(R.id.number);
+        nameText = (EditText) rootView.findViewById(R.id.name);
+        messageText = (EditText) rootView.findViewById(R.id.message);
+
+        rootView.findViewById(R.id.back).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().popBackStack();
+            }
+        });
+
+        rootView.findViewById(R.id.send).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        return rootView;
+    }
+
+    private void send() {
+        TextMessage.Builder builder = new TextMessage.Builder();
+        builder.number(numberText.getText().toString());
+        builder.name(nameText.getText().toString());
+        builder.message(messageText.getText().toString());
+
+        TextMessage message = builder.build();
+
+        Intent intent = new Intent(DevToolsActivity.ACTION_RECEIVE_MESSAGE);
+        intent.putExtra("message", BaseMessage.toJsonString(message));
+
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+    }
+}
