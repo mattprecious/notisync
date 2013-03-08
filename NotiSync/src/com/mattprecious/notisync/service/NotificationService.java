@@ -138,7 +138,6 @@ public class NotificationService extends AccessibilityService {
 
     @Override
     public void onInterrupt() {
-        // TODO Auto-generated method stub
     }
 
     private void sendMessage(BaseMessage message) {

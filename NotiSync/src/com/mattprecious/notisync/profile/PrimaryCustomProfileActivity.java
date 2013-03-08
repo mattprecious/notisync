@@ -1,6 +1,7 @@
 
 package com.mattprecious.notisync.profile;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +29,8 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.widget.EditText;
 
@@ -38,6 +41,8 @@ public class PrimaryCustomProfileActivity extends Activity implements
     private final int ERROR_FLAG_NAME = 1 << 0;
     private final int ERROR_FLAG_TAG = 1 << 1;
     private final int ERROR_FLAG_PACKAGE = 1 << 2;
+
+    private static final String PREFERENCES_KEY_PUSH_PROFILE = "push_profile";
 
     private DbAdapter dbAdapter;
     private LocalBroadcastManager broadcastManager;
@@ -182,8 +187,14 @@ public class PrimaryCustomProfileActivity extends Activity implements
                     Crouton.showText(this, R.string.custom_profile_fix_errors, Style.ALERT);
                 } else {
                     if (save()) {
-                        setResult(RESULT_OK);
-                        finish();
+                        boolean pushProfile = getPreferences(MODE_PRIVATE).getBoolean(
+                                PREFERENCES_KEY_PUSH_PROFILE, true);
+                        if (pushProfile && profile.getId() == 0) {
+                            DialogFragment dialogFragment = new PushConfirmDialogFragment();
+                            dialogFragment.show(getSupportFragmentManager());
+                        } else {
+                            finishOk();
+                        }
                     } else {
                         Crouton.showText(this, R.string.custom_profile_error, Style.ALERT);
                     }
@@ -238,6 +249,10 @@ public class PrimaryCustomProfileActivity extends Activity implements
         }
         dbAdapter.close();
 
+        return result;
+    }
+
+    private void pushProfile() {
         if (profile.getId() == 0) {
             TagPushMessage message = new TagPushMessage.Builder().name(profile.getName())
                     .tag(profile.getTag()).build();
@@ -246,8 +261,11 @@ public class PrimaryCustomProfileActivity extends Activity implements
             intent.putExtra(PrimaryService.EXTRA_MESSAGE, BaseMessage.toJsonString(message));
             broadcastManager.sendBroadcast(intent);
         }
+    }
 
-        return result;
+    private void finishOk() {
+        setResult(RESULT_OK);
+        finish();
     }
 
     private boolean delete() {
@@ -301,6 +319,58 @@ public class PrimaryCustomProfileActivity extends Activity implements
         } else {
             packageField.setError(null);
             removeError(ERROR_FLAG_PACKAGE);
+        }
+    }
+
+    public static class PushConfirmDialogFragment extends DialogFragment {
+        private PrimaryCustomProfileActivity activity;
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+
+            this.activity = (PrimaryCustomProfileActivity) activity;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setTitle(R.string.custom_profile_push_title);
+            builder.setMessage(R.string.custom_profile_push_message);
+
+            builder.setPositiveButton(R.string.custom_profile_push_yes,
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            activity.pushProfile();
+                            activity.finishOk();
+                        }
+                    });
+
+            builder.setNeutralButton(R.string.custom_profile_push_no,
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            activity.finishOk();
+                        }
+                    });
+
+            builder.setNegativeButton(R.string.custom_profile_push_never,
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().getPreferences(MODE_PRIVATE).edit()
+                                    .putBoolean(PREFERENCES_KEY_PUSH_PROFILE, false).commit();
+
+                            activity.finishOk();
+                        }
+                    });
+
+            return builder.create();
         }
     }
 }

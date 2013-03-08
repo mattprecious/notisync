@@ -112,6 +112,13 @@
     <string name="custom_profile_invalid_empty">Field must not be empty</string>
     <string name="custom_profile_invalid_unique">Field must be unique</string>
 
+    <!-- custom profile push dialog -->
+    <string name="custom_profile_push_title">Push</string>
+    <string name="custom_profile_push_message">Would you like to push this profile to all connected devices?</string>
+    <string name="custom_profile_push_yes">Yes</string>
+    <string name="custom_profile_push_no">No</string>
+    <string name="custom_profile_push_never">never</string>
+
     <!-- package picker -->
     <string name="package_picker_title">Pick an application</string>
     <string name="package_picker_cancel">Cancel</string>
