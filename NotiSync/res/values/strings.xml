@@ -37,7 +37,7 @@
         If you\'ve created any custom profiles on your primary device, create a matching profile here to configure your notifications. Here are some important things to know.<br /><br />
         
         <b>Name</b><br />
-        Help yourself identify your profiles with a simple display name.<br /><br />
+        Help yourself identify your profiles with a simple display name. This name will also be used as a title for your notifications.<br /><br />
         
         <b>Tag</b><br />
         This tag must match a tag that you\'ve used on your primary device. This is how NotiSync identifies custom notifications when they are received.<br /><br />

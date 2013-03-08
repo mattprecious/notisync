@@ -425,6 +425,7 @@ public class SecondaryService extends Service {
                     defaults |= Notification.DEFAULT_LIGHTS;
                 }
 
+                builder.setContentTitle(profile.getName());
                 builder.setDefaults(defaults);
                 builder.setSound(getRingtoneUri(profile.getRingtone()));
             }
@@ -443,7 +444,12 @@ public class SecondaryService extends Service {
         // use the profile ID to determine the notification ID
         // TODO: note that if somehow a profile ID is ~2^32, we're overwriting
         // notifications...
-        notificationManager.notify(NOTIFICATION_ID_CUSTOM + profile.getId(), notification);
+        int notificationId = NOTIFICATION_ID_CUSTOM;
+        if (profile != null) {
+            notificationId += profile.getId();
+        }
+
+        notificationManager.notify(notificationId, notification);
     }
 
     private void handleClearMessage(ClearMessage message) {

@@ -124,7 +124,7 @@ public class NotificationService extends AccessibilityService {
                     String message = notification.tickerText == null ? null
                             : notification.tickerText.toString();
                     CustomMessage customMessage = new CustomMessage.Builder().tag(profile.getTag())
-                            .title("Custom Message").message(message).build();
+                            .title(profile.getName()).message(message).build();
 
                     sendMessage(customMessage);
                 }
