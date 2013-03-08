@@ -96,8 +96,6 @@ public class PrimaryService extends Service {
 
         handler = new PrimaryHandler(this);
 
-        broadcastManager.registerReceiver(reconnectReceiver, new IntentFilter(
-                ACTION_RECONNECT));
         broadcastManager.registerReceiver(updateDevicesReceiver, new IntentFilter(
                 ACTION_UPDATE_DEVICES));
         broadcastManager.registerReceiver(timerReceiver, new IntentFilter(
@@ -107,6 +105,7 @@ public class PrimaryService extends Service {
         broadcastManager.registerReceiver(devToolsSendMessageReceiver, new IntentFilter(
                 DevToolsActivity.ACTION_SEND_MESSAGE));
 
+        registerReceiver(reconnectReceiver, new IntentFilter(ACTION_RECONNECT));
         registerReceiver(bluetoothStateReceiver, new IntentFilter(
                 BluetoothAdapter.ACTION_STATE_CHANGED));
         registerReceiver(smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
@@ -127,12 +126,12 @@ public class PrimaryService extends Service {
         }
 
         try {
-            broadcastManager.unregisterReceiver(reconnectReceiver);
             broadcastManager.unregisterReceiver(updateDevicesReceiver);
             broadcastManager.unregisterReceiver(timerReceiver);
             broadcastManager.unregisterReceiver(sendMessageReceiver);
             broadcastManager.unregisterReceiver(devToolsSendMessageReceiver);
 
+            unregisterReceiver(reconnectReceiver);
             unregisterReceiver(bluetoothStateReceiver);
             unregisterReceiver(smsReceiver);
             unregisterReceiver(phoneReceiver);
