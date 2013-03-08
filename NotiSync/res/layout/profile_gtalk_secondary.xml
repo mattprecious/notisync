@@ -27,7 +27,7 @@
 
             <View style="@style/Profile.Divider" />
 
-            <TextView
+            <Button
                 android:id="@+id/ringtoneSelector"
                 style="@style/Profile.Item.FauxSpinner" />
         </LinearLayout>

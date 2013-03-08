@@ -105,6 +105,7 @@
     <string name="custom_profile_label_unconnected_only">Unconnected only</string>
     <string name="custom_profile_label_vibrate">Vibrate</string>
     <string name="custom_profile_label_lights">Flash LED</string>
+    <string name="custom_profile_tag_picker_description">Request tags from connected device</string>
 
     <!-- custom profile croutons & errors -->
     <string name="custom_profile_fix_errors">Please fix the errors below and try again.</string>

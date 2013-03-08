@@ -28,9 +28,9 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.DialogFragment;
+import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.TextView;
 
 import java.util.Locale;
 
@@ -50,7 +50,7 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
     private EditText tagField;
     private ImageButton tagRequestButton;
     private CheckBox unconnectedOnlyCheckBox;
-    private TextView ringtoneSelector;
+    private Button ringtoneSelector;
     private CheckBox vibrateCheckBox;
     private CheckBox lightsCheckBox;
 
@@ -116,7 +116,7 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
         unconnectedOnlyCheckBox = (CheckBox) findViewById(R.id.unconnectedOnlyCheckBox);
         unconnectedOnlyCheckBox.setChecked(profile.isUnconnectedOnly());
 
-        ringtoneSelector = (TextView) findViewById(R.id.ringtoneSelector);
+        ringtoneSelector = (Button) findViewById(R.id.ringtoneSelector);
         ringtoneSelector.setOnClickListener(new OnClickListener() {
 
             @Override

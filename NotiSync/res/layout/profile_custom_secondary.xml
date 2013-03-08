@@ -34,20 +34,19 @@
 
                 <EditText
                     android:id="@+id/tagField"
-                    android:layout_width="wrap_content"
+                    style="@style/Profile.SplitItemEditText"
+                    android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:hint="@string/custom_profile_header_tag"
                     android:imeOptions="actionDone" />
 
                 <ImageButton
                     android:id="@+id/tagRequestButton"
+                    style="@style/Profile.SplitItemImageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/selectable_background_orange"
-                    android:contentDescription="Request tags from connected device"
+                    android:contentDescription="@string/custom_profile_tag_picker_description"
                     android:src="@drawable/ic_button_folder" />
             </LinearLayout>
         </LinearLayout>
@@ -74,7 +73,7 @@
 
             <View style="@style/Profile.Divider" />
 
-            <TextView
+            <Button
                 android:id="@+id/ringtoneSelector"
                 style="@style/Profile.Item.FauxSpinner" />
         </LinearLayout>
