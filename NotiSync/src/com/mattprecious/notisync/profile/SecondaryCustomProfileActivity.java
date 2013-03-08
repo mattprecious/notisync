@@ -7,8 +7,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -21,7 +19,8 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
-import com.mattprecious.notisync.fragment.PackagePickerFragment;
+import com.mattprecious.notisync.fragment.RequestTagsDialogFragment;
+import com.mattprecious.notisync.fragment.RequestTagsDialogFragment.OnTagSelectedListener;
 import com.mattprecious.notisync.model.SecondaryProfile;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -36,7 +35,7 @@ import org.holoeverywhere.widget.TextView;
 import java.util.Locale;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class SecondaryCustomProfileActivity extends Activity {
+public class SecondaryCustomProfileActivity extends Activity implements OnTagSelectedListener {
     private final int ERROR_FLAG_NAME = 1 << 0;
     private final int ERROR_FLAG_TAG = 1 << 1;
 
@@ -108,13 +107,8 @@ public class SecondaryCustomProfileActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                DialogFragment newFragment = new PackagePickerFragment();
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(newFragment, null);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                DialogFragment newFragment = new RequestTagsDialogFragment();
+                newFragment.show(getSupportFragmentManager());
             }
 
         });
@@ -273,6 +267,17 @@ public class SecondaryCustomProfileActivity extends Activity {
 
     private void removeError(int flag) {
         errorFlags &= ~flag;
+    }
+
+    @Override
+    public void onTagSelected(String profileName, String tag) {
+        tagField.setText(tag);
+        validateTag();
+
+        if (nameField.getText().length() == 0) {
+            nameField.setText(profileName);
+            validateName();
+        }
     }
 
     private boolean save() {

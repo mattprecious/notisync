@@ -117,6 +117,11 @@
     <string name="package_picker_cancel">Cancel</string>
     <string name="package_picker_icon_description">App Icon</string>
 
+    <!-- tag picker -->
+    <string name="request_tags_title">Pick a profile</string>
+    <string name="request_tags_cancel">Cancel</string>
+    <string name="request_tags_error">Could not load tags from primary device</string>
+
     <!-- menu items -->
     <string name="menu_settings">Settings</string>
     <string name="menu_wizard">Wizard</string>

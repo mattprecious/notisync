@@ -40,7 +40,7 @@
                     android:ems="10"
                     android:hint="@string/custom_profile_header_tag"
                     android:imeOptions="actionDone" />
-                
+
                 <ImageButton
                     android:id="@+id/tagRequestButton"
                     android:layout_width="wrap_content"

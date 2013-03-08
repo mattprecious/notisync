@@ -1,21 +1,21 @@
 
 package com.mattprecious.notisync.message;
 
-import java.util.Map;
+import java.util.HashMap;
 
 public class TagsResponseMessage extends BaseMessage {
     public final int VERSION_CODE = 1;
     
-    public final Map<String, String> tags;
+    public final HashMap<String, String> tags;
     
     private TagsResponseMessage(Builder builder) {
         tags = builder.tags;
     }
     
     public static class Builder {
-        private Map<String, String> tags;
+        private HashMap<String, String> tags;
 
-        public Builder tags(Map<String, String> tags) {
+        public Builder tags(HashMap<String, String> tags) {
             this.tags = tags;
             return this;
         }

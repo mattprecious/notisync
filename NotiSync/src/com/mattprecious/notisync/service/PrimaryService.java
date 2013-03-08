@@ -1,13 +1,6 @@
 
 package com.mattprecious.notisync.service;
 
-import java.lang.ref.WeakReference;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -30,6 +23,7 @@ import android.telephony.TelephonyManager;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.bluetooth.BluetoothService;
 import com.mattprecious.notisync.db.DbAdapter;
@@ -44,7 +38,14 @@ import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.util.ContactHelper;
 import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
-import com.mattprecious.notisync.R;
+
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PrimaryService extends Service {
     private final static String TAG = "PrimaryService";
@@ -339,12 +340,14 @@ public class PrimaryService extends Service {
     }
 
     private void handleTagsRequestMessage(TagsRequestMessage message) {
-        Map<String, String> tags = Maps.newHashMap();
+        HashMap<String, String> tags = Maps.newHashMap();
 
+        dbAdapter.openReadable();
         List<PrimaryProfile> profiles = dbAdapter.getPrimaryProfiles();
         for (PrimaryProfile profile : profiles) {
             tags.put(profile.getTag(), profile.getName());
         }
+        dbAdapter.close();
 
         TagsResponseMessage responseMessage = new TagsResponseMessage.Builder().tags(tags).build();
         sendMessage(BaseMessage.toJsonString(responseMessage));

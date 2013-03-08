@@ -185,4 +185,11 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="RequestTagsError">
+        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dip</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:visibility">gone</item>
+    </style>
 </resources>
