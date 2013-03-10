@@ -4,6 +4,7 @@ package com.mattprecious.notisync.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import com.google.common.base.Joiner;
@@ -355,6 +356,7 @@ public class Preferences {
 
     // quick helper function
     private static String getDefaultRingtone() {
-        return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString();
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        return (uri == null) ? null : uri.toString();
     }
 }
