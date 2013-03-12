@@ -24,6 +24,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneNumberUtils;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.TextAppearanceSpan;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -308,7 +309,7 @@ public class SecondaryService extends Service {
         builder.setContentIntent(deleteIntent);
         builder.setDeleteIntent(deleteIntent);
 
-        List<List<NotificationData>> dataMap = Lists.newArrayList();
+        List<List<NotificationData>> threadList = Lists.newArrayList();
         List<Entry<String, List<TextMessage>>> entryList = Lists.reverse(Lists
                 .newArrayList(textMessages.entrySet()));
         for (Entry<String, List<TextMessage>> entry : entryList) {
@@ -327,12 +328,12 @@ public class SecondaryService extends Service {
                 data.add(new NotificationData(sender, msg.message));
             }
 
-            dataMap.add(data);
+            threadList.add(data);
         }
 
         Bitmap photo = ContactHelper.getContactPhoto(this, message.number);
         notificationManager.notify(NOTIFICATION_ID_TEXT,
-                buildRichNotification(builder, dataMap, photo));
+                buildRichNotification(builder, threadList, photo));
     }
 
     private void handlePhoneCallMessage(PhoneCallMessage message) {
@@ -442,7 +443,7 @@ public class SecondaryService extends Service {
         builder.setContentIntent(deleteIntent);
         builder.setDeleteIntent(deleteIntent);
 
-        List<List<NotificationData>> dataMap = Lists.newArrayList();
+        List<List<NotificationData>> threadList = Lists.newArrayList();
         List<Entry<String, List<GtalkMessage>>> entryList = Lists.reverse(Lists
                 .newArrayList(gtalkMessages.entrySet()));
         for (Entry<String, List<GtalkMessage>> entry : entryList) {
@@ -451,11 +452,11 @@ public class SecondaryService extends Service {
                 data.add(new NotificationData(msg.sender, msg.message));
             }
 
-            dataMap.add(data);
+            threadList.add(data);
         }
 
         notificationManager.notify(NOTIFICATION_ID_GTALK,
-                buildRichNotification(builder, dataMap, null));
+                buildRichNotification(builder, threadList, null));
     }
 
     private void handleCustomMessage(CustomMessage message) {
@@ -554,17 +555,26 @@ public class SecondaryService extends Service {
         return (ringtone == null) ? null : Uri.parse(ringtone);
     }
 
+    /**
+     * Taken and modified from AOSP MMS app.
+     * src/com/android/mms/transaction/MessagingNotification.java
+     */
     private Notification buildRichNotification(NotificationCompat.Builder builder,
-            List<List<NotificationData>> dataMap, Bitmap photoIfSingleThread) {
-        if (dataMap.size() == 0) {
+            List<List<NotificationData>> threadList, Bitmap photoIfSingleThread) {
+        if (threadList.size() == 0) {
             return builder.build();
         }
 
-        // only one thread
-        if (dataMap.size() == 1) {
-            List<NotificationData> dataList = dataMap.get(0);
+        final TextAppearanceSpan primarySpan = new TextAppearanceSpan(this,
+                R.style.NotificationPrimaryText);
+        final TextAppearanceSpan secondarySpan = new TextAppearanceSpan(this,
+                R.style.NotificationSecondaryText);
 
-            NotificationData lastData = dataList.get(dataList.size() - 1);
+        // only one thread
+        if (threadList.size() == 1) {
+            List<NotificationData> thread = threadList.get(0);
+
+            NotificationData lastData = thread.get(thread.size() - 1);
             builder.setContentTitle(lastData.sender);
 
             if (photoIfSingleThread != null) {
@@ -572,14 +582,16 @@ public class SecondaryService extends Service {
             }
 
             // only one message, display the whole thing
-            if (dataList.size() == 1) {
-                // remove extra newlines
-                String message = removeWhitespace(lastData.message);
+            if (thread.size() == 1) {
+                String message = dedupeNewlines(lastData.message);
 
                 builder.setContentText(message);
 
                 return new NotificationCompat.BigTextStyle(builder)
                         .bigText(message)
+                        // Forcibly show the last line, with the smallIcon in
+                        // it, if we kicked the smallIcon out with a photo
+                        // bitmap
                         .setSummaryText((photoIfSingleThread == null) ? null : " ")
                         .build();
             } else {
@@ -587,9 +599,9 @@ public class SecondaryService extends Service {
                 SpannableStringBuilder buf = new SpannableStringBuilder();
 
                 boolean first = true;
-                for (NotificationData data : dataList) {
+                for (NotificationData data : thread) {
                     // remove extra newlines
-                    String message = removeWhitespace(data.message);
+                    String message = dedupeNewlines(data.message);
 
                     if (first) {
                         first = false;
@@ -600,12 +612,13 @@ public class SecondaryService extends Service {
                     buf.append(message);
                 }
 
-                builder.setContentText(dataList.size() + " new message(s)");
+                builder.setContentTitle(getString(R.string.noti_title_new_messages, thread.size()));
 
-                // Show a single notification -- big style with the text of all
-                // the messages
                 return new NotificationCompat.BigTextStyle(builder)
                         .bigText(buf)
+                        // Forcibly show the last line, with the smallIcon in
+                        // it, if we kicked the smallIcon out with a photo
+                        // bitmap
                         .setSummaryText((photoIfSingleThread == null) ? null : " ")
                         .build();
             }
@@ -613,57 +626,58 @@ public class SecondaryService extends Service {
             // multiple threads
 
             String separator = ", ";
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+            SpannableStringBuilder contentStringBuilder = new SpannableStringBuilder();
 
             boolean first = true;
             int totalMessageCount = 0;
-            for (List<NotificationData> dataList : dataMap) {
-                totalMessageCount += dataList.size();
+            for (List<NotificationData> thread : threadList) {
+                totalMessageCount += thread.size();
 
                 if (first) {
                     first = false;
                 } else {
-                    spannableStringBuilder.append(separator);
+                    contentStringBuilder.append(separator);
                 }
 
-                NotificationData lastData = dataList.get(dataList.size() - 1);
-                spannableStringBuilder.append(lastData.sender);
+                NotificationData lastData = thread.get(thread.size() - 1);
+                contentStringBuilder.append(lastData.sender);
 
             }
 
-            builder.setContentTitle(String.format("%d new messages", totalMessageCount));
-            builder.setContentText(spannableStringBuilder);
+            builder.setContentTitle(getString(R.string.noti_title_new_messages, totalMessageCount));
+            builder.setContentText(contentStringBuilder);
 
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle(builder);
 
             // We have to set the summary text to non-empty so the content text
-            // doesn't show
-            // up when expanded.
+            // doesn't show up when expanded.
             inboxStyle.setSummaryText(" ");
 
-            // At this point we've got multiple messages in multiple threads. We
-            // only
-            // want to show the most recent message per thread, which are in
-            // mostRecentNotifPerThread.
             int c = 0;
-            for (List<NotificationData> dataList : dataMap) {
+            for (List<NotificationData> dataList : threadList) {
                 if (c == 8)
                     break;
 
                 NotificationData lastData = dataList.get(dataList.size() - 1);
 
-                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
-                spannableStringBuilder2.append(lastData.sender).append(": ");
+                SpannableStringBuilder inboxStringBuilder = new SpannableStringBuilder();
 
-                spannableStringBuilder2.append(removeWhitespace(lastData.message));
-                inboxStyle.addLine(spannableStringBuilder2);
+                int senderLength = lastData.sender.length();
+                inboxStringBuilder.append(lastData.sender).append(": ");
+                inboxStringBuilder.setSpan(primarySpan, 0, senderLength, 0);
+
+                inboxStringBuilder.append(dedupeNewlines(lastData.message));
+                inboxStringBuilder.setSpan(secondarySpan, senderLength, senderLength
+                        + lastData.sender.length(), 0);
+
+                inboxStyle.addLine(inboxStringBuilder);
             }
 
             return inboxStyle.build();
         }
     }
 
-    private String removeWhitespace(String str) {
+    private String dedupeNewlines(String str) {
         return !TextUtils.isEmpty(str) ? str.replaceAll("\\n\\s+", "\n") : "";
     }
 
@@ -718,7 +732,7 @@ public class SecondaryService extends Service {
                 case BluetoothService.MESSAGE_READ:
                     // construct a string from the valid bytes in the buffer
                     String readMessage = (String) msg.obj;
-                    MyLog.d("DEBUG", "Received: " + readMessage);
+                    MyLog.d(TAG, "Received: " + readMessage);
 
                     service.receiveMessage(BaseMessage.fromJsonString(readMessage));
                     break;

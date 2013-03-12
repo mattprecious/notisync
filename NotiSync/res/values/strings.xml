@@ -68,6 +68,7 @@
     <string name="noti_action_enable_bt">Enable</string>
     <string name="noti_title_incoming_call">Incoming call</string>
     <string name="noti_title_missed_call">Missed call</string>
+    <string name="noti_title_new_messages">%d new messages</string>
 
     <!-- main activity -->
     <string name="pager_title_standard">Standard</string>
