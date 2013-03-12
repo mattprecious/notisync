@@ -37,6 +37,8 @@ import com.mattprecious.notisync.message.ClearMessage;
 import com.mattprecious.notisync.message.CustomMessage;
 import com.mattprecious.notisync.message.GtalkMessage;
 import com.mattprecious.notisync.message.PhoneCallMessage;
+import com.mattprecious.notisync.message.TagPushMessage;
+import com.mattprecious.notisync.message.TagsResponseMessage;
 import com.mattprecious.notisync.message.TextMessage;
 import com.mattprecious.notisync.model.SecondaryProfile;
 import com.mattprecious.notisync.util.ContactHelper;
@@ -52,6 +54,14 @@ import java.util.TimerTask;
 
 public class SecondaryService extends Service {
     private final static String TAG = "SecondaryService";
+
+    public final static String ACTION_SEND_MESSAGE =
+            "com.mattprecious.notisync.service.SecondaryService.ACTION_SEND_MESSAGE";
+    public final static String ACTION_TAGS_RECEIVED =
+            "com.mattprecious.notisync.service.SecondaryService.ACTION_TAGS_RECEIVED";
+
+    public final static String EXTRA_MESSAGE = "message";
+    public final static String EXTRA_TAGS = "tags";
 
     private static boolean running = false;
 
@@ -111,6 +121,8 @@ public class SecondaryService extends Service {
 
         broadcastManager.registerReceiver(timerReceiver, new IntentFilter(
                 ServiceActions.ACTION_UPDATE_TIMER));
+        broadcastManager.registerReceiver(sendMessageReceiver,
+                new IntentFilter(ACTION_SEND_MESSAGE));
         broadcastManager.registerReceiver(devToolsMessageReceiver,
                 new IntentFilter(DevToolsActivity.ACTION_RECEIVE_MESSAGE));
 
@@ -137,6 +149,7 @@ public class SecondaryService extends Service {
 
         try {
             broadcastManager.unregisterReceiver(timerReceiver);
+            broadcastManager.unregisterReceiver(sendMessageReceiver);
             broadcastManager.unregisterReceiver(devToolsMessageReceiver);
 
             unregisterReceiver(bluetoothStateReceiver);
@@ -213,6 +226,10 @@ public class SecondaryService extends Service {
         return builder.build();
     }
 
+    public void sendMessage(String message) {
+        bluetoothService.write(message.getBytes());
+    }
+
     private void receiveMessage(BaseMessage message) {
         if (message instanceof TextMessage) {
             MyLog.d(TAG, "handling message of type: TextMessage");
@@ -239,6 +256,16 @@ public class SecondaryService extends Service {
 
             ClearMessage clearMessage = (ClearMessage) message;
             handleClearMessage(clearMessage);
+        } else if (message instanceof TagPushMessage) {
+            MyLog.d(TAG, "handling message of type: TagPushMessage");
+
+            TagPushMessage tagPushMessage = (TagPushMessage) message;
+            handleTagPushMessage(tagPushMessage);
+        } else if (message instanceof TagsResponseMessage) {
+            MyLog.d(TAG, "handling message of type: TagsResponseMessage");
+
+            TagsResponseMessage tagsResponseMessage = (TagsResponseMessage) message;
+            handleTagsResponseMessage(tagsResponseMessage);
         } else {
             MyLog.e(TAG, "no handler for message: " + message);
         }
@@ -464,6 +491,7 @@ public class SecondaryService extends Service {
                     defaults |= Notification.DEFAULT_LIGHTS;
                 }
 
+                builder.setContentTitle(profile.getName());
                 builder.setDefaults(defaults);
                 builder.setSound(getRingtoneUri(profile.getRingtone()));
             }
@@ -482,7 +510,12 @@ public class SecondaryService extends Service {
         // use the profile ID to determine the notification ID
         // TODO: note that if somehow a profile ID is ~2^32, we're overwriting
         // notifications...
-        notificationManager.notify(NOTIFICATION_ID_CUSTOM + profile.getId(), notification);
+        int notificationId = NOTIFICATION_ID_CUSTOM;
+        if (profile != null) {
+            notificationId += profile.getId();
+        }
+
+        notificationManager.notify(notificationId, notification);
     }
 
     private void handleClearMessage(ClearMessage message) {
@@ -491,6 +524,24 @@ public class SecondaryService extends Service {
             PhoneCallMessage phoneMessage = (PhoneCallMessage) message.message;
             handleClearPhoneCallMessage(phoneMessage);
         }
+    }
+
+    private void handleTagPushMessage(TagPushMessage message) {
+        SecondaryProfile profile = new SecondaryProfile();
+        profile.setEnabled(true);
+        profile.setName(message.name);
+        profile.setTag(message.tag);
+
+        dbAdapter.openWritable();
+        dbAdapter.insertSecondaryProfile(profile);
+        dbAdapter.close();
+    }
+
+    private void handleTagsResponseMessage(TagsResponseMessage message) {
+        Intent intent = new Intent(ACTION_TAGS_RECEIVED);
+        intent.putExtra(EXTRA_TAGS, message.tags);
+
+        broadcastManager.sendBroadcast(intent);
     }
 
     private boolean isNetworkAvailable() {
@@ -702,6 +753,15 @@ public class SecondaryService extends Service {
             updateTimer();
         }
 
+    };
+
+    private final BroadcastReceiver sendMessageReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra(EXTRA_MESSAGE);
+            sendMessage(message);
+        }
     };
 
     private final BroadcastReceiver textNotificationDeletedReceiver = new BroadcastReceiver() {

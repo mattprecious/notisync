@@ -1,10 +1,13 @@
 
 package com.mattprecious.notisync.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,6 +38,7 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
     private final String TAG = getClass().getName();
 
     private DbAdapter dbAdapter;
+    private LocalBroadcastManager broadcastManager;
     private ListView listView;
     private CustomProfileAdapter listAdapter;
 
@@ -43,6 +47,10 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
         View view = inflater.inflate(R.layout.custom_list, container, false);
 
         dbAdapter = new DbAdapter(getActivity());
+
+        broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        broadcastManager.registerReceiver(profileUpdateReceiver, new IntentFilter(
+                DbAdapter.ACTION_PROFILES_UPDATED));
 
         listAdapter = new CustomProfileAdapter(getActivity());
         listView = (ListView) view.findViewById(R.id.list);
@@ -76,6 +84,16 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
         reloadProfiles();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        try {
+            broadcastManager.unregisterReceiver(profileUpdateReceiver);
+        } catch (IllegalArgumentException e) {
+        }
+    }
+
     private void reloadProfiles() {
         dbAdapter.openReadable();
         List<PrimaryProfile> profiles = dbAdapter.getPrimaryProfiles();
@@ -95,6 +113,14 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
 
         reloadProfiles();
     }
+
+    private BroadcastReceiver profileUpdateReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            reloadProfiles();
+        }
+    };
 
     private class CustomProfileAdapter extends BaseAdapter {
         private LayoutInflater inflater;

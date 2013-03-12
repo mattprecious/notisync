@@ -124,7 +124,7 @@ public class NotificationService extends AccessibilityService {
                     String message = notification.tickerText == null ? null
                             : notification.tickerText.toString();
                     CustomMessage customMessage = new CustomMessage.Builder().tag(profile.getTag())
-                            .title("Custom Message").message(message).build();
+                            .title(profile.getName()).message(message).build();
 
                     sendMessage(customMessage);
                 }
@@ -138,12 +138,11 @@ public class NotificationService extends AccessibilityService {
 
     @Override
     public void onInterrupt() {
-        // TODO Auto-generated method stub
     }
 
     private void sendMessage(BaseMessage message) {
         Intent intent = new Intent(PrimaryService.ACTION_SEND_MESSAGE);
-        intent.putExtra("message", BaseMessage.toJsonString(message));
+        intent.putExtra(PrimaryService.EXTRA_MESSAGE, BaseMessage.toJsonString(message));
         broadcastManager.sendBroadcast(intent);
     }
 

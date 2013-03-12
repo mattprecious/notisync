@@ -41,6 +41,7 @@
         <item name="android:listViewStyle">@style/ListViewAppTheme</item>
         <item name="android:listViewWhiteStyle">@style/ListViewAppTheme.White</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
+        <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>
     </style>
 
     <style name="AppTheme.PreferenceTheme" parent="Holo.PreferenceTheme.Light">

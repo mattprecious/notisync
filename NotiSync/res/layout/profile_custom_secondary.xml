@@ -30,11 +30,25 @@
 
             <View style="@style/Profile.Divider" />
 
-            <EditText
-                android:id="@+id/tagField"
-                style="@style/Profile.Item.EditText"
-                android:hint="@string/custom_profile_header_tag"
-                android:imeOptions="actionDone" />
+            <LinearLayout style="@style/Profile.Item" >
+
+                <EditText
+                    android:id="@+id/tagField"
+                    style="@style/Profile.SplitItemEditText"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/custom_profile_header_tag"
+                    android:imeOptions="actionDone" />
+
+                <ImageButton
+                    android:id="@+id/tagRequestButton"
+                    style="@style/Profile.SplitItemImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/custom_profile_tag_picker_description"
+                    android:src="@drawable/ic_button_folder" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout style="@style/Profile.Section" >
@@ -59,7 +73,7 @@
 
             <View style="@style/Profile.Divider" />
 
-            <TextView
+            <Button
                 android:id="@+id/ringtoneSelector"
                 style="@style/Profile.Item.FauxSpinner" />
         </LinearLayout>

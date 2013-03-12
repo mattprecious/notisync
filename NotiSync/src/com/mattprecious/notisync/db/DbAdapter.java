@@ -3,10 +3,12 @@ package com.mattprecious.notisync.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.model.SecondaryProfile;
@@ -15,12 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DbAdapter {
+    public static final String ACTION_PROFILES_UPDATED = "com.mattprecious.notisync.db.DbAdapter.ACTION_PROFILES_UPDATED";
 
     private DbHelper dbHelper;
     private SQLiteDatabase db;
+    private LocalBroadcastManager broadcastManager;
 
     public DbAdapter(Context context) {
         dbHelper = new DbHelper(context);
+        broadcastManager = LocalBroadcastManager.getInstance(context);
     }
 
     public void openReadable() throws SQLException {
@@ -33,6 +38,10 @@ public class DbAdapter {
 
     public void close() {
         dbHelper.close();
+    }
+
+    private void sendUpdateBroadcast() {
+        broadcastManager.sendBroadcast(new Intent(ACTION_PROFILES_UPDATED));
     }
 
     public List<PrimaryProfile> getPrimaryProfiles() {
@@ -127,6 +136,7 @@ public class DbAdapter {
         ContentValues values = profileToValues(profile);
         long result = db.insert(DbHelper.PRIMARY_PROFILES_TABLE_NAME, null, values);
 
+        sendUpdateBroadcast();
         return result > -1;
     }
 
@@ -138,6 +148,7 @@ public class DbAdapter {
         };
         int result = db.update(DbHelper.PRIMARY_PROFILES_TABLE_NAME, values, where, whereArgs);
 
+        sendUpdateBroadcast();
         return result > 0;
     }
 
@@ -148,6 +159,7 @@ public class DbAdapter {
         };
         int result = db.delete(DbHelper.PRIMARY_PROFILES_TABLE_NAME, where, whereArgs);
 
+        sendUpdateBroadcast();
         return result > 0;
     }
 
@@ -155,6 +167,7 @@ public class DbAdapter {
         ContentValues values = profileToValues(profile);
         long result = db.insert(DbHelper.SECONDARY_PROFILES_TABLE_NAME, null, values);
 
+        sendUpdateBroadcast();
         return result > -1;
     }
 
@@ -166,6 +179,7 @@ public class DbAdapter {
         };
         int result = db.update(DbHelper.SECONDARY_PROFILES_TABLE_NAME, values, where, whereArgs);
 
+        sendUpdateBroadcast();
         return result > 0;
     }
 
@@ -176,6 +190,7 @@ public class DbAdapter {
         };
         int result = db.delete(DbHelper.SECONDARY_PROFILES_TABLE_NAME, where, whereArgs);
 
+        sendUpdateBroadcast();
         return result > 0;
     }
 

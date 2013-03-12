@@ -14,13 +14,13 @@ import com.mattprecious.notisync.util.Preferences;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.TextView;
 
 public class TextMessageFragment extends StandardProfileFragment {
     private final int REQUEST_CODE_RINGTONE_PICKER = 1;
 
-    private TextView ringtoneSelector;
+    private Button ringtoneSelector;
     private CheckBox vibrateCheckBox;
     private CheckBox lightsCheckBox;
 
@@ -32,7 +32,7 @@ public class TextMessageFragment extends StandardProfileFragment {
 
         ringtoneUri = getRingtoneUri(Preferences.getSecondaryTextMessageRingtone(getActivity()));
 
-        ringtoneSelector = (TextView) rootView.findViewById(R.id.ringtoneSelector);
+        ringtoneSelector = (Button) rootView.findViewById(R.id.ringtoneSelector);
         ringtoneSelector.setOnClickListener(new OnClickListener() {
 
             @Override

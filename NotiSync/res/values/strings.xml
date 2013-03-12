@@ -37,7 +37,7 @@
         If you\'ve created any custom profiles on your primary device, create a matching profile here to configure your notifications. Here are some important things to know.<br /><br />
         
         <b>Name</b><br />
-        Help yourself identify your profiles with a simple display name.<br /><br />
+        Help yourself identify your profiles with a simple display name. This name will also be used as a title for your notifications.<br /><br />
         
         <b>Tag</b><br />
         This tag must match a tag that you\'ve used on your primary device. This is how NotiSync identifies custom notifications when they are received.<br /><br />
@@ -105,6 +105,7 @@
     <string name="custom_profile_label_unconnected_only">Unconnected only</string>
     <string name="custom_profile_label_vibrate">Vibrate</string>
     <string name="custom_profile_label_lights">Flash LED</string>
+    <string name="custom_profile_tag_picker_description">Request tags from connected device</string>
 
     <!-- custom profile croutons & errors -->
     <string name="custom_profile_fix_errors">Please fix the errors below and try again.</string>
@@ -112,10 +113,22 @@
     <string name="custom_profile_invalid_empty">Field must not be empty</string>
     <string name="custom_profile_invalid_unique">Field must be unique</string>
 
+    <!-- custom profile push dialog -->
+    <string name="custom_profile_push_title">Push</string>
+    <string name="custom_profile_push_message">Would you like to push this profile to all connected devices?</string>
+    <string name="custom_profile_push_yes">Yes</string>
+    <string name="custom_profile_push_no">No</string>
+    <string name="custom_profile_push_never">never</string>
+
     <!-- package picker -->
     <string name="package_picker_title">Pick an application</string>
     <string name="package_picker_cancel">Cancel</string>
     <string name="package_picker_icon_description">App Icon</string>
+
+    <!-- tag picker -->
+    <string name="request_tags_title">Pick a profile</string>
+    <string name="request_tags_cancel">Cancel</string>
+    <string name="request_tags_error">Could not load tags from primary device</string>
 
     <!-- menu items -->
     <string name="menu_settings">Settings</string>

@@ -1,12 +1,6 @@
 
 package com.mattprecious.notisync.service;
 
-import java.lang.ref.WeakReference;
-import java.util.Map;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -29,19 +23,31 @@ import android.telephony.TelephonyManager;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.bluetooth.BluetoothService;
+import com.mattprecious.notisync.db.DbAdapter;
 import com.mattprecious.notisync.devtools.DevToolsActivity;
 import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.message.ClearMessage;
 import com.mattprecious.notisync.message.PhoneCallMessage;
+import com.mattprecious.notisync.message.TagsRequestMessage;
+import com.mattprecious.notisync.message.TagsResponseMessage;
 import com.mattprecious.notisync.message.TextMessage;
+import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.util.ContactHelper;
+import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
-import com.mattprecious.notisync.R;
+
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PrimaryService extends Service {
-    @SuppressWarnings("unused")
     private final static String TAG = "PrimaryService";
 
     public final static String ACTION_RECONNECT =
@@ -50,6 +56,8 @@ public class PrimaryService extends Service {
             "notisync.service.PrimaryService.ACTION_UPDATE_DEVICES";
     public final static String ACTION_SEND_MESSAGE =
             "notisync.service.PrimaryService.ACTION_SEND_MESSAGE";
+
+    public final static String EXTRA_MESSAGE = "message";
 
     private static boolean running = false;
 
@@ -60,6 +68,7 @@ public class PrimaryService extends Service {
     private final Joiner notificationJoiner = Joiner.on(", ").skipNulls();
     private final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+    private DbAdapter dbAdapter;
     private LocalBroadcastManager broadcastManager;
     private NotificationManager notificationManager;
     private Map<String, BluetoothService> bluetoothServices = Maps.newHashMap();
@@ -82,14 +91,14 @@ public class PrimaryService extends Service {
             return;
         }
 
+        dbAdapter = new DbAdapter(this);
+
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = buildRunningNotification();
         startForeground(NOTIFICATION_ID_RUNNING, notification);
 
         handler = new PrimaryHandler(this);
 
-        broadcastManager.registerReceiver(reconnectReceiver, new IntentFilter(
-                ACTION_RECONNECT));
         broadcastManager.registerReceiver(updateDevicesReceiver, new IntentFilter(
                 ACTION_UPDATE_DEVICES));
         broadcastManager.registerReceiver(timerReceiver, new IntentFilter(
@@ -99,6 +108,7 @@ public class PrimaryService extends Service {
         broadcastManager.registerReceiver(devToolsSendMessageReceiver, new IntentFilter(
                 DevToolsActivity.ACTION_SEND_MESSAGE));
 
+        registerReceiver(reconnectReceiver, new IntentFilter(ACTION_RECONNECT));
         registerReceiver(bluetoothStateReceiver, new IntentFilter(
                 BluetoothAdapter.ACTION_STATE_CHANGED));
         registerReceiver(smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
@@ -119,12 +129,12 @@ public class PrimaryService extends Service {
         }
 
         try {
-            broadcastManager.unregisterReceiver(reconnectReceiver);
             broadcastManager.unregisterReceiver(updateDevicesReceiver);
             broadcastManager.unregisterReceiver(timerReceiver);
             broadcastManager.unregisterReceiver(sendMessageReceiver);
             broadcastManager.unregisterReceiver(devToolsSendMessageReceiver);
 
+            unregisterReceiver(reconnectReceiver);
             unregisterReceiver(bluetoothStateReceiver);
             unregisterReceiver(smsReceiver);
             unregisterReceiver(phoneReceiver);
@@ -320,6 +330,31 @@ public class PrimaryService extends Service {
         return true;
     }
 
+    private void receiveMessage(BaseMessage message) {
+        if (message instanceof TagsRequestMessage) {
+            MyLog.d(TAG, "handling message of type: TagsRequestMessage");
+
+            TagsRequestMessage tagsMessage = (TagsRequestMessage) message;
+            handleTagsRequestMessage(tagsMessage);
+        } else {
+            MyLog.e(TAG, "no handler for message: " + message);
+        }
+    }
+
+    private void handleTagsRequestMessage(TagsRequestMessage message) {
+        HashMap<String, String> tags = Maps.newHashMap();
+
+        dbAdapter.openReadable();
+        List<PrimaryProfile> profiles = dbAdapter.getPrimaryProfiles();
+        for (PrimaryProfile profile : profiles) {
+            tags.put(profile.getTag(), profile.getName());
+        }
+        dbAdapter.close();
+
+        TagsResponseMessage responseMessage = new TagsResponseMessage.Builder().tags(tags).build();
+        sendMessage(BaseMessage.toJsonString(responseMessage));
+    }
+
     private static class PrimaryHandler extends Handler {
         private final WeakReference<PrimaryService> weakService;
 
@@ -334,6 +369,13 @@ public class PrimaryService extends Service {
                 case BluetoothService.MESSAGE_CONNECTED:
                 case BluetoothService.MESSAGE_DISCONNECTED:
                     service.updateRunningNotification();
+                    break;
+                case BluetoothService.MESSAGE_READ:
+                    // construct a string from the valid bytes in the buffer
+                    String readMessage = (String) msg.obj;
+                    MyLog.d("DEBUG", "Received: " + readMessage);
+
+                    service.receiveMessage(BaseMessage.fromJsonString(readMessage));
                     break;
             }
         }
@@ -385,7 +427,7 @@ public class PrimaryService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("message");
+            String message = intent.getStringExtra(EXTRA_MESSAGE);
             sendMessage(message);
         }
     };

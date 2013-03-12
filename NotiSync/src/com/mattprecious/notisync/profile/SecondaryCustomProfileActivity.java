@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.ImageButton;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -18,23 +19,26 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
+import com.mattprecious.notisync.fragment.RequestTagsDialogFragment;
+import com.mattprecious.notisync.fragment.RequestTagsDialogFragment.OnTagSelectedListener;
 import com.mattprecious.notisync.model.SecondaryProfile;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.DialogFragment;
+import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.TextView;
 
 import java.util.Locale;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class SecondaryCustomProfileActivity extends Activity {
+public class SecondaryCustomProfileActivity extends Activity implements OnTagSelectedListener {
     private final int ERROR_FLAG_NAME = 1 << 0;
     private final int ERROR_FLAG_TAG = 1 << 1;
-    
+
     private final int REQUEST_CODE_RINGTONE_PICKER = 1;
 
     private DbAdapter dbAdapter;
@@ -44,8 +48,9 @@ public class SecondaryCustomProfileActivity extends Activity {
 
     private EditText nameField;
     private EditText tagField;
+    private ImageButton tagRequestButton;
     private CheckBox unconnectedOnlyCheckBox;
-    private TextView ringtoneSelector;
+    private Button ringtoneSelector;
     private CheckBox vibrateCheckBox;
     private CheckBox lightsCheckBox;
 
@@ -97,10 +102,21 @@ public class SecondaryCustomProfileActivity extends Activity {
 
         });
 
+        tagRequestButton = (ImageButton) findViewById(R.id.tagRequestButton);
+        tagRequestButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new RequestTagsDialogFragment();
+                newFragment.show(getSupportFragmentManager());
+            }
+
+        });
+
         unconnectedOnlyCheckBox = (CheckBox) findViewById(R.id.unconnectedOnlyCheckBox);
         unconnectedOnlyCheckBox.setChecked(profile.isUnconnectedOnly());
 
-        ringtoneSelector = (TextView) findViewById(R.id.ringtoneSelector);
+        ringtoneSelector = (Button) findViewById(R.id.ringtoneSelector);
         ringtoneSelector.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -251,6 +267,17 @@ public class SecondaryCustomProfileActivity extends Activity {
 
     private void removeError(int flag) {
         errorFlags &= ~flag;
+    }
+
+    @Override
+    public void onTagSelected(String profileName, String tag) {
+        tagField.setText(tag);
+        validateTag();
+
+        if (nameField.getText().length() == 0) {
+            nameField.setText(profileName);
+            validateName();
+        }
     }
 
     private boolean save() {
