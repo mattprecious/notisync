@@ -1,6 +1,7 @@
 
 package com.mattprecious.notisync.service;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,6 +15,7 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -44,6 +46,7 @@ import com.mattprecious.notisync.util.Preferences;
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -87,8 +90,8 @@ public class SecondaryService extends Service {
         super.onCreate();
 
         broadcastManager = LocalBroadcastManager.getInstance(this);
-        textMessages = Maps.newHashMap();
-        gtalkMessages = Maps.newHashMap();
+        textMessages = Maps.newLinkedHashMap();
+        gtalkMessages = Maps.newLinkedHashMap();
 
         running = true;
         broadcastManager.sendBroadcast(new Intent(ServiceActions.ACTION_SERVICE_STARTED));
@@ -108,15 +111,15 @@ public class SecondaryService extends Service {
 
         broadcastManager.registerReceiver(timerReceiver, new IntentFilter(
                 ServiceActions.ACTION_UPDATE_TIMER));
-        broadcastManager.registerReceiver(textNotificationDeletedReceiver, new IntentFilter(
-                ACTION_TEXT_NOTIFICATION_DELETED));
-        broadcastManager.registerReceiver(gtalkNotificationDeletedReceiver, new IntentFilter(
-                ACTION_GTALK_NOTIFICATION_DELETED));
         broadcastManager.registerReceiver(devToolsMessageReceiver,
                 new IntentFilter(DevToolsActivity.ACTION_RECEIVE_MESSAGE));
 
         registerReceiver(bluetoothStateReceiver, new IntentFilter(
                 BluetoothAdapter.ACTION_STATE_CHANGED));
+        registerReceiver(textNotificationDeletedReceiver, new IntentFilter(
+                ACTION_TEXT_NOTIFICATION_DELETED));
+        registerReceiver(gtalkNotificationDeletedReceiver, new IntentFilter(
+                ACTION_GTALK_NOTIFICATION_DELETED));
 
         updateTimer();
     }
@@ -134,11 +137,11 @@ public class SecondaryService extends Service {
 
         try {
             broadcastManager.unregisterReceiver(timerReceiver);
-            broadcastManager.unregisterReceiver(textNotificationDeletedReceiver);
-            broadcastManager.unregisterReceiver(gtalkNotificationDeletedReceiver);
             broadcastManager.unregisterReceiver(devToolsMessageReceiver);
 
             unregisterReceiver(bluetoothStateReceiver);
+            unregisterReceiver(textNotificationDeletedReceiver);
+            unregisterReceiver(gtalkNotificationDeletedReceiver);
         } catch (IllegalArgumentException e) {
 
         }
@@ -247,7 +250,9 @@ public class SecondaryService extends Service {
         }
 
         if (textMessages.containsKey(message.number)) {
-            textMessages.get(message.number).add(message);
+            List<TextMessage> messages = textMessages.remove(message.number);
+            messages.add(message);
+            textMessages.put(message.number, messages);
         } else {
             List<TextMessage> list = Lists.newArrayList();
             list.add(message);
@@ -271,168 +276,36 @@ public class SecondaryService extends Service {
 
         builder.setDefaults(defaults);
 
-        PendingIntent deleteIntent = PendingIntent.getActivity(this, 0, new Intent(
+        PendingIntent deleteIntent = PendingIntent.getBroadcast(this, 0, new Intent(
                 ACTION_TEXT_NOTIFICATION_DELETED), 0);
         builder.setContentIntent(deleteIntent);
         builder.setDeleteIntent(deleteIntent);
 
-        Notification notification = null;
+        List<List<NotificationData>> dataMap = Lists.newArrayList();
+        List<Entry<String, List<TextMessage>>> entryList = Lists.reverse(Lists
+                .newArrayList(textMessages.entrySet()));
+        for (Entry<String, List<TextMessage>> entry : entryList) {
+            List<TextMessage> messages = entry.getValue();
+            TextMessage last = messages.get(messages.size() - 1);
 
-        // only one thread
-        if (textMessages.size() == 1) {
-            String title;
-            if (message.name != null) {
-                title = message.name;
+            String sender;
+            if (last.name != null) {
+                sender = last.name;
             } else {
-                title = PhoneNumberUtils.formatNumber(message.number);
+                sender = PhoneNumberUtils.formatNumber(last.number);
             }
 
-            builder.setContentTitle(title);
-
-            List<TextMessage> messageList = textMessages.get(message.number);
-
-            // only one message, display the whole thing
-            if (messageList.size() == 1) {
-                // remove extra newlines
-                String messageStr = !TextUtils.isEmpty(message.message) ? message.message
-                        .replaceAll("\\n\\s+", "\n") : "";
-
-                builder.setContentText(message.message);
-
-                Bitmap photo = ContactHelper.getContactPhoto(this, message.number);
-                if (photo != null) {
-                    final int idealIconHeight =
-                            getResources().getDimensionPixelSize(
-                                    android.R.dimen.notification_large_icon_height);
-                    final int idealIconWidth =
-                            getResources().getDimensionPixelSize(
-                                    android.R.dimen.notification_large_icon_width);
-                    if (photo.getHeight() < idealIconHeight) {
-                        // Scale this image to fit the intended size
-                        photo = Bitmap.createScaledBitmap(
-                                photo, idealIconWidth, idealIconHeight, true);
-                    }
-                    if (photo != null) {
-                        builder.setLargeIcon(photo);
-                    }
-                }
-
-                notification = new NotificationCompat.BigTextStyle(builder).bigText(messageStr)
-                        .setSummaryText((photo == null) ? null : " ").build();
-            } else {
-                // multiple messages for the same thread
-                SpannableStringBuilder buf = new SpannableStringBuilder();
-
-                boolean first = true;
-                for (TextMessage textMessage : messageList) {
-                    // remove extra newlines
-                    String messageStr = !TextUtils.isEmpty(textMessage.message) ? textMessage.message
-                            .replaceAll("\\n\\s+", "\n")
-                            : "";
-                    buf.append(messageStr);
-
-                    if (first) {
-                        first = false;
-                        buf.append('\n');
-                    }
-                }
-
-                builder.setContentText(messageList.size() + " new message(s)");
-
-                Bitmap photo = ContactHelper.getContactPhoto(this, message.number);
-                if (photo != null) {
-                    final int idealIconHeight =
-                            getResources().getDimensionPixelSize(
-                                    android.R.dimen.notification_large_icon_height);
-                    final int idealIconWidth =
-                            getResources().getDimensionPixelSize(
-                                    android.R.dimen.notification_large_icon_width);
-                    if (photo.getHeight() < idealIconHeight) {
-                        // Scale this image to fit the intended size
-                        photo = Bitmap.createScaledBitmap(
-                                photo, idealIconWidth, idealIconHeight, true);
-                    }
-                    if (photo != null) {
-                        builder.setLargeIcon(photo);
-                    }
-                }
-
-                // Show a single notification -- big style with the text of all
-                // the messages
-                notification = new NotificationCompat.BigTextStyle(builder)
-                        .bigText(buf)
-                        // Forcibly show the last line, with the app's smallIcon
-                        // in it, if we kicked the smallIcon out with a photo
-                        .setSummaryText((photo == null) ? null : " ")
-                        .build();
-            }
-        } else {
-            // multiple threads
-
-            String separator = ", ";
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-
-            boolean first = true;
-            int totalMessageCount = 0;
-            for (List<TextMessage> messageList : textMessages.values()) {
-                totalMessageCount += messageList.size();
-
-                if (first) {
-                    first = false;
-                } else {
-                    spannableStringBuilder.append(separator);
-                }
-
-                TextMessage firstMessage = messageList.get(0);
-                if (firstMessage.name != null) {
-                    spannableStringBuilder.append(firstMessage.name);
-                } else {
-                    spannableStringBuilder.append(PhoneNumberUtils
-                            .formatNumber(firstMessage.number));
-                }
-
+            List<NotificationData> data = Lists.newArrayList();
+            for (TextMessage msg : messages) {
+                data.add(new NotificationData(sender, msg.message));
             }
 
-            builder.setContentTitle(String.format("%d new messages", totalMessageCount));
-            builder.setContentText(spannableStringBuilder);
-
-            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle(builder);
-
-            // We have to set the summary text to non-empty so the content text
-            // doesn't show
-            // up when expanded.
-            inboxStyle.setSummaryText(" ");
-
-            // At this point we've got multiple messages in multiple threads. We
-            // only
-            // want to show the most recent message per thread, which are in
-            // mostRecentNotifPerThread.
-            int c = 0;
-            for (List<TextMessage> messageList : textMessages.values()) {
-                if (c == 8)
-                    break;
-
-                TextMessage lastMessage = messageList.get(messageList.size() - 1);
-                // remove extra newlines
-                String messageStr = !TextUtils.isEmpty(lastMessage.message) ? lastMessage.message
-                        .replaceAll("\\n\\s+", "\n") : "";
-
-                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
-                if (lastMessage.name != null) {
-                    spannableStringBuilder2.append(lastMessage.name).append(": ");
-                } else {
-                    spannableStringBuilder2.append(PhoneNumberUtils
-                            .formatNumber(lastMessage.number)).append(": ");
-                }
-
-                spannableStringBuilder2.append(messageStr);
-                inboxStyle.addLine(spannableStringBuilder2);
-            }
-
-            notification = inboxStyle.build();
+            dataMap.add(data);
         }
 
-        notificationManager.notify(NOTIFICATION_ID_TEXT, notification);
+        Bitmap photo = ContactHelper.getContactPhoto(this, message.number);
+        notificationManager.notify(NOTIFICATION_ID_TEXT,
+                buildRichNotification(builder, dataMap, photo));
     }
 
     private void handlePhoneCallMessage(PhoneCallMessage message) {
@@ -510,9 +383,18 @@ public class SecondaryService extends Service {
             }
         }
 
+        if (gtalkMessages.containsKey(message.sender)) {
+            List<GtalkMessage> messages = gtalkMessages.remove(message.sender);
+            messages.add(message);
+            gtalkMessages.put(message.sender, messages);
+        } else {
+            List<GtalkMessage> list = Lists.newArrayList();
+            list.add(message);
+
+            gtalkMessages.put(message.sender, list);
+        }
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setContentTitle(message.sender);
-        builder.setContentText(message.message);
         builder.setSmallIcon(R.drawable.ic_stat_chat);
         builder.setSound(getRingtoneUri(Preferences.getSecondaryGtalkRingtone(this)));
         builder.setAutoCancel(true);
@@ -528,12 +410,25 @@ public class SecondaryService extends Service {
 
         builder.setDefaults(defaults);
 
-        PendingIntent intent = PendingIntent.getActivity(this, 0, new Intent(), 0);
-        builder.setContentIntent(intent);
+        PendingIntent deleteIntent = PendingIntent.getBroadcast(this, 0, new Intent(
+                ACTION_GTALK_NOTIFICATION_DELETED), 0);
+        builder.setContentIntent(deleteIntent);
+        builder.setDeleteIntent(deleteIntent);
 
-        Notification notification = new NotificationCompat.BigTextStyle(builder).bigText(
-                message.message).build();
-        notificationManager.notify(NOTIFICATION_ID_GTALK, notification);
+        List<List<NotificationData>> dataMap = Lists.newArrayList();
+        List<Entry<String, List<GtalkMessage>>> entryList = Lists.reverse(Lists
+                .newArrayList(gtalkMessages.entrySet()));
+        for (Entry<String, List<GtalkMessage>> entry : entryList) {
+            List<NotificationData> data = Lists.newArrayList();
+            for (GtalkMessage msg : entry.getValue()) {
+                data.add(new NotificationData(msg.sender, msg.message));
+            }
+
+            dataMap.add(data);
+        }
+
+        notificationManager.notify(NOTIFICATION_ID_GTALK,
+                buildRichNotification(builder, dataMap, null));
     }
 
     private void handleCustomMessage(CustomMessage message) {
@@ -606,6 +501,147 @@ public class SecondaryService extends Service {
 
     private Uri getRingtoneUri(String ringtone) {
         return (ringtone == null) ? null : Uri.parse(ringtone);
+    }
+
+    private Notification buildRichNotification(NotificationCompat.Builder builder,
+            List<List<NotificationData>> dataMap, Bitmap photoIfSingleThread) {
+        if (dataMap.size() == 0) {
+            return builder.build();
+        }
+
+        // only one thread
+        if (dataMap.size() == 1) {
+            List<NotificationData> dataList = dataMap.get(0);
+
+            NotificationData lastData = dataList.get(dataList.size() - 1);
+            builder.setContentTitle(lastData.sender);
+
+            if (photoIfSingleThread != null) {
+                builder.setLargeIcon(resizePhoto(photoIfSingleThread));
+            }
+
+            // only one message, display the whole thing
+            if (dataList.size() == 1) {
+                // remove extra newlines
+                String message = removeWhitespace(lastData.message);
+
+                builder.setContentText(message);
+
+                return new NotificationCompat.BigTextStyle(builder)
+                        .bigText(message)
+                        .setSummaryText((photoIfSingleThread == null) ? null : " ")
+                        .build();
+            } else {
+                // multiple messages for the same thread
+                SpannableStringBuilder buf = new SpannableStringBuilder();
+
+                boolean first = true;
+                for (NotificationData data : dataList) {
+                    // remove extra newlines
+                    String message = removeWhitespace(data.message);
+
+                    if (first) {
+                        first = false;
+                    } else {
+                        buf.append('\n');
+                    }
+
+                    buf.append(message);
+                }
+
+                builder.setContentText(dataList.size() + " new message(s)");
+
+                // Show a single notification -- big style with the text of all
+                // the messages
+                return new NotificationCompat.BigTextStyle(builder)
+                        .bigText(buf)
+                        .setSummaryText((photoIfSingleThread == null) ? null : " ")
+                        .build();
+            }
+        } else {
+            // multiple threads
+
+            String separator = ", ";
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+
+            boolean first = true;
+            int totalMessageCount = 0;
+            for (List<NotificationData> dataList : dataMap) {
+                totalMessageCount += dataList.size();
+
+                if (first) {
+                    first = false;
+                } else {
+                    spannableStringBuilder.append(separator);
+                }
+
+                NotificationData lastData = dataList.get(dataList.size() - 1);
+                spannableStringBuilder.append(lastData.sender);
+
+            }
+
+            builder.setContentTitle(String.format("%d new messages", totalMessageCount));
+            builder.setContentText(spannableStringBuilder);
+
+            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle(builder);
+
+            // We have to set the summary text to non-empty so the content text
+            // doesn't show
+            // up when expanded.
+            inboxStyle.setSummaryText(" ");
+
+            // At this point we've got multiple messages in multiple threads. We
+            // only
+            // want to show the most recent message per thread, which are in
+            // mostRecentNotifPerThread.
+            int c = 0;
+            for (List<NotificationData> dataList : dataMap) {
+                if (c == 8)
+                    break;
+
+                NotificationData lastData = dataList.get(dataList.size() - 1);
+
+                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
+                spannableStringBuilder2.append(lastData.sender).append(": ");
+
+                spannableStringBuilder2.append(removeWhitespace(lastData.message));
+                inboxStyle.addLine(spannableStringBuilder2);
+            }
+
+            return inboxStyle.build();
+        }
+    }
+
+    private String removeWhitespace(String str) {
+        return !TextUtils.isEmpty(str) ? str.replaceAll("\\n\\s+", "\n") : "";
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private Bitmap resizePhoto(Bitmap photo) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (photo != null) {
+                final int idealIconHeight = getResources().getDimensionPixelSize(
+                        android.R.dimen.notification_large_icon_height);
+                final int idealIconWidth = getResources().getDimensionPixelSize(
+                        android.R.dimen.notification_large_icon_width);
+                if (photo.getHeight() < idealIconHeight) {
+                    photo = Bitmap.createScaledBitmap(
+                            photo, idealIconWidth, idealIconHeight, true);
+                }
+            }
+        }
+
+        return photo;
+    }
+
+    private static class NotificationData {
+        public final String sender;
+        public final String message;
+
+        public NotificationData(String sender, String message) {
+            this.sender = sender;
+            this.message = message;
+        }
     }
 
     private static class SecondaryHandler extends Handler {
