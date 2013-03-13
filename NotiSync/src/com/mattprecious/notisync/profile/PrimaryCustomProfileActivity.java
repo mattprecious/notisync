@@ -84,6 +84,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
                     if (tagField.getText().length() == 0) {
                         tagField.setText(nameField.getText().toString()
                                 .toLowerCase(Locale.getDefault()).replaceAll("\\s", ""));
+                        validateTag();
                     }
                 }
             }
@@ -284,7 +285,8 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private void validateName() {
         if (nameField.getText().length() == 0) {
-            nameField.setError(getString(R.string.custom_profile_invalid_empty));
+            nameField.setError(getString(R.string.custom_profile_invalid_empty,
+                    getString(R.string.custom_profile_header_name)));
             setError(ERROR_FLAG_NAME);
         } else {
             nameField.setError(null);
@@ -294,16 +296,18 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private void validateTag() {
         if (tagField.getText().length() == 0) {
-            tagField.setError(getString(R.string.custom_profile_invalid_empty));
+            tagField.setError(getString(R.string.custom_profile_invalid_empty,
+                    getString(R.string.custom_profile_header_tag)));
             setError(ERROR_FLAG_TAG);
         } else {
+            String tag = tagField.getText().toString();
             dbAdapter.openReadable();
-            PrimaryProfile tagProfile = dbAdapter.getPrimaryProfileByTag(tagField.getText()
-                    .toString());
+            PrimaryProfile tagProfile = dbAdapter.getPrimaryProfileByTag(tag);
             dbAdapter.close();
 
             if (tagProfile != null && tagProfile.getId() != profile.getId()) {
-                tagField.setError(getString(R.string.custom_profile_invalid_unique));
+                tagField.setError(getString(R.string.custom_profile_invalid_tag_clash,
+                        tagProfile.getName()));
                 setError(ERROR_FLAG_TAG);
             } else {
                 tagField.setError(null);
@@ -314,7 +318,8 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private void validatePackage() {
         if (packageField.getText().length() == 0) {
-            packageField.setError(getString(R.string.custom_profile_invalid_empty));
+            packageField.setError(getString(R.string.custom_profile_invalid_empty,
+                    getString(R.string.custom_profile_header_package)));
             setError(ERROR_FLAG_PACKAGE);
         } else {
             packageField.setError(null);

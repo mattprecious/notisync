@@ -111,8 +111,8 @@
     <!-- custom profile croutons & errors -->
     <string name="custom_profile_fix_errors">Please fix the errors below and try again.</string>
     <string name="custom_profile_error">An error has occurred</string>
-    <string name="custom_profile_invalid_empty">Field must not be empty</string>
-    <string name="custom_profile_invalid_unique">Field must be unique</string>
+    <string name="custom_profile_invalid_empty">%s must not be empty</string>
+    <string name="custom_profile_invalid_tag_clash">Tag is already used by \'%s\'</string>
 
     <!-- custom profile push dialog -->
     <string name="custom_profile_push_title">Push</string>
