@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 
 public class ThirdPartyProfileListFragment extends Fragment {
@@ -19,5 +20,11 @@ public class ThirdPartyProfileListFragment extends Fragment {
         View view = inflater.inflate(R.layout.standard_list, container, false);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }

@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
 
@@ -98,6 +99,12 @@ public class PackagePickerFragment extends DialogFragment {
         }).start();
 
         return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     public interface OnPackageSelectedListener {

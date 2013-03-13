@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.util.Preferences;
 
@@ -22,6 +23,18 @@ public class DevToolsActivity extends Activity {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new DevToolsFragment()).commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
     }
 
     public void sendMessage(BaseMessage message) {

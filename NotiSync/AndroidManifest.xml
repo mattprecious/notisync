@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name="org.holoeverywhere.app.Application"
+        android:name="com.mattprecious.notisync.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:logo="@drawable/ab_home"

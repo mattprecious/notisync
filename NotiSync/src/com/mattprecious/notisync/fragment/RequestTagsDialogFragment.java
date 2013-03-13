@@ -16,6 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.message.BaseMessage;
@@ -108,6 +109,12 @@ public class RequestTagsDialogFragment extends DialogFragment {
         broadcastManager.sendBroadcast(tagRequestIntent);
 
         return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     @Override

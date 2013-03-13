@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.AlarmHelper;
 import com.mattprecious.notisync.util.Preferences;
@@ -45,6 +46,12 @@ public class BluetoothFixPreferenceFragment extends PreferenceFragment implement
         // preference is stored, so AlarmManager will get old values
         getPreferenceManager().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     @Override

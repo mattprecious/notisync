@@ -24,6 +24,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.wizardpager.model.AbstractWizardModel;
 import com.mattprecious.notisync.wizardpager.model.ModelCallbacks;
@@ -121,7 +122,19 @@ public class WizardActivity extends Activity implements
         onPageTreeChanged();
         updateBottomBar();
     }
-    
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
+    }
+
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {

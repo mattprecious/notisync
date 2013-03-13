@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.message.PhoneCallMessage;
@@ -60,6 +61,12 @@ public class PhoneCallFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     private void send() {

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.service.PrimaryService;
@@ -71,5 +72,11 @@ public class GeneralPreferenceFragment extends PreferenceFragment {
                     }
 
                 });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }

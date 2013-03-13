@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.util.MyLog;
@@ -45,6 +46,12 @@ public class DevicePreferenceFragment extends PreferenceFragment {
         broadcastManager = LocalBroadcastManager.getInstance(getActivity());
 
         setPreferenceScreen(getPreferenceManager().createPreferenceScreen(getActivity()));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     @Override
