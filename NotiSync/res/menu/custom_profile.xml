@@ -16,5 +16,10 @@
         android:icon="@drawable/ic_action_save"
         android:showAsAction="always|withText"
         android:title="@string/menu_save"/>
+    <item
+        android:id="@+id/menu_push"
+        android:icon="@drawable/ic_action_push"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_push" />
     
 </menu>

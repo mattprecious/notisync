@@ -142,6 +142,7 @@
     <string name="menu_save">Save</string>
     <string name="menu_discard">Discard</string>
     <string name="menu_delete">Delete</string>
+    <string name="menu_push">Save &amp; Push</string>
 
     <!-- prefence headers -->
     <string name="preference_header_devices">Manage devices</string>

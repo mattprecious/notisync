@@ -171,6 +171,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (profile.getId() == 0) {
             menu.removeItem(R.id.menu_delete);
+            menu.removeItem(R.id.menu_push);
         }
 
         return super.onPrepareOptionsMenu(menu);
@@ -217,6 +218,21 @@ public class PrimaryCustomProfileActivity extends Activity implements
                 }
 
                 return true;
+            case R.id.menu_push:
+                // TODO: remove duplication
+                validate();
+                if (errorFlags > 0) {
+                    Crouton.showText(this, R.string.custom_profile_fix_errors, Style.ALERT);
+                } else {
+                    if (save()) {
+                        pushProfile();
+                        finishOk();
+                    } else {
+                        Crouton.showText(this, R.string.custom_profile_error, Style.ALERT);
+                    }
+                }
+
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -254,14 +270,12 @@ public class PrimaryCustomProfileActivity extends Activity implements
     }
 
     private void pushProfile() {
-        if (profile.getId() == 0) {
-            TagPushMessage message = new TagPushMessage.Builder().name(profile.getName())
-                    .tag(profile.getTag()).build();
+        TagPushMessage message = new TagPushMessage.Builder().name(profile.getName())
+                .tag(profile.getTag()).build();
 
-            Intent intent = new Intent(PrimaryService.ACTION_SEND_MESSAGE);
-            intent.putExtra(PrimaryService.EXTRA_MESSAGE, BaseMessage.toJsonString(message));
-            broadcastManager.sendBroadcast(intent);
-        }
+        Intent intent = new Intent(PrimaryService.ACTION_SEND_MESSAGE);
+        intent.putExtra(PrimaryService.EXTRA_MESSAGE, BaseMessage.toJsonString(message));
+        broadcastManager.sendBroadcast(intent);
     }
 
     private void finishOk() {

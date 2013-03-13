@@ -184,6 +184,8 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
             menu.removeItem(R.id.menu_delete);
         }
 
+        menu.removeItem(R.id.menu_push);
+
         return super.onPrepareOptionsMenu(menu);
     }
 
