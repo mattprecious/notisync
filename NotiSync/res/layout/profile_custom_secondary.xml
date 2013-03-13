@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/custom_profile_tag_picker_description"
-                    android:src="@drawable/ic_button_folder" />
+                    android:src="@drawable/ic_button_search" />
             </LinearLayout>
         </LinearLayout>
 
