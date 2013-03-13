@@ -3,15 +3,14 @@ package com.mattprecious.notisync.profile;
 
 import android.os.Bundle;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Preferences;
 
-import org.holoeverywhere.app.Activity;
-
-public class StandardProfileActivity extends Activity {
+public class StandardProfileActivity extends SherlockFragmentActivity {
     public static final String EXTRA_TYPE = "type";
 
     public static enum ProfileType {

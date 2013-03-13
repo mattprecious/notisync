@@ -9,12 +9,6 @@ import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.AlarmHelper;
 import com.mattprecious.notisync.util.Preferences;
 
-import org.holoeverywhere.preference.Preference;
-import org.holoeverywhere.preference.Preference.OnPreferenceChangeListener;
-import org.holoeverywhere.preference.PreferenceFragment;
-import org.holoeverywhere.preference.SharedPreferences;
-import org.holoeverywhere.preference.SharedPreferences.OnSharedPreferenceChangeListener;
-
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class BluetoothFixPreferenceFragment extends PreferenceFragment implements
         OnSharedPreferenceChangeListener {

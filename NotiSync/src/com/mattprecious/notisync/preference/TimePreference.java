@@ -8,11 +8,10 @@ package com.mattprecious.notisync.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
-
-import org.holoeverywhere.preference.DialogPreference;
-import org.holoeverywhere.widget.TimePicker;
+import android.widget.TimePicker;
 
 public class TimePreference extends DialogPreference {
     private int lastHour = 0;

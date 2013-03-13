@@ -1,17 +1,24 @@
 
 package com.mattprecious.notisync.profile;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -28,15 +35,9 @@ import com.mattprecious.notisync.service.PrimaryService;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.widget.EditText;
-
 import java.util.Locale;
 
-public class PrimaryCustomProfileActivity extends Activity implements
+public class PrimaryCustomProfileActivity extends SherlockFragmentActivity implements
         PackagePickerFragment.OnPackageSelectedListener {
     private final int ERROR_FLAG_NAME = 1 << 0;
     private final int ERROR_FLAG_TAG = 1 << 1;
@@ -191,8 +192,8 @@ public class PrimaryCustomProfileActivity extends Activity implements
                         boolean pushProfile = getPreferences(MODE_PRIVATE).getBoolean(
                                 PREFERENCES_KEY_PUSH_PROFILE, true);
                         if (pushProfile && profile.getId() == 0) {
-                            DialogFragment dialogFragment = new PushConfirmDialogFragment();
-                            dialogFragment.show(getSupportFragmentManager());
+                            SherlockDialogFragment dialogFragment = new PushConfirmDialogFragment();
+                            dialogFragment.show(getSupportFragmentManager(), null);
                         } else {
                             finishOk();
                         }
@@ -327,7 +328,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
         }
     }
 
-    public static class PushConfirmDialogFragment extends DialogFragment {
+    public static class PushConfirmDialogFragment extends SherlockDialogFragment {
         private PrimaryCustomProfileActivity activity;
 
         @Override

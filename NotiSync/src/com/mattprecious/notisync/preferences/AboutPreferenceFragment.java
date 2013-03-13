@@ -10,11 +10,6 @@ import android.support.v4.app.FragmentTransaction;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.fragment.AttributionsDialogFragment;
 
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.preference.Preference;
-import org.holoeverywhere.preference.Preference.OnPreferenceClickListener;
-import org.holoeverywhere.preference.PreferenceFragment;
-
 public class AboutPreferenceFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {

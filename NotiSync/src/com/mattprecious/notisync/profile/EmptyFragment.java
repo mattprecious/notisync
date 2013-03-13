@@ -2,12 +2,11 @@
 package com.mattprecious.notisync.profile;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mattprecious.notisync.R;
-
-import org.holoeverywhere.LayoutInflater;
 
 public class EmptyFragment extends StandardProfileFragment {
 

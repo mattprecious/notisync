@@ -38,18 +38,18 @@
         android:layout_weight="1" />
 
     <View android:id="@+id/divider"
-        android:background="?attr/dividerHorizontal"
+        android:background="?android:attr/dividerHorizontal"
         android:layout_height="1dp"
         android:layout_width="match_parent" />
 
     <LinearLayout
-        style="?attr/buttonBarStyle"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
-            style="?attr/buttonBarButtonStyle"
+            style="?android:attr/buttonBarButtonStyle"
             android:background="@drawable/selectable_item_background"
             android:id="@+id/prev_button"
             android:layout_width="0dp"
@@ -58,7 +58,7 @@
             android:text="@string/wizard_previous" />
 
         <Button
-            style="?attr/buttonBarButtonStyle"
+            style="?android:attr/buttonBarButtonStyle"
             android:background="@drawable/selectable_item_background"
             android:id="@+id/next_button"
             android:layout_width="0dp"

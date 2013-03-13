@@ -17,8 +17,7 @@
 package com.mattprecious.notisync.wizardpager.model;
 
 import android.os.Bundle;
-
-import org.holoeverywhere.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 

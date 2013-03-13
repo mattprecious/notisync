@@ -2,18 +2,17 @@
 package com.mattprecious.notisync.devtools;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.message.GtalkMessage;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.EditText;
-
-public class GtalkMessageFragment extends Fragment {
+public class GtalkMessageFragment extends SherlockFragment {
     private EditText senderText;
     private EditText messageText;
 
@@ -30,7 +29,7 @@ public class GtalkMessageFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().popBackStack();
+                getFragmentManager().popBackStack();
             }
         });
 

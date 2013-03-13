@@ -1,9 +1,8 @@
 
 package com.mattprecious.notisync.wizardpager.model;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.wizardpager.ui.LayoutFragment;
-
-import org.holoeverywhere.app.Fragment;
 
 public class LayoutPage extends Page {
     protected int layoutId;
@@ -13,7 +12,7 @@ public class LayoutPage extends Page {
     }
 
     @Override
-    public Fragment createFragment() {
+    public SherlockFragment createFragment() {
         return LayoutFragment.create(layoutId);
     }
 

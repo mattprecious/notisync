@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
@@ -12,11 +13,9 @@ import com.mattprecious.notisync.util.Helpers;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.Preferences.Mode;
 
-import org.holoeverywhere.preference.PreferenceActivity;
-
 import java.util.List;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends SherlockPreferenceActivity {
     private Mode originalMode;
 
     @Override

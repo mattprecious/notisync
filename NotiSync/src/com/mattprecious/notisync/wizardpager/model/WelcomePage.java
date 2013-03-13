@@ -1,8 +1,7 @@
 package com.mattprecious.notisync.wizardpager.model;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.wizardpager.ui.WelcomeFragment;
-
-import org.holoeverywhere.app.Fragment;
 
 public class WelcomePage extends Page {
 
@@ -11,7 +10,7 @@ public class WelcomePage extends Page {
     }
 
     @Override
-    public Fragment createFragment() {
+    public SherlockFragment createFragment() {
         return WelcomeFragment.create();
     }
 

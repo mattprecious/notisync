@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.util.Preferences;
 
-import org.holoeverywhere.app.Activity;
-
-public class DevToolsActivity extends Activity {
+public class DevToolsActivity extends SherlockFragmentActivity {
     public static final String ACTION_SEND_MESSAGE =
             "com.mattprecious.notisync.activity.DevToolsActivity.ACTION_SEND_MESSAGE";
     public static final String ACTION_RECEIVE_MESSAGE =

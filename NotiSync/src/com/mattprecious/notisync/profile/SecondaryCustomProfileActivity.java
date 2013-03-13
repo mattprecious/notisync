@@ -10,8 +10,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -26,16 +31,11 @@ import com.mattprecious.notisync.model.SecondaryProfile;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.EditText;
-
 import java.util.Locale;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class SecondaryCustomProfileActivity extends Activity implements OnTagSelectedListener {
+public class SecondaryCustomProfileActivity extends SherlockFragmentActivity implements
+        OnTagSelectedListener {
     private final int ERROR_FLAG_NAME = 1 << 0;
     private final int ERROR_FLAG_TAG = 1 << 1;
 
@@ -108,8 +108,8 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
 
             @Override
             public void onClick(View v) {
-                DialogFragment newFragment = new RequestTagsDialogFragment();
-                newFragment.show(getSupportFragmentManager());
+                SherlockDialogFragment newFragment = new RequestTagsDialogFragment();
+                newFragment.show(getSupportFragmentManager(), null);
             }
 
         });

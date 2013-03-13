@@ -13,11 +13,6 @@ import com.mattprecious.notisync.service.SecondaryService;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.Preferences.Mode;
 
-import org.holoeverywhere.preference.Preference;
-import org.holoeverywhere.preference.Preference.OnPreferenceChangeListener;
-import org.holoeverywhere.preference.PreferenceActivity;
-import org.holoeverywhere.preference.PreferenceFragment;
-
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class GeneralPreferenceFragment extends PreferenceFragment {
     @Override

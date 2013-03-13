@@ -1,16 +1,15 @@
 
 package com.mattprecious.notisync.fragment;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.R;
 
-public class ThirdPartyProfileListFragment extends Fragment {
+public class ThirdPartyProfileListFragment extends SherlockFragment {
     @SuppressWarnings("unused")
     private static final String TAG = "ThirdPartyProfileListFragment";
 

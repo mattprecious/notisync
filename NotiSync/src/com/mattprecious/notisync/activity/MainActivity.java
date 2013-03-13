@@ -9,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +23,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.ActionBar.TabListener;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -49,13 +53,9 @@ import com.mattprecious.notisync.util.UndoBarController.UndoListener;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.preference.PreferenceActivity;
-import org.holoeverywhere.widget.Switch;
+import org.jraf.android.backport.switchwidget.Switch;
 
-public class MainActivity extends Activity implements UndoListener, AccessibilityDialogListener {
+public class MainActivity extends SherlockFragmentActivity implements UndoListener, AccessibilityDialogListener {
     private final static String TAG = "MainActivity";
 
     private final int REQUEST_CODE_WIZARD = 1;
@@ -176,7 +176,6 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         }
 
         actionBarSwitch = new Switch(this);
-        actionBarSwitch.setSwitchTextAppearance(this, R.style.Switch_TextAppearance);
         actionBarSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
@@ -309,7 +308,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         boolean showAccessibilityAction = Preferences.isPrimary(this)
                 && !NotificationService.isRunning();
 
-        showAccessibilityAction &= !getPreferences(Activity.MODE_PRIVATE).getBoolean(
+        showAccessibilityAction &= !getPreferences(MODE_PRIVATE).getBoolean(
                 KEY_IGNORE_ACCESSIBILITY, false);
 
         menu.findItem(R.id.menu_accessibility).setVisible(showAccessibilityAction);
@@ -322,7 +321,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         switch (item.getItemId()) {
             case R.id.menu_accessibility:
                 DialogFragment newFragment = new AccessibilityDialogFragment();
-                newFragment.show(getSupportFragmentManager());
+                newFragment.show(getSupportFragmentManager(), null);
 
                 return true;
             case R.id.menu_preferences:
@@ -335,9 +334,9 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                 return true;
             case R.id.menu_about:
                 Intent aboutIntent = new Intent(this, SettingsActivity.class);
-                aboutIntent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                aboutIntent.putExtra(SherlockPreferenceActivity.EXTRA_SHOW_FRAGMENT,
                         AboutPreferenceFragment.class.getName());
-                aboutIntent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT_TITLE,
+                aboutIntent.putExtra(SherlockPreferenceActivity.EXTRA_SHOW_FRAGMENT_TITLE,
                         R.string.preference_header_about);
                 startActivity(aboutIntent);
 
@@ -363,11 +362,11 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                 break;
             case REQUEST_CODE_EDIT_PROFILE:
                 switch (resultCode) {
-                    case Activity.RESULT_OK:
+                    case RESULT_OK:
                         Crouton.showText(this, R.string.profile_saved, Style.CONFIRM,
                                 R.id.content_wrapper);
                         break;
-                    case Activity.RESULT_CANCELED:
+                    case RESULT_CANCELED:
                         Crouton.showText(this, R.string.profile_discarded, Style.INFO,
                                 R.id.content_wrapper);
                         break;
@@ -434,7 +433,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
 
     @Override
     public void onAccessibilityNegative() {
-        getPreferences(Activity.MODE_PRIVATE).edit().putBoolean(KEY_IGNORE_ACCESSIBILITY, true)
+        getPreferences(MODE_PRIVATE).edit().putBoolean(KEY_IGNORE_ACCESSIBILITY, true)
                 .commit();
         supportInvalidateOptionsMenu();
     }

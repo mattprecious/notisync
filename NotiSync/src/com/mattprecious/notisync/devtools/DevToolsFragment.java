@@ -2,16 +2,15 @@
 package com.mattprecious.notisync.devtools;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.R;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-
-public class DevToolsFragment extends Fragment {
+public class DevToolsFragment extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dev_tools, container, false);
@@ -23,7 +22,7 @@ public class DevToolsFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction()
+                getFragmentManager().beginTransaction()
                         .replace(android.R.id.content, new TextMessageFragment())
                         .addToBackStack(null).commit();
             }
@@ -34,7 +33,7 @@ public class DevToolsFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction()
+                getFragmentManager().beginTransaction()
                         .replace(android.R.id.content, new PhoneCallFragment())
                         .addToBackStack(null).commit();
             }
@@ -45,7 +44,7 @@ public class DevToolsFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction()
+                getFragmentManager().beginTransaction()
                         .replace(android.R.id.content, new GtalkMessageFragment())
                         .addToBackStack(null).commit();
             }

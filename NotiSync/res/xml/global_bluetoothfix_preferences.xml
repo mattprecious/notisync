@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:holo="http://schemas.android.com/apk/res-auto"
-    holo:title="@string/preference_header_bluetooth_fix" >
+    android:title="@string/preference_header_bluetooth_fix" >
 
     <CheckBoxPreference
-        holo:key="global_bluetooth_fix_enabled"
-        holo:summary="@string/preference_bluetooth_fix_enabled_summary"
-        holo:title="@string/preference_bluetooth_fix_enabled_title" />
+        android:key="global_bluetooth_fix_enabled"
+        android:summary="@string/preference_bluetooth_fix_enabled_summary"
+        android:title="@string/preference_bluetooth_fix_enabled_title" />
 
     <com.mattprecious.notisync.preference.TimePreference
-        holo:key="global_bluetooth_fix_time"
-        holo:summary="@string/preference_bluetooth_fix_time_summary"
-        holo:title="@string/preference_bluetooth_fix_time_title" />
+        android:key="global_bluetooth_fix_time"
+        android:summary="@string/preference_bluetooth_fix_time_summary"
+        android:title="@string/preference_bluetooth_fix_time_title" />
 
 </PreferenceScreen>

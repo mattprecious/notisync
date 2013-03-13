@@ -26,7 +26,7 @@
 
             <Button
                 android:id="@+id/accessibilityButton"
-                style="?attr/buttonBarButtonStyle"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-thin"

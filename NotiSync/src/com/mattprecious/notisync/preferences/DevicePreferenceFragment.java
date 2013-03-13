@@ -16,12 +16,6 @@ import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
 
-import org.holoeverywhere.preference.CheckBoxPreference;
-import org.holoeverywhere.preference.Preference;
-import org.holoeverywhere.preference.Preference.OnPreferenceChangeListener;
-import org.holoeverywhere.preference.PreferenceFragment;
-import org.holoeverywhere.preference.PreferenceScreen;
-
 import java.util.HashSet;
 import java.util.Set;
 
