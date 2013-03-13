@@ -28,6 +28,7 @@
         android:title="@string/menu_about"/>
     <item
         android:id="@+id/menu_dev_tools"
+        android:icon="@drawable/ic_action_dev_tools"
         android:showAsAction="always"
         android:title="@string/menu_dev_tools"
         android:visible="false"/>
