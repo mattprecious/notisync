@@ -1,16 +1,23 @@
 
 package com.mattprecious.notisync.preferences;
 
+import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.util.MyLog;
@@ -19,6 +26,7 @@ import com.mattprecious.notisync.util.Preferences;
 import java.util.HashSet;
 import java.util.Set;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DevicePreferenceFragment extends PreferenceFragment {
     private static final String TAG = "DevicePreferenceFragment";
     
@@ -29,6 +37,7 @@ public class DevicePreferenceFragment extends PreferenceFragment {
     private LocalBroadcastManager broadcastManager;
 
     @Override
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

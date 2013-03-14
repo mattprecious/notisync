@@ -29,11 +29,11 @@ public class DeviceFragment extends SherlockFragment {
         Bundle args = new Bundle();
         args.putBoolean(DevicePreferenceFragment.EXTRA_SHOW_MENU, false);
 
-        SherlockFragment deviceFragment = new DevicePreferenceFragment();
-        deviceFragment.setArguments(args);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.deviceFragment, deviceFragment)
-                .commit();
+//        SherlockFragment deviceFragment = new DevicePreferenceFragment();
+//        deviceFragment.setArguments(args);
+//
+//        getSupportFragmentManager().beginTransaction().replace(R.id.deviceFragment, deviceFragment)
+//                .commit();
 
         Button bluetoothButton = (Button) rootView.findViewById(R.id.bluetoothButton);
         bluetoothButton.setOnClickListener(new OnClickListener() {

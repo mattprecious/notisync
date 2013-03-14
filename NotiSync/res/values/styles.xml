@@ -17,6 +17,18 @@
         <!-- Light.DarkActionBar specific -->
         <item name="actionBarWidgetTheme">@style/Theme.orange.widget</item>
         <item name="android:actionBarWidgetTheme">@style/Theme.orange.widget</item>
+        <!-- switch -->
+        <item name="switchStyle">@style/SwitchAppTheme</item>
+    </style>
+
+    <style name="SwitchAppTheme" parent="Widget.Holo.Light.CompoundButton.Switch">
+        <item name="track">@drawable/switch_track_holo_light</item>
+        <item name="thumb">@drawable/switch_inner_holo_light</item>
+    </style>
+    
+    <style name="SwitchABAppTheme" parent="Widget.Holo.CompoundButton.Switch">
+        <item name="track">@drawable/switch_track_holo_dark</item>
+        <item name="thumb">@drawable/switch_inner_holo_dark</item>
     </style>
 
     <!-- wizard pager -->
@@ -58,7 +70,7 @@
         <item name="android:fadeScrollbars">false</item>
         <item name="android:scrollbarStyle">outsideInset</item>
     </style>
-    <!-- notifications -->
+    <!-- notifications -->
     <style name="NotificationPrimaryText">
         <item name="android:textColor">#cccccc</item>
     </style>

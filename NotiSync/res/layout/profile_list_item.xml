@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="15dip" >
 
-    <org.holoeverywhere.widget.Switch
+    <org.jraf.android.backport.switchwidget.Switch
         android:id="@+id/profile_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
