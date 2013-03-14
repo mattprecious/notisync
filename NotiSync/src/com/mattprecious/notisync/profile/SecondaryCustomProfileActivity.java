@@ -70,6 +70,8 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
         } else {
             profile = new SecondaryProfile();
             profile.setEnabled(true);
+            profile.setVibrate(true);
+            profile.setLed(true);
         }
 
         nameField = (EditText) findViewById(R.id.nameField);
