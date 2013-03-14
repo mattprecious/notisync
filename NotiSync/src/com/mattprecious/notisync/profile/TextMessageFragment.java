@@ -1,10 +1,14 @@
 
 package com.mattprecious.notisync.profile;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -54,6 +58,8 @@ public class TextMessageFragment extends StandardProfileFragment {
         vibrateCheckBox = (CheckBox) rootView.findViewById(R.id.vibrateCheckBox);
         vibrateCheckBox.setChecked(Preferences.getSecondaryTextMessageVibrate(getActivity()));
 
+        checkForVibrator();
+
         lightsCheckBox = (CheckBox) rootView.findViewById(R.id.lightsCheckBox);
         lightsCheckBox.setChecked(Preferences.getSecondaryTextMessageLights(getActivity()));
 
@@ -68,6 +74,15 @@ public class TextMessageFragment extends StandardProfileFragment {
         Preferences.setSecondaryTextMessageVibrate(getActivity(), vibrateCheckBox.isChecked());
         Preferences.setSecondaryTextMessageLights(getActivity(), lightsCheckBox.isChecked());
         return true;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void checkForVibrator() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (!((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).hasVibrator()) {
+                vibrateCheckBox.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void updateRingtoneSelector() {

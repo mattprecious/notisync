@@ -2,11 +2,13 @@
 package com.mattprecious.notisync.profile;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -140,6 +142,8 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
         vibrateCheckBox = (CheckBox) findViewById(R.id.vibrateCheckBox);
         vibrateCheckBox.setChecked(profile.isVibrate());
 
+        checkForVibrator();
+
         lightsCheckBox = (CheckBox) findViewById(R.id.lightsCheckBox);
         lightsCheckBox.setChecked(profile.isLed());
 
@@ -247,6 +251,15 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
             default:
                 super.onActivityResult(requestCode, resultCode, data);
                 break;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void checkForVibrator() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (!((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).hasVibrator()) {
+                vibrateCheckBox.setVisibility(View.GONE);
+            }
         }
     }
 
