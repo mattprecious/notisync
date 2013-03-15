@@ -5,8 +5,7 @@
         android:key="header_devices"
         android:title="@string/preference_header_devices" >
         <intent
-            android:action="com.mattprecious.notisync.preferences.PREFS_DEVICES"
-            android:targetClass="com.mattprecious.notisync.preferences.SettingsActivity"
+            android:targetClass="com.mattprecious.notisync.activity.DeviceListActivity"
             android:targetPackage="com.mattprecious.notisync" />
     </Preference>
     <Preference

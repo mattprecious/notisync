@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.fragment.DeviceListFragment;
 
 public class DeviceFragment extends SherlockFragment {
 
@@ -23,11 +24,9 @@ public class DeviceFragment extends SherlockFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.wizard_devices, container, false);
 
-//        SherlockFragment deviceFragment = new DevicePreferenceFragment();
-//        deviceFragment.setArguments(args);
-//
-//        getSupportFragmentManager().beginTransaction().replace(R.id.deviceFragment, deviceFragment)
-//                .commit();
+        SherlockFragment deviceFragment = new DeviceListFragment();
+        getFragmentManager().beginTransaction().replace(R.id.deviceFragment, deviceFragment)
+                .commit();
 
         Button bluetoothButton = (Button) rootView.findViewById(R.id.bluetoothButton);
         bluetoothButton.setOnClickListener(new OnClickListener() {

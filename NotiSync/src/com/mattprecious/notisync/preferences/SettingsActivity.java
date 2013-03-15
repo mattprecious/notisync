@@ -66,9 +66,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         originalMode = Preferences.getMode(this);
 
         String action = getIntent().getAction();
-        if (PREFS_DEVICES.equals(action)) {
-
-        } else if (PREFS_GENERAL.equals(action)) {
+        if (PREFS_GENERAL.equals(action)) {
             addPreferencesFromResource(R.xml.global_general_preferences);
         } else if (PREFS_BLUETOOTH_FIX.equals(action)) {
             addPreferencesFromResource(R.xml.global_bluetoothfix_preferences);
