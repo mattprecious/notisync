@@ -2,8 +2,12 @@
 package com.mattprecious.notisync.preferences;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -12,7 +16,14 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -64,6 +75,15 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         } else if (PREFS_ABOUT.equals(action)) {
             addPreferencesFromResource(R.xml.about_preferences);
             findPreference("about_version").setSummary(getAppVersion(this));
+            findPreference("about_attribution").setOnPreferenceClickListener(
+                    new OnPreferenceClickListener() {
+
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            buildAttributionsDialog(SettingsActivity.this).show();
+                            return true;
+                        }
+                    });
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             addPreferencesFromResource(R.xml.preference_headers_legacy);
 
@@ -171,6 +191,36 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         }
 
         return null;
+    }
+
+    public static Dialog buildAttributionsDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View rootView = inflater.inflate(R.layout.about_attributions, null);
+
+        // for some reason when you replace the view on a legacy dialog it wipes
+        // the background colour...
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            rootView.setBackgroundColor(context.getResources().getColor(
+                    android.R.color.background_light));
+        }
+
+        TextView attributionsView = (TextView) rootView.findViewById(R.id.attributions);
+        attributionsView.setText(Html.fromHtml(context.getString(R.string.attributions)));
+        attributionsView.setMovementMethod(new LinkMovementMethod());
+
+        builder.setTitle("Attributions");
+        builder.setView(rootView);
+        builder.setPositiveButton("Close", new OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        return builder.create();
     }
 
     public static class PreferenceChangeListener implements OnSharedPreferenceChangeListener {

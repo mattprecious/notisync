@@ -2,6 +2,7 @@
 package com.mattprecious.notisync.preferences;
 
 import android.annotation.TargetApi;
+import android.app.DialogFragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -9,6 +10,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 
 import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.fragment.AttributionsDialogFragment;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class AboutPreferenceFragment extends PreferenceFragment {
@@ -24,10 +26,8 @@ public class AboutPreferenceFragment extends PreferenceFragment {
 
                     @Override
                     public boolean onPreferenceClick(Preference arg0) {
-//                        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                        DialogFragment licensesDialog = new AttributionsDialogFragment();
-//
-//                        licensesDialog.show(ft, null);
+                        DialogFragment licensesDialog = new AttributionsDialogFragment();
+                        licensesDialog.show(getFragmentManager(), null);
 
                         return false;
                     }
