@@ -1,12 +1,14 @@
 
 package com.mattprecious.notisync.activity;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
@@ -55,7 +57,8 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 import org.jraf.android.backport.switchwidget.Switch;
 
-public class MainActivity extends SherlockFragmentActivity implements UndoListener, AccessibilityDialogListener {
+public class MainActivity extends SherlockFragmentActivity implements UndoListener,
+        AccessibilityDialogListener {
     private final static String TAG = "MainActivity";
 
     private final int REQUEST_CODE_WIZARD = 1;
@@ -333,13 +336,7 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
 
                 return true;
             case R.id.menu_about:
-                Intent aboutIntent = new Intent(this, SettingsActivity.class);
-                aboutIntent.putExtra(SherlockPreferenceActivity.EXTRA_SHOW_FRAGMENT,
-                        AboutPreferenceFragment.class.getName());
-                aboutIntent.putExtra(SherlockPreferenceActivity.EXTRA_SHOW_FRAGMENT_TITLE,
-                        R.string.preference_header_about);
-                startActivity(aboutIntent);
-
+                startActivity(buildAboutIntent());
                 return true;
             case R.id.menu_dev_tools:
                 startActivity(new Intent(this, DevToolsActivity.class));
@@ -347,6 +344,43 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private Intent buildAboutIntent() {
+        Intent aboutIntent;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            aboutIntent = buildAboutIntentLegacy();
+        } else {
+            aboutIntent = buildAboutIntentFragments();
+        }
+
+        return aboutIntent;
+    }
+
+    private Intent buildAboutIntentLegacy() {
+        Intent aboutIntent = new Intent(this, SettingsActivity.class);
+        aboutIntent.setAction(SettingsActivity.PREFS_ABOUT);
+
+        return aboutIntent;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private Intent buildAboutIntentFragments() {
+        Intent aboutIntent = new Intent(this, SettingsActivity.class);
+        aboutIntent.putExtra(SherlockPreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                AboutPreferenceFragment.class.getName());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            setAboutIntentTitleICS(aboutIntent);
+        }
+
+        return aboutIntent;
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void setAboutIntentTitleICS(Intent intent) {
+        intent.putExtra(SherlockPreferenceActivity.EXTRA_SHOW_FRAGMENT_TITLE,
+                R.string.preference_header_about);
     }
 
     @Override

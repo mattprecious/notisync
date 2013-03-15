@@ -29,13 +29,13 @@ import com.mattprecious.notisync.util.Preferences.Mode;
 import java.util.List;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
-    private static final String PREFS_DEVICES =
+    public static final String PREFS_DEVICES =
             "com.mattprecious.notisync.preferences.PREFS_DEVICES";
-    private static final String PREFS_GENERAL =
+    public static final String PREFS_GENERAL =
             "com.mattprecious.notisync.preferences.PREFS_GENERAL";
-    private static final String PREFS_BLUETOOTH_FIX =
+    public static final String PREFS_BLUETOOTH_FIX =
             "com.mattprecious.notisync.preferences.PREFS_BLUETOOTH_FIX";
-    private static final String PREFS_ABOUT =
+    public static final String PREFS_ABOUT =
             "com.mattprecious.notisync.preferences.PREFS_ABOUT";
 
     private PreferenceChangeListener changeListener;
