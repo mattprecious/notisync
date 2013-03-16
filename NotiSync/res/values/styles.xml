@@ -20,16 +20,23 @@
 
         <!-- switch -->
         <item name="switchStyle">@style/SwitchAppTheme</item>
+        <item name="switchStyleAb">@style/SwitchAbAppTheme</item>
     </style>
 
     <style name="SwitchAppTheme" parent="Widget.Holo.Light.CompoundButton.Switch">
         <item name="track">@drawable/switch_track_holo_light</item>
         <item name="thumb">@drawable/switch_inner_holo_light</item>
+        <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
     </style>
 
-    <style name="SwitchABAppTheme" parent="Widget.Holo.CompoundButton.Switch">
+    <style name="SwitchAbAppTheme" parent="Widget.Holo.CompoundButton.Switch">
         <item name="track">@drawable/switch_track_holo_dark</item>
         <item name="thumb">@drawable/switch_inner_holo_dark</item>
+        <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
+    </style>
+    
+    <style name="SwitchTextAppearance" parent="android:TextAppearance.Small.Inverse">
+        <item name="android:textColor">@android:color/primary_text_dark</item>
     </style>
 
     <!-- wizard pager -->

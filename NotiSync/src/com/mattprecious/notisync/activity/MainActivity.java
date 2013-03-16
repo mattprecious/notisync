@@ -178,7 +178,7 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
                             }));
         }
 
-        actionBarSwitch = new Switch(this);
+        actionBarSwitch = new Switch(this, null, R.attr.switchStyleAb);
         actionBarSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
