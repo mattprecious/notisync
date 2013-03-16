@@ -27,8 +27,8 @@
         android:layout_marginRight="16dp"
         android:paddingTop="16dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
-        android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+        android:paddingLeft="6dip"
+        android:paddingRight="6dip"
         android:gravity="left" />
 
     <android.support.v4.view.ViewPager
@@ -37,19 +37,20 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <View android:id="@+id/divider"
-        android:background="?android:attr/dividerHorizontal"
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_width="match_parent" />
+        android:background="?attr/dividerHorizontal" />
 
     <LinearLayout
-        style="?android:attr/buttonBarStyle"
+        style="?attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:background="@drawable/selectable_item_background"
             android:id="@+id/prev_button"
             android:layout_width="0dp"
@@ -58,7 +59,7 @@
             android:text="@string/wizard_previous" />
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:background="@drawable/selectable_item_background"
             android:id="@+id/next_button"
             android:layout_width="0dp"

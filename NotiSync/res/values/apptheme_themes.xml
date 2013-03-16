@@ -20,6 +20,11 @@
         <item name="android:listViewStyle">@style/ListViewAppTheme</item>
         <item name="android:listViewWhiteStyle">@style/ListViewAppTheme.White</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
+
+        <!-- compatability bs -->
+        <item name="buttonBarStyle">@style/ButtonBarStyle</item>
+        <item name="buttonBarButtonStyle">@style/ButtonBarButtonStyle</item>
+        <item name="dividerHorizontal">@android:color/transparent</item>
     </style>
 
     <style name="WizardTheme" parent="Theme.Sherlock.Light.NoActionBar">
@@ -40,6 +45,11 @@
         <item name="android:listViewStyle">@style/ListViewAppTheme</item>
         <item name="android:listViewWhiteStyle">@style/ListViewAppTheme.White</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
+
+        <!-- compatability bs -->
+        <item name="buttonBarStyle">@style/ButtonBarStyle</item>
+        <item name="buttonBarButtonStyle">@style/ButtonBarButtonStyle</item>
+        <item name="dividerHorizontal">@android:color/transparent</item>
     </style>
 
     <style name="DevToolsTheme" parent="Theme.Sherlock.Light.Dialog"></style>

@@ -17,7 +17,8 @@
         <!-- Light.DarkActionBar specific -->
         <item name="actionBarWidgetTheme">@style/Theme.orange.widget</item>
         <item name="android:actionBarWidgetTheme">@style/Theme.orange.widget</item>
-        <!-- switch -->
+
+        <!-- switch -->
         <item name="switchStyle">@style/SwitchAppTheme</item>
     </style>
 
@@ -25,7 +26,7 @@
         <item name="track">@drawable/switch_track_holo_light</item>
         <item name="thumb">@drawable/switch_inner_holo_light</item>
     </style>
-    
+
     <style name="SwitchABAppTheme" parent="Widget.Holo.CompoundButton.Switch">
         <item name="track">@drawable/switch_track_holo_dark</item>
         <item name="thumb">@drawable/switch_inner_holo_dark</item>
@@ -63,7 +64,7 @@
     <style name="WizardPageDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">?android:attr/dividerHorizontal</item>
+        <item name="android:background">?attr/dividerHorizontal</item>
     </style>
 
     <style name="WizardPageScrollView">
