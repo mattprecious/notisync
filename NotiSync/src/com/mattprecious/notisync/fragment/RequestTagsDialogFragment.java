@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
@@ -63,8 +63,15 @@ public class RequestTagsDialogFragment extends SherlockDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View rootView = (RelativeLayout) getLayoutInflater(savedInstanceState).inflate(
+        View rootView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.request_tags, null);
+
+        // for some reason when you replace the view on a legacy dialog it wipes
+        // the background colour...
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            rootView.setBackgroundColor(getActivity().getResources().getColor(
+                    android.R.color.background_light));
+        }
 
         broadcastManager = LocalBroadcastManager.getInstance(getActivity());
 
