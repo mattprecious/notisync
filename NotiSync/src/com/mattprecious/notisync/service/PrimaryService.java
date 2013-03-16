@@ -314,16 +314,19 @@ public class PrimaryService extends Service {
     }
 
     private boolean bundleEquals(Bundle a, Bundle b) {
-        if (!a.containsKey("text") || !a.containsKey("bt_enable_action") || !b.containsKey("text")
-                || !b.containsKey("bt_enable_action")) {
+        if (!a.containsKey("text")) {
+            if (b.containsKey("text")) {
+                return false;
+            }
+        } else if (!a.getString("text").equals(b.getString("text"))) {
             return false;
         }
 
-        if (!a.getString("text").equals(b.getString("text"))) {
-            return false;
-        }
-
-        if (a.getBoolean("bt_enable_action") == b.getBoolean("bt_enable_action")) {
+        if (!a.containsKey("bt_enable_action")) {
+            if (b.containsKey("bt_enable_action")) {
+                return false;
+            }
+        } else if (a.getBoolean("bt_enable_action") != b.getBoolean("bt_enable_action")) {
             return false;
         }
 
