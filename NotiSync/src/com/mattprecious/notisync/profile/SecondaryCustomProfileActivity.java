@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -26,6 +27,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
+import com.mattprecious.notisync.fragment.CustomHelpDialogFragment;
 import com.mattprecious.notisync.fragment.RequestTagsDialogFragment;
 import com.mattprecious.notisync.fragment.RequestTagsDialogFragment.OnTagSelectedListener;
 import com.mattprecious.notisync.model.SecondaryProfile;
@@ -229,6 +231,10 @@ public class SecondaryCustomProfileActivity extends SherlockFragmentActivity imp
                     Crouton.showText(this, R.string.custom_profile_error, Style.ALERT);
                 }
 
+                return true;
+            case R.id.menu_help:
+                DialogFragment helpFragment = new CustomHelpDialogFragment();
+                helpFragment.show(getSupportFragmentManager(), null);
                 return true;
         }
 

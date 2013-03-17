@@ -26,6 +26,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
+import com.mattprecious.notisync.fragment.CustomHelpDialogFragment;
 import com.mattprecious.notisync.fragment.PackagePickerFragment;
 import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.message.TagPushMessage;
@@ -233,6 +234,10 @@ public class PrimaryCustomProfileActivity extends SherlockFragmentActivity imple
                     }
                 }
 
+                return true;
+            case R.id.menu_help:
+                DialogFragment helpFragment = new CustomHelpDialogFragment();
+                helpFragment.show(getSupportFragmentManager(), null);
                 return true;
         }
 
