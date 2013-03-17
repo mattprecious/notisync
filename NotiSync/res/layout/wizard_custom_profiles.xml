@@ -13,7 +13,8 @@
 
         <TextView
             android:id="@android:id/content"
-            style="@style/WizardPageText" />
+            style="@style/WizardPageText"
+            android:textIsSelectable="true" />
     </ScrollView>
 
 </LinearLayout>

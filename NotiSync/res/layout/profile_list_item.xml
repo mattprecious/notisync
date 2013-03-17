@@ -23,6 +23,7 @@
         android:layout_marginRight="15dip"
         android:layout_toLeftOf="@id/profile_switch"
         android:textColor="@color/profile_list_item_title"
+        android:textIsSelectable="false"
         android:textSize="24sp"
         android:textStyle="bold" />
 

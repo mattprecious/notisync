@@ -13,7 +13,8 @@
         android:id="@+android:id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:contentDescription="@string/bluetooth_icon_description" />
 
     <RelativeLayout
         android:layout_width="0dip"
@@ -31,7 +32,8 @@
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
             android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textIsSelectable="false" />
 
         <TextView
             android:id="@+android:id/summary"
@@ -41,7 +43,8 @@
             android:layout_below="@android:id/title"
             android:maxLines="4"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="?android:attr/textColorSecondary" />
+            android:textColor="?android:attr/textColorSecondary"
+            android:textIsSelectable="false" />
     </RelativeLayout>
 
     <CheckBox

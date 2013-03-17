@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <FrameLayout
-        android:id="@+id/content_wrapper"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <LinearLayout
+        android:id="@+id/undobar"
+        style="@style/UndoBar" >
 
-        <LinearLayout
-            android:id="@+id/undobar"
-            style="@style/UndoBar" >
+        <TextView
+            android:id="@+id/undobar_message"
+            style="@style/UndoBarMessage"
+            android:textIsSelectable="false" />
 
-            <TextView
-                android:id="@+id/undobar_message"
-                style="@style/UndoBarMessage" />
-
-            <Button
-                android:id="@+id/undobar_button"
-                style="@style/UndoBarButton" />
-        </LinearLayout>
-    </FrameLayout>
+        <Button
+            android:id="@+id/undobar_button"
+            style="@style/UndoBarButton" />
+    </LinearLayout>
 
 </LinearLayout>

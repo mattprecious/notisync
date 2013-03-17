@@ -92,6 +92,7 @@
     <!-- misc -->
     <!-- TODO: this string changed in 4.2.2 to None -->
     <string name="ringtone_silent">Silent</string>
+    <string name="bluetooth_icon_description">Bluetooth icon</string>
 
     <!-- standard profile -->
     <string name="standard_profile_empty">This profile doesn\'t have any options</string>

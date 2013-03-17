@@ -11,8 +11,9 @@
     <bool name="ga_reportUncaughtExceptions">true</bool>
 
     <!-- The screen names that will appear in your reporting -->
-    <string name="com.mattprecious.notisync.MainActivity">MainActivity</string>
-    <string name="com.mattprecious.notisync.WizardActivity">WizardActivity</string>
+    <string name="com.mattprecious.notisync.activity.MainActivity">MainActivity</string>
+    <string name="com.mattprecious.notisync.activity.WizardActivity">WizardActivity</string>
+    <string name="com.mattprecious.notisync.activity.DeviceListActivity">DeviceListActivity</string>
     <string name="com.mattprecious.notisync.devtools.DevToolsActivity">DevToolsActivity</string>
     <string name="com.mattprecious.notisync.preferences.SettingsActivity">SettingsActivity</string>
     <string name="com.mattprecious.notisync.profile.PrimaryCustomProfileActivity">PrimaryCustomProfileActivity</string>
