@@ -2,18 +2,17 @@
 package com.mattprecious.notisync.devtools;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.message.TextMessage;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.EditText;
-
-public class TextMessageFragment extends Fragment {
+public class TextMessageFragment extends SherlockFragment {
     private EditText numberText;
     private EditText nameText;
     private EditText messageText;
@@ -32,7 +31,7 @@ public class TextMessageFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().popBackStack();
+                getFragmentManager().popBackStack();
             }
         });
 

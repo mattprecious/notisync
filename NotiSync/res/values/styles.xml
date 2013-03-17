@@ -17,11 +17,26 @@
         <!-- Light.DarkActionBar specific -->
         <item name="actionBarWidgetTheme">@style/Theme.orange.widget</item>
         <item name="android:actionBarWidgetTheme">@style/Theme.orange.widget</item>
+
+        <!-- switch -->
+        <item name="switchStyle">@style/SwitchAppTheme</item>
+        <item name="switchStyleAb">@style/SwitchAbAppTheme</item>
     </style>
 
-    <style name="Switch.TextAppearance" parent="Holo.Switch.TextAppearance">
-        <item name="android:textColor">#FFFFFFFF</item>
-        <item name="android:textStyle">bold</item>
+    <style name="SwitchAppTheme" parent="Widget.Holo.Light.CompoundButton.Switch">
+        <item name="track">@drawable/switch_track_holo_light</item>
+        <item name="thumb">@drawable/switch_inner_holo_light</item>
+        <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
+    </style>
+
+    <style name="SwitchAbAppTheme" parent="Widget.Holo.CompoundButton.Switch">
+        <item name="track">@drawable/switch_track_holo_dark</item>
+        <item name="thumb">@drawable/switch_inner_holo_dark</item>
+        <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
+    </style>
+    
+    <style name="SwitchTextAppearance" parent="android:TextAppearance.Small.Inverse">
+        <item name="android:textColor">@android:color/primary_text_dark</item>
     </style>
 
     <!-- wizard pager -->
@@ -63,7 +78,7 @@
         <item name="android:fadeScrollbars">false</item>
         <item name="android:scrollbarStyle">outsideInset</item>
     </style>
-    <!-- notifications -->
+    <!-- notifications -->
     <style name="NotificationPrimaryText">
         <item name="android:textColor">#cccccc</item>
     </style>

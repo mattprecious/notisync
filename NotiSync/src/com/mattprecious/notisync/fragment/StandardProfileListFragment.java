@@ -4,12 +4,16 @@ package com.mattprecious.notisync.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
@@ -17,11 +21,7 @@ import com.mattprecious.notisync.profile.StandardProfileActivity;
 import com.mattprecious.notisync.profile.StandardProfileActivity.ProfileType;
 import com.mattprecious.notisync.util.Preferences;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.Switch;
-import org.holoeverywhere.widget.TextView;
+import org.jraf.android.backport.switchwidget.Switch;
 
 import java.util.ArrayList;
 

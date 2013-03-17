@@ -18,6 +18,7 @@
 
     <declare-styleable name="AppTheme">
         <attr name="textAppearanceFinish" format="reference" />
+        <attr name="switchStyleAb" format="reference" />
     </declare-styleable>
 
 </resources>

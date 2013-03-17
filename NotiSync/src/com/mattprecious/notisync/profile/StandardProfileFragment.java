@@ -1,7 +1,7 @@
 package com.mattprecious.notisync.profile;
 
-import org.holoeverywhere.app.Fragment;
+import com.actionbarsherlock.app.SherlockFragment;
 
-public abstract class StandardProfileFragment extends Fragment {
+public abstract class StandardProfileFragment extends SherlockFragment {
     public abstract boolean onSave();
 }

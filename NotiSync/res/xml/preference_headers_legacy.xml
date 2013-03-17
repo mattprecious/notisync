@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <Preference
+        android:key="header_devices"
+        android:title="@string/preference_header_devices" >
+        <intent
+            android:targetClass="com.mattprecious.notisync.activity.DeviceListActivity"
+            android:targetPackage="com.mattprecious.notisync" />
+    </Preference>
+    <Preference
+        android:key="header_general"
+        android:title="@string/preference_header_general" >
+        <intent
+            android:action="com.mattprecious.notisync.preferences.PREFS_GENERAL"
+            android:targetClass="com.mattprecious.notisync.preferences.SettingsActivity"
+            android:targetPackage="com.mattprecious.notisync" />
+    </Preference>
+    <Preference
+        android:key="header_bluetooth_fix"
+        android:title="@string/preference_header_bluetooth_fix" >
+        <intent
+            android:action="com.mattprecious.notisync.preferences.PREFS_BLUETOOTH_FIX"
+            android:targetClass="com.mattprecious.notisync.preferences.SettingsActivity"
+            android:targetPackage="com.mattprecious.notisync" />
+    </Preference>
+    <Preference
+        android:key="header_about"
+        android:title="@string/preference_header_about" >
+        <intent
+            android:action="com.mattprecious.notisync.preferences.PREFS_ABOUT"
+            android:targetClass="com.mattprecious.notisync.preferences.SettingsActivity"
+            android:targetPackage="com.mattprecious.notisync" />
+    </Preference>
+
+</PreferenceScreen>

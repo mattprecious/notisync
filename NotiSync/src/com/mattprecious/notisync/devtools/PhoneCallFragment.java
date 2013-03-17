@@ -2,24 +2,23 @@
 package com.mattprecious.notisync.devtools;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.message.PhoneCallMessage;
 import com.mattprecious.notisync.message.PhoneCallMessage.Type;
 
-import org.holoeverywhere.ArrayAdapter;
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.Spinner;
-
 import java.util.ArrayList;
 
-public class PhoneCallFragment extends Fragment {
+public class PhoneCallFragment extends SherlockFragment {
     private EditText numberText;
     private EditText nameText;
     private Spinner typeSpinner;
@@ -47,7 +46,7 @@ public class PhoneCallFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().popBackStack();
+                getFragmentManager().popBackStack();
             }
         });
 

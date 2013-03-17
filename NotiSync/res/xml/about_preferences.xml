@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:holo="http://schemas.android.com/apk/res-auto"
-    holo:title="@string/preference_header_about" >
+    android:title="@string/preference_header_about" >
 
     <Preference
-        holo:summary="@string/about_author_summary"
-        holo:title="@string/about_author_title" />
+        android:summary="@string/about_author_summary"
+        android:title="@string/about_author_title" />
     <Preference
-        holo:key="about_version"
-        holo:title="@string/about_version_title" />
+        android:key="about_version"
+        android:title="@string/about_version_title" />
     <!-- <Preference
-        holo:key="about_changelog"
-        holo:title="@string/about_change_log_title" /> -->
+        android:key="about_changelog"
+        android:title="@string/about_change_log_title" /> -->
     <Preference
-        holo:key="about_attribution"
-        holo:title="@string/about_attributions_title" />
+        android:key="about_attribution"
+        android:title="@string/about_attributions_title" />
     <Preference
-        holo:key="about_feedback"
-        holo:summary="@string/about_feedback_summary"
-        holo:title="@string/about_feedback_title" >
+        android:key="about_feedback"
+        android:summary="@string/about_feedback_summary"
+        android:title="@string/about_feedback_title" >
     </Preference>
 
 </PreferenceScreen>

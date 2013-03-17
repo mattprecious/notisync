@@ -1,21 +1,20 @@
 
 package com.mattprecious.notisync.wizardpager.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.wizardpager.model.Page;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.CheckBox;
-
-public class ModeFragment extends Fragment implements OnClickListener {
+public class ModeFragment extends SherlockFragment implements OnClickListener {
     private static final String ARG_KEY = "key";
 
     private PageFragmentCallbacks mCallbacks;

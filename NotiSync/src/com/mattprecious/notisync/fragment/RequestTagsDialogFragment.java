@@ -1,35 +1,34 @@
 
 package com.mattprecious.notisync.fragment;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.message.TagsRequestMessage;
 import com.mattprecious.notisync.service.SecondaryService;
-
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.ProgressBar;
-import org.holoeverywhere.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +36,7 @@ import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class RequestTagsDialogFragment extends DialogFragment {
+public class RequestTagsDialogFragment extends SherlockDialogFragment {
     private final int REQUEST_TIMEOUT = 5000;
 
     private OnTagSelectedListener tagListener;
@@ -64,7 +63,15 @@ public class RequestTagsDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View rootView = (RelativeLayout) getLayoutInflater().inflate(R.layout.request_tags);
+        View rootView = LayoutInflater.from(getActivity()).inflate(
+                R.layout.request_tags, null);
+
+        // for some reason when you replace the view on a legacy dialog it wipes
+        // the background colour...
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            rootView.setBackgroundColor(getActivity().getResources().getColor(
+                    android.R.color.background_light));
+        }
 
         broadcastManager = LocalBroadcastManager.getInstance(getActivity());
 

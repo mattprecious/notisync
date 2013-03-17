@@ -6,21 +6,20 @@ import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.R;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.view.ViewHelper;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.TextView;
-
-public class WelcomeFragment extends Fragment {
+public class WelcomeFragment extends SherlockFragment {
     public static final String STATE_PLAY_ANIMATION = "playAnimation";
 
     ViewTreeObserver viewObserver;

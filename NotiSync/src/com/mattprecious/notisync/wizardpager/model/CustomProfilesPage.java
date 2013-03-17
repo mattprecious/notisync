@@ -1,9 +1,8 @@
 
 package com.mattprecious.notisync.wizardpager.model;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.wizardpager.ui.CustomProfilesFragment;
-
-import org.holoeverywhere.app.Fragment;
 
 public class CustomProfilesPage extends LayoutPage {
 
@@ -12,7 +11,7 @@ public class CustomProfilesPage extends LayoutPage {
     }
 
     @Override
-    public Fragment createFragment() {
+    public SherlockFragment createFragment() {
         return CustomProfilesFragment.create();
     }
 }

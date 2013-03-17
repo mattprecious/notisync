@@ -1,10 +1,9 @@
 
 package com.mattprecious.notisync.wizardpager.model;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.util.Helpers;
 import com.mattprecious.notisync.wizardpager.ui.BluetoothBugFragment;
-
-import org.holoeverywhere.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -15,7 +14,7 @@ public class BluetoothBugPage extends Page {
     }
 
     @Override
-    public Fragment createFragment() {
+    public SherlockFragment createFragment() {
         return BluetoothBugFragment.create();
     }
 

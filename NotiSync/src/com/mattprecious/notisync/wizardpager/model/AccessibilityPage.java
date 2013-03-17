@@ -1,8 +1,7 @@
 package com.mattprecious.notisync.wizardpager.model;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.wizardpager.ui.AccessibilityFragment;
-
-import org.holoeverywhere.app.Fragment;
 
 public class AccessibilityPage extends Page {
 
@@ -11,7 +10,7 @@ public class AccessibilityPage extends Page {
     }
 
     @Override
-    public Fragment createFragment() {
+    public SherlockFragment createFragment() {
         return AccessibilityFragment.create();
     }
 

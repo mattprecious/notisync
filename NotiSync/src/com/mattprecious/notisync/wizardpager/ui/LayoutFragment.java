@@ -2,13 +2,13 @@
 package com.mattprecious.notisync.wizardpager.ui;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
+import com.actionbarsherlock.app.SherlockFragment;
 
-public class LayoutFragment extends Fragment {
+public class LayoutFragment extends SherlockFragment {
     public static final String EXTRA_LAYOUT_ID = "layoutId";
 
     protected int layoutId;

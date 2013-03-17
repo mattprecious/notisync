@@ -2,6 +2,7 @@
 package com.mattprecious.notisync.profile;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -9,17 +10,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Preferences;
-
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.CheckBox;
 
 public class PhoneCallFragment extends StandardProfileFragment {
     private final int REQUEST_CODE_RINGTONE_PICKER = 1;
@@ -79,7 +78,8 @@ public class PhoneCallFragment extends StandardProfileFragment {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void checkForVibrator() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (!((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).hasVibrator()) {
+            if (!((Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE))
+                    .hasVibrator()) {
                 vibrateCheckBox.setVisibility(View.GONE);
             }
         }

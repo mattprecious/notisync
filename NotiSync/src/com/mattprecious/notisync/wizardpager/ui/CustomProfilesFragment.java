@@ -3,20 +3,19 @@ package com.mattprecious.notisync.wizardpager.ui;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Preferences;
-
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.TextView;
 
 /**
  * TextView with id android.R.id.content is required
  */
-public class CustomProfilesFragment extends Fragment {
+public class CustomProfilesFragment extends SherlockFragment {
 
     public static CustomProfilesFragment create() {
         CustomProfilesFragment fragment = new CustomProfilesFragment();

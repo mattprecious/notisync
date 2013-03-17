@@ -1,24 +1,23 @@
 
 package com.mattprecious.notisync.wizardpager.ui;
 
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Preferences;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.app.TimePickerDialog;
-import org.holoeverywhere.app.TimePickerDialog.OnTimeSetListener;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.TextView;
-import org.holoeverywhere.widget.TimePicker;
-
-public class BluetoothBugFragment extends Fragment {
+public class BluetoothBugFragment extends SherlockFragment {
 
     private Button scheduleButton;
 

@@ -22,6 +22,7 @@
         style="?attr/buttonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/selectable_item_background"
         android:fontFamily="sans-serif-thin"
         android:gravity="center"
         android:padding="5dip"

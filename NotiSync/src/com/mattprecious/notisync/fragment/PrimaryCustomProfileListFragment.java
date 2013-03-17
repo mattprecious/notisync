@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +17,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
@@ -24,11 +28,7 @@ import com.mattprecious.notisync.model.PrimaryProfile;
 import com.mattprecious.notisync.profile.PrimaryCustomProfileActivity;
 import com.mattprecious.notisync.util.UndoBarController;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.Switch;
-import org.holoeverywhere.widget.TextView;
+import org.jraf.android.backport.switchwidget.Switch;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
         listAdapter = new CustomProfileAdapter(getActivity());
         listView = (ListView) view.findViewById(R.id.list);
 
-        View footer = inflater.inflate(R.layout.custom_footer);
+        View footer = inflater.inflate(R.layout.custom_footer, listView, false);
         listView.addFooterView(footer);
 
         listView.setAdapter(listAdapter);

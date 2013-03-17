@@ -1,9 +1,8 @@
 
 package com.mattprecious.notisync.wizardpager.model;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.wizardpager.ui.DeviceFragment;
-
-import org.holoeverywhere.app.Fragment;
 
 public class DevicePage extends Page {
 
@@ -12,7 +11,7 @@ public class DevicePage extends Page {
     }
 
     @Override
-    public Fragment createFragment() {
+    public SherlockFragment createFragment() {
         return DeviceFragment.create();
     }
 }
