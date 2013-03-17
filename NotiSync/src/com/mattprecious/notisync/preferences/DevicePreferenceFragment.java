@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.util.Helpers;
@@ -43,6 +44,12 @@ public class DevicePreferenceFragment extends PreferenceFragment {
         broadcastManager = LocalBroadcastManager.getInstance(getActivity());
 
         setPreferenceScreen(getPreferenceManager().createPreferenceScreen(getActivity()));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.message.TextMessage;
 
@@ -44,6 +45,12 @@ public class TextMessageFragment extends SherlockFragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     private void send() {

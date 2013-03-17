@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
 
@@ -97,6 +98,12 @@ public class PackagePickerFragment extends SherlockDialogFragment {
         }).start();
 
         return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     public interface OnPackageSelectedListener {

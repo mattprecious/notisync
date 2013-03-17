@@ -9,6 +9,14 @@
 
     <!-- Enable automatic exception tracking -->
     <bool name="ga_reportUncaughtExceptions">true</bool>
-    <bool name="ga_debug">true</bool>
 
+    <!-- The screen names that will appear in your reporting -->
+    <string name="com.mattprecious.notisync.MainActivity">MainActivity</string>
+    <string name="com.mattprecious.notisync.WizardActivity">WizardActivity</string>
+    <string name="com.mattprecious.notisync.devtools.DevToolsActivity">DevToolsActivity</string>
+    <string name="com.mattprecious.notisync.preferences.SettingsActivity">SettingsActivity</string>
+    <string name="com.mattprecious.notisync.profile.PrimaryCustomProfileActivity">PrimaryCustomProfileActivity</string>
+    <string name="com.mattprecious.notisync.profile.SecondaryCustomProfileActivity">SecondaryCustomProfileActivity</string>
+    <string name="com.mattprecious.notisync.profile.StandardProfileActivity">StandardProfileActivity</string>
+    
 </resources>

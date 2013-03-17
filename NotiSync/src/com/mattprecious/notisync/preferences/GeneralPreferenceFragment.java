@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -48,5 +49,11 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements
             startActivity(intent);
             getActivity().overridePendingTransition(0, 0);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }

@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 
 public class DevToolsFragment extends SherlockFragment {
@@ -51,5 +52,11 @@ public class DevToolsFragment extends SherlockFragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }

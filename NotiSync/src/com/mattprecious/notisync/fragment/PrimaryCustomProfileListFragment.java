@@ -20,6 +20,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
@@ -75,6 +76,12 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
         });
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     @Override

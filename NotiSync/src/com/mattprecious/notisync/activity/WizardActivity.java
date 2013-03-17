@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.wizardpager.model.AbstractWizardModel;
@@ -120,7 +121,19 @@ public class WizardActivity extends SherlockFragmentActivity implements
         onPageTreeChanged();
         updateBottomBar();
     }
-    
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
+    }
+
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {

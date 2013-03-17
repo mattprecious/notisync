@@ -9,6 +9,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 
 public class AccessibilityDialogFragment extends DialogFragment {
@@ -66,5 +67,11 @@ public class AccessibilityDialogFragment extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }

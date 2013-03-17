@@ -9,6 +9,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.fragment.AttributionsDialogFragment;
 
@@ -32,5 +33,11 @@ public class AboutPreferenceFragment extends PreferenceFragment {
                         return false;
                     }
                 });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }
