@@ -120,7 +120,7 @@
     <string name="custom_profile_push_message">Would you like to push this profile to all connected devices?</string>
     <string name="custom_profile_push_yes">Yes</string>
     <string name="custom_profile_push_no">No</string>
-    <string name="custom_profile_push_never">never</string>
+    <string name="custom_profile_push_never">Never</string>
 
     <!-- package picker -->
     <string name="package_picker_title">Pick an application</string>
