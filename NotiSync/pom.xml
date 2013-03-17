@@ -48,6 +48,12 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>org.jraf</groupId>
+			<artifactId>android-switch-backport</artifactId>
+			<version>1.0</version>
+			<type>apklib</type>
+		</dependency>
+		<dependency>
 			<groupId>com.google.android.analytics</groupId>
 			<artifactId>analytics</artifactId>
 			<version>2</version>
