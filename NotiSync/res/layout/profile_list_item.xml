@@ -3,16 +3,23 @@
     xmlns:holo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dip" >
+    android:padding="10dip" >
 
-    <org.jraf.android.backport.switchwidget.Switch
-        android:id="@+id/profile_switch"
+    <RelativeLayout
+        android:id="@+id/switch_wrapper"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+        android:padding="5dip" >
+
+        <org.jraf.android.backport.switchwidget.Switch
+            android:id="@+id/profile_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/profile_name"

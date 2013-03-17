@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -56,7 +57,8 @@ public class StandardProfileListFragment extends Fragment {
                 intent.setClass(getActivity(), StandardProfileActivity.class);
                 intent.putExtra(StandardProfileActivity.EXTRA_TYPE, type);
 
-                getActivity().startActivityForResult(intent, MainActivity.REQUEST_CODE_EDIT_PROFILE);
+                getActivity()
+                        .startActivityForResult(intent, MainActivity.REQUEST_CODE_EDIT_PROFILE);
             }
         });
 
@@ -204,12 +206,23 @@ public class StandardProfileListFragment extends Fragment {
 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    View parent = (View) buttonView.getParent();
+                    // TODO: not this
+                    View parent = (View) buttonView.getParent().getParent();
                     ProfileType type = (ProfileType) parent.getTag();
                     setEnabledFromType(type, isChecked);
 
                     // TODO: not this
                     parent.findViewById(R.id.profile_name).setEnabled(isChecked);
+                }
+            });
+
+            View switchWrapper = convertView.findViewById(R.id.switch_wrapper);
+            switchWrapper.setTag(profileSwitch);
+            switchWrapper.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    ((Switch) v.getTag()).performClick();
                 }
             });
 

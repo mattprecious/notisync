@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -71,7 +72,8 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
                     intent.putExtra("profile", profile);
                 }
 
-                getActivity().startActivityForResult(intent, MainActivity.REQUEST_CODE_EDIT_PROFILE);
+                getActivity()
+                        .startActivityForResult(intent, MainActivity.REQUEST_CODE_EDIT_PROFILE);
             }
         });
 
@@ -187,7 +189,8 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    View parent = (View) buttonView.getParent();
+                    // TODO: not this
+                    View parent = (View) buttonView.getParent().getParent();
                     PrimaryProfile profile = (PrimaryProfile) parent.getTag();
                     profile.setEnabled(isChecked);
 
@@ -197,6 +200,16 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
                     dbAdapter.openWritable();
                     dbAdapter.updatePrimaryProfile(profile);
                     dbAdapter.close();
+                }
+            });
+
+            View switchWrapper = convertView.findViewById(R.id.switch_wrapper);
+            switchWrapper.setTag(profileSwitch);
+            switchWrapper.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    ((Switch) v.getTag()).performClick();
                 }
             });
 
