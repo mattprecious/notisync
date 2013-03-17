@@ -52,7 +52,7 @@ public class PackagePickerFragment extends SherlockDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = getLayoutInflater(savedInstanceState);
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
         viewHolder = (RelativeLayout) inflater.inflate(R.layout.package_picker, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -103,6 +103,7 @@ public class PackagePickerFragment extends SherlockDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+        EasyTracker.getInstance().setContext(getActivity());
         EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
