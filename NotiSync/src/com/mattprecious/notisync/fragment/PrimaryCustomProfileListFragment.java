@@ -192,14 +192,23 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
                     // TODO: not this
                     View parent = (View) buttonView.getParent().getParent();
                     PrimaryProfile profile = (PrimaryProfile) parent.getTag();
-                    profile.setEnabled(isChecked);
 
-                    // TODO: not this
-                    parent.findViewById(R.id.profile_name).setEnabled(isChecked);
+                    // Nasty infinite loop here... updating the profile sends a
+                    // broadcast which we receive and then refresh our list
+                    // which recreates the view which recycles the convertView
+                    // where we then call setEnabled() on a switch which already
+                    // has a change listener set which updates the profile which
+                    // sends a broadcast...
+                    if (profile.isEnabled() != isChecked) {
+                        profile.setEnabled(isChecked);
 
-                    dbAdapter.openWritable();
-                    dbAdapter.updatePrimaryProfile(profile);
-                    dbAdapter.close();
+                        // TODO: not this
+                        parent.findViewById(R.id.profile_name).setEnabled(isChecked);
+
+                        dbAdapter.openWritable();
+                        dbAdapter.updatePrimaryProfile(profile);
+                        dbAdapter.close();
+                    }
                 }
             });
 
