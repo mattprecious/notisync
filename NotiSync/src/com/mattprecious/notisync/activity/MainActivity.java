@@ -2,6 +2,7 @@
 package com.mattprecious.notisync.activity;
 
 import android.annotation.TargetApi;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -78,6 +80,8 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        checkBluetooth();
+
         if (!Preferences.hasMode(this)) {
             setDefaults();
         }
@@ -150,6 +154,14 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
             broadcastManager.unregisterReceiver(serviceStatusReceiver);
         } catch (IllegalArgumentException e) {
 
+        }
+    }
+
+    @SuppressWarnings("unused")
+    private void checkBluetooth() {
+        if (BluetoothAdapter.getDefaultAdapter() == null && !BuildConfig.DEBUG) {
+            Toast.makeText(this, R.string.no_bluetooth, Toast.LENGTH_LONG).show();
+            finish();
         }
     }
 
