@@ -49,6 +49,7 @@ import com.mattprecious.notisync.service.NotificationService;
 import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.service.SecondaryService;
 import com.mattprecious.notisync.service.ServiceActions;
+import com.mattprecious.notisync.util.Helpers;
 import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.UndoBarController;
@@ -346,6 +347,9 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
                 startActivityForResult(new Intent(this, WizardActivity.class),
                         REQUEST_CODE_WIZARD);
 
+                return true;
+            case R.id.menu_feedback:
+                Helpers.openSupportPage(this);
                 return true;
             case R.id.menu_about:
                 startActivity(buildAboutIntent());

@@ -12,6 +12,7 @@ import android.preference.PreferenceFragment;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.fragment.AttributionsDialogFragment;
+import com.mattprecious.notisync.util.Helpers;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class AboutPreferenceFragment extends PreferenceFragment {
@@ -30,6 +31,15 @@ public class AboutPreferenceFragment extends PreferenceFragment {
                         DialogFragment licensesDialog = new AttributionsDialogFragment();
                         licensesDialog.show(getFragmentManager(), null);
 
+                        return false;
+                    }
+                });
+        findPreference("about_feedback").setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        Helpers.openSupportPage(getActivity());
                         return false;
                     }
                 });

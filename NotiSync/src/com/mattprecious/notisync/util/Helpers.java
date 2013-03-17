@@ -3,10 +3,16 @@ package com.mattprecious.notisync.util;
 
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 
 import com.mattprecious.notisync.R;
 
+/**
+ * Miscellaneous helpers that don't have a better home
+ */
 public class Helpers {
     private static final String TAG = "Helpers";
 
@@ -42,5 +48,11 @@ public class Helpers {
         }
 
         return 0;
+    }
+
+    public static void openSupportPage(Context context) {
+        Uri supportUri = Uri.parse("https://notisync.uservoice.com");
+        Intent intent = new Intent(Intent.ACTION_VIEW, supportUri);
+        context.startActivity(intent);
     }
 }

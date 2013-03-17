@@ -82,6 +82,15 @@ public class SettingsActivity extends SherlockPreferenceActivity {
                             return true;
                         }
                     });
+            findPreference("about_feedback").setOnPreferenceClickListener(
+                    new OnPreferenceClickListener() {
+
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            Helpers.openSupportPage(SettingsActivity.this);
+                            return false;
+                        }
+                    });
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             addPreferencesFromResource(R.xml.preference_headers_legacy);
 
