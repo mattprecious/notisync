@@ -42,8 +42,8 @@
         <b>Tag</b><br />
         This tag must match a tag that you\'ve used on your primary device. This is how NotiSync identifies custom notifications when they are received.<br /><br />
         
-        <b>Unconnected only</b><br />
-        Enable this to only display these notifications when you do not have an internet connection. This is useful if you already have the app on this device, but it requires a connection to notify you.
+        <b>Only if no internet connection</b><br />
+        Enable this to only display these notifications when you do not have an internet connection. This is useful if you already have the app on this device and you don\'t want duplicate notifications while you\'re online.
         ]]>
     </string>
     <string name="wizard_bluetoothissue_title">Bluetooth issue</string>
@@ -103,7 +103,7 @@
     <string name="custom_profile_header_conditions">Conditions</string>
     <string name="custom_profile_header_ringtone">Notification sound</string>
     <string name="custom_profile_header_extras">Extras</string>
-    <string name="custom_profile_label_unconnected_only">Unconnected only</string>
+    <string name="custom_profile_label_unconnected_only">Only if no internet connection</string>
     <string name="custom_profile_label_vibrate">Vibrate</string>
     <string name="custom_profile_label_lights">Flash LED</string>
     <string name="custom_profile_tag_picker_description">Request tags from connected device</string>
