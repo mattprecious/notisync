@@ -528,14 +528,26 @@ public class SecondaryService extends Service {
     }
 
     private void handleTagPushMessage(TagPushMessage message) {
-        SecondaryProfile profile = new SecondaryProfile();
-        profile.setEnabled(true);
-        profile.setName(message.name);
-        profile.setTag(message.tag);
-
-        dbAdapter.openWritable();
-        dbAdapter.insertSecondaryProfile(profile);
+        dbAdapter.openReadable();
+        SecondaryProfile profile = dbAdapter.getSecondaryProfileByTag(message.tag);
         dbAdapter.close();
+
+        if (profile == null) {
+            profile = new SecondaryProfile();
+            profile.setEnabled(true);
+            profile.setName(message.name);
+            profile.setTag(message.tag);
+
+            dbAdapter.openWritable();
+            dbAdapter.insertSecondaryProfile(profile);
+            dbAdapter.close();
+        } else {
+            profile.setName(message.name);
+
+            dbAdapter.openWritable();
+            dbAdapter.updateSecondaryProfile(profile);
+            dbAdapter.close();
+        }
     }
 
     private void handleTagsResponseMessage(TagsResponseMessage message) {
