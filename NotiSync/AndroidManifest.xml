@@ -20,10 +20,10 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
-        android:name="android.hardware.TOUCHSCREEN"
+        android:name="android.hardware.touchscreen"
         android:required="false" />
     <uses-feature
-        android:name="android.hardware.TELEPHONY"
+        android:name="android.hardware.telephony"
         android:required="false" />
 
     <application
