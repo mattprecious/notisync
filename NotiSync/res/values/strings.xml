@@ -145,6 +145,7 @@
     <!-- tag picker -->
     <string name="request_tags_title">Pick a profile</string>
     <string name="request_tags_cancel">Cancel</string>
+    <string name="request_tags_none">No profiles found</string>
     <string name="request_tags_error">Could not load tags from primary device</string>
 
     <!-- menu items -->
