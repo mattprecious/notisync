@@ -18,7 +18,7 @@ package com.mattprecious.notisync.wizardpager.model;
 
 /**
  * Represents a single line item on the final review page.
- *
+ * 
  * @see com.example.android.wizardpager.wizard.ui.ReviewFragment
  */
 public class ReviewItem {

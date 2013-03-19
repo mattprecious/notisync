@@ -1,7 +1,23 @@
+/*
+ * Copyright 2013 Matthew Precious
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.mattprecious.notisync.wizardpager.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +27,8 @@ import android.widget.CheckBox;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.R;
+import com.mattprecious.notisync.service.PrimaryService;
+import com.mattprecious.notisync.service.SecondaryService;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.wizardpager.model.Page;
 
@@ -50,13 +68,13 @@ public class ModeFragment extends SherlockFragment implements OnClickListener {
 
         primaryView = rootView.findViewById(R.id.primary);
         primaryView.setOnClickListener(this);
-        
+
         primaryCheckBox = (CheckBox) rootView.findViewById(R.id.primary_checkbox);
         primaryCheckBox.setClickable(false);
 
         secondaryView = rootView.findViewById(R.id.secondary);
         secondaryView.setOnClickListener(this);
-        
+
         secondaryCheckBox = (CheckBox) rootView.findViewById(R.id.secondary_checkbox);
         secondaryCheckBox.setClickable(false);
 
@@ -92,8 +110,18 @@ public class ModeFragment extends SherlockFragment implements OnClickListener {
     public void onClick(View v) {
         if (v == primaryView) {
             Preferences.setMode(getActivity(), Preferences.Mode.PRIMARY);
+
+            if (SecondaryService.isRunning()) {
+                getActivity().stopService(new Intent(getActivity(), SecondaryService.class));
+                getActivity().startService(new Intent(getActivity(), PrimaryService.class));
+            }
         } else {
             Preferences.setMode(getActivity(), Preferences.Mode.SECONDARY);
+
+            if (PrimaryService.isRunning()) {
+                getActivity().stopService(new Intent(getActivity(), PrimaryService.class));
+                getActivity().startService(new Intent(getActivity(), SecondaryService.class));
+            }
         }
 
         updateSelection();

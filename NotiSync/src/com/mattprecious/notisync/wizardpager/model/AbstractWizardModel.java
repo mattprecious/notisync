@@ -23,10 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a wizard model, including the pages/steps in the wizard, their dependencies, and their
- * currently populated choices/values/selections.
- *
- * To create an actual wizard model, extend this class and implement {@link #onNewRootPageList()}.
+ * Represents a wizard model, including the pages/steps in the wizard, their
+ * dependencies, and their currently populated choices/values/selections. To
+ * create an actual wizard model, extend this class and implement
+ * {@link #onNewRootPageList()}.
  */
 public abstract class AbstractWizardModel implements ModelCallbacks {
     protected Context mContext;
@@ -46,7 +46,8 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
 
     @Override
     public void onPageDataChanged(Page page) {
-        // can't use for each because of concurrent modification (review fragment
+        // can't use for each because of concurrent modification (review
+        // fragment
         // can get added or removed and will register itself as a listener)
         for (int i = 0; i < mListeners.size(); i++) {
             mListeners.get(i).onPageDataChanged(page);
@@ -55,7 +56,8 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
 
     @Override
     public void onPageTreeChanged() {
-        // can't use for each because of concurrent modification (review fragment
+        // can't use for each because of concurrent modification (review
+        // fragment
         // can get added or removed and will register itself as a listener)
         for (int i = 0; i < mListeners.size(); i++) {
             mListeners.get(i).onPageTreeChanged();
@@ -85,8 +87,8 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
     }
 
     /**
-     * Gets the current list of wizard steps, flattening nested (dependent) pages based on the
-     * user's choices.
+     * Gets the current list of wizard steps, flattening nested (dependent)
+     * pages based on the user's choices.
      */
     public List<Page> getCurrentPageSequence() {
         ArrayList<Page> flattened = new ArrayList<Page>();
