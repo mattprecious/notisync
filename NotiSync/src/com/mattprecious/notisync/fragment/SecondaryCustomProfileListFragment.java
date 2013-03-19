@@ -1,3 +1,18 @@
+/*
+ * Copyright 2013 Matthew Precious
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.mattprecious.notisync.fragment;
 
@@ -7,15 +22,21 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.collect.Lists;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
@@ -24,11 +45,7 @@ import com.mattprecious.notisync.model.SecondaryProfile;
 import com.mattprecious.notisync.profile.SecondaryCustomProfileActivity;
 import com.mattprecious.notisync.util.UndoBarController;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.Switch;
-import org.holoeverywhere.widget.TextView;
+import org.jraf.android.backport.switchwidget.Switch;
 
 import java.util.List;
 
@@ -55,7 +72,7 @@ public class SecondaryCustomProfileListFragment extends Fragment implements
         listAdapter = new CustomProfileAdapter(getActivity());
         listView = (ListView) view.findViewById(R.id.list);
 
-        View footer = inflater.inflate(R.layout.custom_footer);
+        View footer = inflater.inflate(R.layout.custom_footer, listView, false);
         listView.addFooterView(footer);
 
         listView.setAdapter(listAdapter);
@@ -77,6 +94,12 @@ public class SecondaryCustomProfileListFragment extends Fragment implements
         });
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     @Override
@@ -182,16 +205,36 @@ public class SecondaryCustomProfileListFragment extends Fragment implements
 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    View parent = (View) buttonView.getParent();
-                    SecondaryProfile profile = (SecondaryProfile) parent.getTag();
-                    profile.setEnabled(isChecked);
-
                     // TODO: not this
-                    parent.findViewById(R.id.profile_name).setEnabled(isChecked);
+                    View parent = (View) buttonView.getParent().getParent();
+                    SecondaryProfile profile = (SecondaryProfile) parent.getTag();
 
-                    dbAdapter.openWritable();
-                    dbAdapter.updateSecondaryProfile(profile);
-                    dbAdapter.close();
+                    // Nasty infinite loop here... updating the profile sends a
+                    // broadcast which we receive and then refresh our list
+                    // which recreates the view which recycles the convertView
+                    // where we then call setEnabled() on a switch which already
+                    // has a change listener set which updates the profile which
+                    // sends a broadcast...
+                    if (profile.isEnabled() != isChecked) {
+                        profile.setEnabled(isChecked);
+
+                        // TODO: not this
+                        parent.findViewById(R.id.profile_name).setEnabled(isChecked);
+
+                        dbAdapter.openWritable();
+                        dbAdapter.updateSecondaryProfile(profile);
+                        dbAdapter.close();
+                    }
+                }
+            });
+
+            View switchWrapper = convertView.findViewById(R.id.switch_wrapper);
+            switchWrapper.setTag(profileSwitch);
+            switchWrapper.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    ((Switch) v.getTag()).performClick();
                 }
             });
 

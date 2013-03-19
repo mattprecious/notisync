@@ -1,3 +1,18 @@
+<!--
+  Copyright 2013 Matthew Precious
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme" parent="AppTheme">
@@ -17,11 +32,26 @@
         <!-- Light.DarkActionBar specific -->
         <item name="actionBarWidgetTheme">@style/Theme.orange.widget</item>
         <item name="android:actionBarWidgetTheme">@style/Theme.orange.widget</item>
+
+        <!-- switch -->
+        <item name="switchStyle">@style/SwitchAppTheme</item>
+        <item name="switchStyleAb">@style/SwitchAbAppTheme</item>
     </style>
 
-    <style name="Switch.TextAppearance" parent="Holo.Switch.TextAppearance">
-        <item name="android:textColor">#FFFFFFFF</item>
-        <item name="android:textStyle">bold</item>
+    <style name="SwitchAppTheme" parent="Widget.Holo.Light.CompoundButton.Switch">
+        <item name="track">@drawable/switch_track_holo_light</item>
+        <item name="thumb">@drawable/switch_inner_holo_light</item>
+        <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
+    </style>
+
+    <style name="SwitchAbAppTheme" parent="Widget.Holo.CompoundButton.Switch">
+        <item name="track">@drawable/switch_track_holo_dark</item>
+        <item name="thumb">@drawable/switch_inner_holo_dark</item>
+        <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
+    </style>
+    
+    <style name="SwitchTextAppearance" parent="android:TextAppearance.Small.Inverse">
+        <item name="android:textColor">@android:color/primary_text_dark</item>
     </style>
 
     <!-- wizard pager -->
@@ -63,7 +93,7 @@
         <item name="android:fadeScrollbars">false</item>
         <item name="android:scrollbarStyle">outsideInset</item>
     </style>
-    <!-- notifications -->
+    <!-- notifications -->
     <style name="NotificationPrimaryText">
         <item name="android:textColor">#cccccc</item>
     </style>

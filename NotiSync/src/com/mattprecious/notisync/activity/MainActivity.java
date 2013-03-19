@@ -1,14 +1,34 @@
+/*
+ * Copyright 2013 Matthew Precious
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.mattprecious.notisync.activity;
 
+import android.annotation.TargetApi;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -17,10 +37,13 @@ import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.ActionBar.TabListener;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -41,6 +64,7 @@ import com.mattprecious.notisync.service.NotificationService;
 import com.mattprecious.notisync.service.PrimaryService;
 import com.mattprecious.notisync.service.SecondaryService;
 import com.mattprecious.notisync.service.ServiceActions;
+import com.mattprecious.notisync.util.Helpers;
 import com.mattprecious.notisync.util.MyLog;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.util.UndoBarController;
@@ -49,13 +73,10 @@ import com.mattprecious.notisync.util.UndoBarController.UndoListener;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.preference.PreferenceActivity;
-import org.holoeverywhere.widget.Switch;
+import org.jraf.android.backport.switchwidget.Switch;
 
-public class MainActivity extends Activity implements UndoListener, AccessibilityDialogListener {
+public class MainActivity extends SherlockFragmentActivity implements UndoListener,
+        AccessibilityDialogListener {
     private final static String TAG = "MainActivity";
 
     private final int REQUEST_CODE_WIZARD = 1;
@@ -75,6 +96,8 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        checkBluetooth();
+
         if (!Preferences.hasMode(this)) {
             setDefaults();
         }
@@ -150,6 +173,14 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         }
     }
 
+    @SuppressWarnings("unused")
+    private void checkBluetooth() {
+        if (BluetoothAdapter.getDefaultAdapter() == null && !BuildConfig.DEBUG) {
+            Toast.makeText(this, R.string.no_bluetooth, Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
     private void configureActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -175,8 +206,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                             }));
         }
 
-        actionBarSwitch = new Switch(this);
-        actionBarSwitch.setSwitchTextAppearance(this, R.style.Switch_TextAppearance);
+        actionBarSwitch = new Switch(this, null, R.attr.switchStyleAb);
         actionBarSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
@@ -309,7 +339,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         boolean showAccessibilityAction = Preferences.isPrimary(this)
                 && !NotificationService.isRunning();
 
-        showAccessibilityAction &= !getPreferences(Activity.MODE_PRIVATE).getBoolean(
+        showAccessibilityAction &= !getPreferences(MODE_PRIVATE).getBoolean(
                 KEY_IGNORE_ACCESSIBILITY, false);
 
         menu.findItem(R.id.menu_accessibility).setVisible(showAccessibilityAction);
@@ -322,7 +352,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         switch (item.getItemId()) {
             case R.id.menu_accessibility:
                 DialogFragment newFragment = new AccessibilityDialogFragment();
-                newFragment.show(getSupportFragmentManager());
+                newFragment.show(getSupportFragmentManager(), null);
 
                 return true;
             case R.id.menu_preferences:
@@ -333,14 +363,11 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                         REQUEST_CODE_WIZARD);
 
                 return true;
+            case R.id.menu_feedback:
+                Helpers.openSupportPage(this);
+                return true;
             case R.id.menu_about:
-                Intent aboutIntent = new Intent(this, SettingsActivity.class);
-                aboutIntent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
-                        AboutPreferenceFragment.class.getName());
-                aboutIntent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT_TITLE,
-                        R.string.preference_header_about);
-                startActivity(aboutIntent);
-
+                startActivity(buildAboutIntent());
                 return true;
             case R.id.menu_dev_tools:
                 startActivity(new Intent(this, DevToolsActivity.class));
@@ -348,6 +375,43 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private Intent buildAboutIntent() {
+        Intent aboutIntent;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            aboutIntent = buildAboutIntentLegacy();
+        } else {
+            aboutIntent = buildAboutIntentFragments();
+        }
+
+        return aboutIntent;
+    }
+
+    private Intent buildAboutIntentLegacy() {
+        Intent aboutIntent = new Intent(this, SettingsActivity.class);
+        aboutIntent.setAction(SettingsActivity.PREFS_ABOUT);
+
+        return aboutIntent;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private Intent buildAboutIntentFragments() {
+        Intent aboutIntent = new Intent(this, SettingsActivity.class);
+        aboutIntent.putExtra(SherlockPreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                AboutPreferenceFragment.class.getName());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            setAboutIntentTitleICS(aboutIntent);
+        }
+
+        return aboutIntent;
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void setAboutIntentTitleICS(Intent intent) {
+        intent.putExtra(SherlockPreferenceActivity.EXTRA_SHOW_FRAGMENT_TITLE,
+                R.string.preference_header_about);
     }
 
     @Override
@@ -363,11 +427,11 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
                 break;
             case REQUEST_CODE_EDIT_PROFILE:
                 switch (resultCode) {
-                    case Activity.RESULT_OK:
+                    case RESULT_OK:
                         Crouton.showText(this, R.string.profile_saved, Style.CONFIRM,
                                 R.id.content_wrapper);
                         break;
-                    case Activity.RESULT_CANCELED:
+                    case RESULT_CANCELED:
                         Crouton.showText(this, R.string.profile_discarded, Style.INFO,
                                 R.id.content_wrapper);
                         break;
@@ -434,7 +498,7 @@ public class MainActivity extends Activity implements UndoListener, Accessibilit
 
     @Override
     public void onAccessibilityNegative() {
-        getPreferences(Activity.MODE_PRIVATE).edit().putBoolean(KEY_IGNORE_ACCESSIBILITY, true)
+        getPreferences(MODE_PRIVATE).edit().putBoolean(KEY_IGNORE_ACCESSIBILITY, true)
                 .commit();
         supportInvalidateOptionsMenu();
     }

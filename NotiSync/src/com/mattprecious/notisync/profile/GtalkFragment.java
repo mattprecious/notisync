@@ -1,7 +1,23 @@
+/*
+ * Copyright 2013 Matthew Precious
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.mattprecious.notisync.profile;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -9,17 +25,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Preferences;
-
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.CheckBox;
 
 public class GtalkFragment extends StandardProfileFragment {
     private final int REQUEST_CODE_RINGTONE_PICKER = 1;
@@ -86,7 +100,8 @@ public class GtalkFragment extends StandardProfileFragment {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void checkForVibrator() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (!((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).hasVibrator()) {
+            if (!((Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE))
+                    .hasVibrator()) {
                 vibrateCheckBox.setVisibility(View.GONE);
             }
         }

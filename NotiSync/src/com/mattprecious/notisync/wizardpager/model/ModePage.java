@@ -18,10 +18,9 @@ package com.mattprecious.notisync.wizardpager.model;
 
 import android.content.Context;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.wizardpager.ui.ModeFragment;
-
-import org.holoeverywhere.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -94,7 +93,7 @@ public class ModePage extends Page {
     }
 
     @Override
-    public Fragment createFragment() {
+    public SherlockFragment createFragment() {
         return ModeFragment.create(getKey());
     }
 

@@ -27,8 +27,8 @@
         android:layout_marginRight="16dp"
         android:paddingTop="16dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="?attr/listPreferredItemPaddingLeft"
-        android:paddingRight="?attr/listPreferredItemPaddingRight"
+        android:paddingLeft="6dip"
+        android:paddingRight="6dip"
         android:gravity="left" />
 
     <android.support.v4.view.ViewPager
@@ -37,10 +37,11 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <View android:id="@+id/divider"
-        android:background="?attr/dividerHorizontal"
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_width="match_parent" />
+        android:background="?attr/dividerHorizontal" />
 
     <LinearLayout
         style="?attr/buttonBarStyle"

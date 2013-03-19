@@ -20,6 +20,10 @@
         <item name="android:dropDownSelector">@drawable/list_selector_holo_light</item>
     </style>
 
+    <style name="SpinnerAppTheme.DropDown">
+        <item name="android:spinnerMode">dropdown</item>
+    </style>
+
     <style name="ProgressBarAppTheme" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
         <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_horizontal_holo_light</item>

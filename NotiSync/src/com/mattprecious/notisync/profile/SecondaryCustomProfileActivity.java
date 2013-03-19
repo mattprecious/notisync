@@ -1,17 +1,40 @@
+/*
+ * Copyright 2013 Matthew Precious
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.mattprecious.notisync.profile;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -19,6 +42,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
+import com.mattprecious.notisync.fragment.CustomHelpDialogFragment;
 import com.mattprecious.notisync.fragment.RequestTagsDialogFragment;
 import com.mattprecious.notisync.fragment.RequestTagsDialogFragment.OnTagSelectedListener;
 import com.mattprecious.notisync.model.SecondaryProfile;
@@ -26,16 +50,11 @@ import com.mattprecious.notisync.model.SecondaryProfile;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.EditText;
-
 import java.util.Locale;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class SecondaryCustomProfileActivity extends Activity implements OnTagSelectedListener {
+public class SecondaryCustomProfileActivity extends SherlockFragmentActivity implements
+        OnTagSelectedListener {
     private final int ERROR_FLAG_NAME = 1 << 0;
     private final int ERROR_FLAG_TAG = 1 << 1;
 
@@ -68,6 +87,8 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
         } else {
             profile = new SecondaryProfile();
             profile.setEnabled(true);
+            profile.setVibrate(true);
+            profile.setLed(true);
         }
 
         nameField = (EditText) findViewById(R.id.nameField);
@@ -82,6 +103,7 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
                     if (tagField.getText().length() == 0) {
                         tagField.setText(nameField.getText().toString()
                                 .toLowerCase(Locale.getDefault()).replaceAll("\\s", ""));
+                        validateTag();
                     }
                 }
             }
@@ -107,8 +129,8 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
 
             @Override
             public void onClick(View v) {
-                DialogFragment newFragment = new RequestTagsDialogFragment();
-                newFragment.show(getSupportFragmentManager());
+                SherlockDialogFragment newFragment = new RequestTagsDialogFragment();
+                newFragment.show(getSupportFragmentManager(), null);
             }
 
         });
@@ -138,6 +160,8 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
 
         vibrateCheckBox = (CheckBox) findViewById(R.id.vibrateCheckBox);
         vibrateCheckBox.setChecked(profile.isVibrate());
+
+        checkForVibrator();
 
         lightsCheckBox = (CheckBox) findViewById(R.id.lightsCheckBox);
         lightsCheckBox.setChecked(profile.isLed());
@@ -183,6 +207,8 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
             menu.removeItem(R.id.menu_delete);
         }
 
+        menu.removeItem(R.id.menu_push);
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -221,6 +247,10 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
                 }
 
                 return true;
+            case R.id.menu_help:
+                DialogFragment helpFragment = new CustomHelpDialogFragment();
+                helpFragment.show(getSupportFragmentManager(), null);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -244,6 +274,15 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
             default:
                 super.onActivityResult(requestCode, resultCode, data);
                 break;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void checkForVibrator() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (!((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).hasVibrator()) {
+                vibrateCheckBox.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -319,7 +358,8 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
 
     private void validateName() {
         if (nameField.getText().length() == 0) {
-            nameField.setError(getString(R.string.custom_profile_invalid_empty));
+            nameField.setError(getString(R.string.custom_profile_invalid_empty,
+                    getString(R.string.custom_profile_header_name)));
             setError(ERROR_FLAG_NAME);
         } else {
             nameField.setError(null);
@@ -329,16 +369,19 @@ public class SecondaryCustomProfileActivity extends Activity implements OnTagSel
 
     private void validateTag() {
         if (tagField.getText().length() == 0) {
-            tagField.setError(getString(R.string.custom_profile_invalid_empty));
+            tagField.setError(getString(R.string.custom_profile_invalid_empty,
+                    getString(R.string.custom_profile_header_tag)));
             setError(ERROR_FLAG_TAG);
         } else {
+            String tag = tagField.getText()
+                    .toString();
             dbAdapter.openReadable();
-            SecondaryProfile tagProfile = dbAdapter.getSecondaryProfileByTag(tagField.getText()
-                    .toString());
+            SecondaryProfile tagProfile = dbAdapter.getSecondaryProfileByTag(tag);
             dbAdapter.close();
 
             if (tagProfile != null && tagProfile.getId() != profile.getId()) {
-                tagField.setError(getString(R.string.custom_profile_invalid_unique));
+                tagField.setError(getString(R.string.custom_profile_invalid_tag_clash,
+                        tagProfile.getName()));
                 setError(ERROR_FLAG_TAG);
             } else {
                 tagField.setError(null);

@@ -17,8 +17,7 @@
 package com.mattprecious.notisync.wizardpager.model;
 
 import android.os.Bundle;
-
-import org.holoeverywhere.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -27,7 +26,8 @@ import java.util.ArrayList;
  */
 public abstract class Page implements PageTreeNode {
     /**
-     * The key into {@link #getData()} used for wizards with simple (single) values.
+     * The key into {@link #getData()} used for wizards with simple (single)
+     * values.
      */
     public static final String SIMPLE_DATA_KEY = "_";
 

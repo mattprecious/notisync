@@ -38,7 +38,6 @@
     </style>
 
     <style name="SpinnerAppTheme.DropDown">
-        <item name="android:spinnerMode">dropdown</item>
     </style>
 
     <style name="SpinnerDropDownItemAppTheme" parent="android:Widget.DropDownItem.Spinner">

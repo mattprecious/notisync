@@ -1,17 +1,39 @@
+/*
+ * Copyright 2013 Matthew Precious
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.mattprecious.notisync.profile;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -19,6 +41,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.activity.MainActivity;
 import com.mattprecious.notisync.db.DbAdapter;
+import com.mattprecious.notisync.fragment.CustomHelpDialogFragment;
 import com.mattprecious.notisync.fragment.PackagePickerFragment;
 import com.mattprecious.notisync.message.BaseMessage;
 import com.mattprecious.notisync.message.TagPushMessage;
@@ -28,15 +51,9 @@ import com.mattprecious.notisync.service.PrimaryService;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.widget.EditText;
-
 import java.util.Locale;
 
-public class PrimaryCustomProfileActivity extends Activity implements
+public class PrimaryCustomProfileActivity extends SherlockFragmentActivity implements
         PackagePickerFragment.OnPackageSelectedListener {
     private final int ERROR_FLAG_NAME = 1 << 0;
     private final int ERROR_FLAG_TAG = 1 << 1;
@@ -84,6 +101,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
                     if (tagField.getText().length() == 0) {
                         tagField.setText(nameField.getText().toString()
                                 .toLowerCase(Locale.getDefault()).replaceAll("\\s", ""));
+                        validateTag();
                     }
                 }
             }
@@ -170,6 +188,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (profile.getId() == 0) {
             menu.removeItem(R.id.menu_delete);
+            menu.removeItem(R.id.menu_push);
         }
 
         return super.onPrepareOptionsMenu(menu);
@@ -190,8 +209,8 @@ public class PrimaryCustomProfileActivity extends Activity implements
                         boolean pushProfile = getPreferences(MODE_PRIVATE).getBoolean(
                                 PREFERENCES_KEY_PUSH_PROFILE, true);
                         if (pushProfile && profile.getId() == 0) {
-                            DialogFragment dialogFragment = new PushConfirmDialogFragment();
-                            dialogFragment.show(getSupportFragmentManager());
+                            SherlockDialogFragment dialogFragment = new PushConfirmDialogFragment();
+                            dialogFragment.show(getSupportFragmentManager(), null);
                         } else {
                             finishOk();
                         }
@@ -215,6 +234,25 @@ public class PrimaryCustomProfileActivity extends Activity implements
                     Crouton.showText(this, R.string.custom_profile_error, Style.ALERT);
                 }
 
+                return true;
+            case R.id.menu_push:
+                // TODO: remove duplication
+                validate();
+                if (errorFlags > 0) {
+                    Crouton.showText(this, R.string.custom_profile_fix_errors, Style.ALERT);
+                } else {
+                    if (save()) {
+                        pushProfile();
+                        finishOk();
+                    } else {
+                        Crouton.showText(this, R.string.custom_profile_error, Style.ALERT);
+                    }
+                }
+
+                return true;
+            case R.id.menu_help:
+                DialogFragment helpFragment = new CustomHelpDialogFragment();
+                helpFragment.show(getSupportFragmentManager(), null);
                 return true;
         }
 
@@ -253,14 +291,12 @@ public class PrimaryCustomProfileActivity extends Activity implements
     }
 
     private void pushProfile() {
-        if (profile.getId() == 0) {
-            TagPushMessage message = new TagPushMessage.Builder().name(profile.getName())
-                    .tag(profile.getTag()).build();
+        TagPushMessage message = new TagPushMessage.Builder().name(profile.getName())
+                .tag(profile.getTag()).build();
 
-            Intent intent = new Intent(PrimaryService.ACTION_SEND_MESSAGE);
-            intent.putExtra(PrimaryService.EXTRA_MESSAGE, BaseMessage.toJsonString(message));
-            broadcastManager.sendBroadcast(intent);
-        }
+        Intent intent = new Intent(PrimaryService.ACTION_SEND_MESSAGE);
+        intent.putExtra(PrimaryService.EXTRA_MESSAGE, BaseMessage.toJsonString(message));
+        broadcastManager.sendBroadcast(intent);
     }
 
     private void finishOk() {
@@ -284,7 +320,8 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private void validateName() {
         if (nameField.getText().length() == 0) {
-            nameField.setError(getString(R.string.custom_profile_invalid_empty));
+            nameField.setError(getString(R.string.custom_profile_invalid_empty,
+                    getString(R.string.custom_profile_header_name)));
             setError(ERROR_FLAG_NAME);
         } else {
             nameField.setError(null);
@@ -294,16 +331,18 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private void validateTag() {
         if (tagField.getText().length() == 0) {
-            tagField.setError(getString(R.string.custom_profile_invalid_empty));
+            tagField.setError(getString(R.string.custom_profile_invalid_empty,
+                    getString(R.string.custom_profile_header_tag)));
             setError(ERROR_FLAG_TAG);
         } else {
+            String tag = tagField.getText().toString();
             dbAdapter.openReadable();
-            PrimaryProfile tagProfile = dbAdapter.getPrimaryProfileByTag(tagField.getText()
-                    .toString());
+            PrimaryProfile tagProfile = dbAdapter.getPrimaryProfileByTag(tag);
             dbAdapter.close();
 
             if (tagProfile != null && tagProfile.getId() != profile.getId()) {
-                tagField.setError(getString(R.string.custom_profile_invalid_unique));
+                tagField.setError(getString(R.string.custom_profile_invalid_tag_clash,
+                        tagProfile.getName()));
                 setError(ERROR_FLAG_TAG);
             } else {
                 tagField.setError(null);
@@ -314,7 +353,8 @@ public class PrimaryCustomProfileActivity extends Activity implements
 
     private void validatePackage() {
         if (packageField.getText().length() == 0) {
-            packageField.setError(getString(R.string.custom_profile_invalid_empty));
+            packageField.setError(getString(R.string.custom_profile_invalid_empty,
+                    getString(R.string.custom_profile_header_package)));
             setError(ERROR_FLAG_PACKAGE);
         } else {
             packageField.setError(null);
@@ -322,7 +362,7 @@ public class PrimaryCustomProfileActivity extends Activity implements
         }
     }
 
-    public static class PushConfirmDialogFragment extends DialogFragment {
+    public static class PushConfirmDialogFragment extends SherlockDialogFragment {
         private PrimaryCustomProfileActivity activity;
 
         @Override

@@ -17,13 +17,18 @@
 package com.mattprecious.notisync.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Preferences;
 import com.mattprecious.notisync.wizardpager.model.AbstractWizardModel;
 import com.mattprecious.notisync.wizardpager.model.ModelCallbacks;
@@ -31,15 +36,10 @@ import com.mattprecious.notisync.wizardpager.model.Page;
 import com.mattprecious.notisync.wizardpager.model.WizardModel;
 import com.mattprecious.notisync.wizardpager.ui.PageFragmentCallbacks;
 import com.mattprecious.notisync.wizardpager.ui.StepPagerStrip;
-import com.mattprecious.notisync.R;
-
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.Button;
 
 import java.util.List;
 
-public class WizardActivity extends Activity implements
+public class WizardActivity extends SherlockFragmentActivity implements
         PageFragmentCallbacks,
         ModelCallbacks {
     private ViewPager mPager;
@@ -121,7 +121,19 @@ public class WizardActivity extends Activity implements
         onPageTreeChanged();
         updateBottomBar();
     }
-    
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
+    }
+
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {

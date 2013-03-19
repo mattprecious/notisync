@@ -7,4 +7,7 @@
     <issue id="UnusedResources">
         <ignore path="res\values\analytics.xml" />
     </issue>
+    <issue id="NewApi">
+        <ignore path="res\values\styles_orange.xml" />
+    </issue>
 </lint>

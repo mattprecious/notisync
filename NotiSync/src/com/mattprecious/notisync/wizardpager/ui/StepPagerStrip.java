@@ -30,7 +30,7 @@ import android.view.View;
 import com.mattprecious.notisync.R;
 
 public class StepPagerStrip extends View {
-    private static final int[] ATTRS = new int[]{
+    private static final int[] ATTRS = new int[] {
             android.R.attr.gravity
     };
     private int mPageCount;
@@ -48,7 +48,7 @@ public class StepPagerStrip extends View {
 
     private RectF mTempRectF = new RectF();
 
-    //private Scroller mScroller;
+    // private Scroller mScroller;
 
     private OnPageSelectedListener mOnPageSelectedListener;
 
@@ -231,21 +231,24 @@ public class StepPagerStrip extends View {
 
     private void scrollCurrentPageIntoView() {
         // TODO: only works with left gravity for now
-//
-//        float widthToActive = getPaddingLeft() + (mCurrentPage + 1) * (mTabWidth + mTabSpacing)
-//                - mTabSpacing;
-//        int viewWidth = getWidth();
-//
-//        int startScrollX = getScrollX();
-//        int destScrollX = (widthToActive > viewWidth) ? (int) (widthToActive - viewWidth) : 0;
-//
-//        if (mScroller == null) {
-//            mScroller = new Scroller(getContext());
-//        }
-//
-//        mScroller.abortAnimation();
-//        mScroller.startScroll(startScrollX, 0, destScrollX - startScrollX, 0);
-//        postInvalidate();
+        //
+        // float widthToActive = getPaddingLeft() + (mCurrentPage + 1) *
+        // (mTabWidth + mTabSpacing)
+        // - mTabSpacing;
+        // int viewWidth = getWidth();
+        //
+        // int startScrollX = getScrollX();
+        // int destScrollX = (widthToActive > viewWidth) ? (int) (widthToActive
+        // - viewWidth) : 0;
+        //
+        // if (mScroller == null) {
+        // mScroller = new Scroller(getContext());
+        // }
+        //
+        // mScroller.abortAnimation();
+        // mScroller.startScroll(startScrollX, 0, destScrollX - startScrollX,
+        // 0);
+        // postInvalidate();
     }
 
     public void setPageCount(int count) {
@@ -259,12 +262,12 @@ public class StepPagerStrip extends View {
         void onPageStripSelected(int position);
     }
 
-//
-//    @Override
-//    public void computeScroll() {
-//        super.computeScroll();
-//        if (mScroller.computeScrollOffset()) {
-//            setScrollX(mScroller.getCurrX());
-//        }
-//    }
+    //
+    // @Override
+    // public void computeScroll() {
+    // super.computeScroll();
+    // if (mScroller.computeScrollOffset()) {
+    // setScrollX(mScroller.getCurrX());
+    // }
+    // }
 }
