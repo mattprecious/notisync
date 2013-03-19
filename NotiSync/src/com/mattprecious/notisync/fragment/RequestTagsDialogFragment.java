@@ -61,6 +61,7 @@ public class RequestTagsDialogFragment extends SherlockDialogFragment {
 
     private ProgressBar progressBar;
     private TextView errorText;
+    private View emptyView;
     private ListView listView;
     private TagListAdapter listAdapter;
 
@@ -105,6 +106,7 @@ public class RequestTagsDialogFragment extends SherlockDialogFragment {
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress);
         errorText = (TextView) rootView.findViewById(R.id.error);
+        emptyView = rootView.findViewById(R.id.empty_view);
 
         listAdapter = new TagListAdapter(getActivity());
 
@@ -207,7 +209,15 @@ public class RequestTagsDialogFragment extends SherlockDialogFragment {
             listAdapter.notifyDataSetChanged();
 
             progressBar.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+
+            if (tagList.isEmpty()) {
+                listView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                listView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+            }
+
         }
     };
 
