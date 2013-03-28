@@ -98,6 +98,7 @@ public class PrimaryCustomProfileListFragment extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
+        EasyTracker.getInstance().setContext(getActivity());
         EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 

@@ -72,6 +72,7 @@ public class DevToolsFragment extends SherlockFragment {
     @Override
     public void onStart() {
         super.onStart();
+        EasyTracker.getInstance().setContext(getActivity());
         EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }
