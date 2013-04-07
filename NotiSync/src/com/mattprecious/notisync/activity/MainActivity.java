@@ -22,6 +22,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -54,6 +56,7 @@ import com.mattprecious.notisync.devtools.DevToolsActivity;
 import com.mattprecious.notisync.fragment.AccessibilityDialogFragment;
 import com.mattprecious.notisync.fragment.AccessibilityDialogFragment.AccessibilityDialogListener;
 import com.mattprecious.notisync.fragment.PrimaryCustomProfileListFragment;
+import com.mattprecious.notisync.fragment.SamsungTtsDialogFragment;
 import com.mattprecious.notisync.fragment.SecondaryCustomProfileListFragment;
 import com.mattprecious.notisync.fragment.StandardProfileListFragment;
 import com.mattprecious.notisync.model.PrimaryProfile;
@@ -86,6 +89,7 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
     public final static int RESULT_CODE_PROFILE_DELETED = 11;
 
     private final String KEY_IGNORE_ACCESSIBILITY = "ignore_accessibility";
+    private final String KEY_SEEN_SAMSUNG_TTS = "seen_samsung_tts";
 
     private LocalBroadcastManager broadcastManager;
 
@@ -128,6 +132,17 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
         undoBarController = new UndoBarController(findViewById(R.id.undobar), this);
 
         configureActionBar();
+
+        if (hasSamsungTts()) {
+            boolean seenSamsungTts = getPreferences(MODE_PRIVATE).getBoolean(KEY_SEEN_SAMSUNG_TTS,
+                    false);
+
+            if (!seenSamsungTts) {
+                showSamsungTtsDialog();
+
+                getPreferences(MODE_PRIVATE).edit().putBoolean(KEY_SEEN_SAMSUNG_TTS, true).commit();
+            }
+        }
     }
 
     @Override
@@ -344,6 +359,8 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
 
         menu.findItem(R.id.menu_accessibility).setVisible(showAccessibilityAction);
 
+        menu.findItem(R.id.menu_samsung_tts).setVisible(hasSamsungTts());
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -363,6 +380,9 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
                         REQUEST_CODE_WIZARD);
 
                 return true;
+            case R.id.menu_samsung_tts:
+                showSamsungTtsDialog();
+                return true;
             case R.id.menu_feedback:
                 Helpers.openSupportPage(this);
                 return true;
@@ -375,6 +395,31 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean hasSamsungTts() {
+        // can't send users directly to the app settings pre-gingerbread, so
+        // let's just not show this window for now.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+            return false;
+        }
+
+        boolean show = false;
+
+        try {
+            @SuppressWarnings("unused")
+            ApplicationInfo info = getPackageManager().getApplicationInfo("com.samsung.SMT", 0);
+            show = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            show = false;
+        }
+
+        return show;
+    }
+
+    private void showSamsungTtsDialog() {
+        DialogFragment samsungFragment = new SamsungTtsDialogFragment();
+        samsungFragment.show(getSupportFragmentManager(), null);
     }
 
     private Intent buildAboutIntent() {
