@@ -48,6 +48,13 @@ public class SamsungTtsDialogFragment extends DialogFragment {
 
         View rootView = inflater.inflate(R.layout.samsung_tts, null);
 
+        // for some reason when you replace the view on a legacy dialog it wipes
+        // the background colour...
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            rootView.setBackgroundColor(getResources().getColor(
+                    android.R.color.background_light));
+        }
+
         rootView.findViewById(R.id.disable_talkback).setOnClickListener(new OnClickListener() {
 
             @Override
