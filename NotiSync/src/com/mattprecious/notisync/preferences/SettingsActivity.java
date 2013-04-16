@@ -263,9 +263,9 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         attributionsView.setText(Html.fromHtml(context.getString(R.string.attributions)));
         attributionsView.setMovementMethod(new LinkMovementMethod());
 
-        builder.setTitle("Attributions");
+        builder.setTitle(R.string.attributions_title);
         builder.setView(rootView);
-        builder.setPositiveButton("Close", new OnClickListener() {
+        builder.setPositiveButton(R.string.attributions_close, new OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

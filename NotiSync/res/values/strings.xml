@@ -203,6 +203,8 @@
     <string name="samsung_tts_negative">Close</string>
 
     <!-- open source stuff -->
+    <string name="attributions_title">Attributions</string>
+    <string name="attributions_close">Close</string>
     <string name="attributions">
 <![CDATA[
        Thanks to all of these open source tools:<br /><br />
