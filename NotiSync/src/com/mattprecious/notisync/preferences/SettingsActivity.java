@@ -38,6 +38,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -88,6 +89,15 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         } else if (PREFS_ABOUT.equals(action)) {
             addPreferencesFromResource(R.xml.about_preferences);
             findPreference("about_version").setSummary(getAppVersion(this));
+            findPreference("about_change_log").setOnPreferenceClickListener(
+                    new OnPreferenceClickListener() {
+
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            buildChangeLogDialog(SettingsActivity.this).show();
+                            return true;
+                        }
+                    });
             findPreference("about_attribution").setOnPreferenceClickListener(
                     new OnPreferenceClickListener() {
 
@@ -213,6 +223,27 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         }
 
         return null;
+    }
+
+    public static Dialog buildChangeLogDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle(R.string.change_log_title);
+
+        WebView webView = new WebView(context);
+        webView.loadData(context.getString(R.string.change_log), "text/html",
+                "UTF-8");
+        builder.setView(webView);
+
+        builder.setNeutralButton(R.string.change_log_close, new OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        return builder.create();
     }
 
     public static Dialog buildAttributionsDialog(Context context) {

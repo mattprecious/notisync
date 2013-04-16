@@ -190,6 +190,11 @@
     <string name="about_feedback_title">Feedback/Support</string>
     <string name="about_feedback_summary">Report a bug or suggest improvements</string>
 
+    <!-- change log -->
+    <string name="change_log_title">What\'s new?</string>
+    <string name="change_log_close">Close</string>
+
+    <!-- samsung tts bs -->
     <string name="samsung_tts_title">Samsung TTS Issue</string>
     <string name="samsung_tts_message">There is currently a known issue on Samsung devices where enabling NotiSync as an accessibility service will also enable Text-to-Speech services on the phone. Would you like to disable these now? You can access this window again at any time through the menu.</string>
     <string name="samsung_tts_disable_talkback">Disable Talkback</string>

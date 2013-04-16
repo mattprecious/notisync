@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="change_log">
+<![CDATA[
+		<html>
+			<head>
+				<style type="text/css">
+					h1 { font-size: 12pt; }
+				</style>
+			</head>
+			
+			<body>
+				<h1>Release 1.0.1:</h1>
+				<ul>
+					<li>Initial release!</li>
+				</ul>
+			</body>
+		</html>
+        ]]>
+    </string>
+
+</resources>
