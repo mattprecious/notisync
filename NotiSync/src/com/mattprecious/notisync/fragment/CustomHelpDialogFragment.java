@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Html;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.util.Preferences;
 
@@ -44,5 +45,12 @@ public class CustomHelpDialogFragment extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().setContext(getActivity());
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }

@@ -22,6 +22,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -53,7 +57,9 @@ import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.devtools.DevToolsActivity;
 import com.mattprecious.notisync.fragment.AccessibilityDialogFragment;
 import com.mattprecious.notisync.fragment.AccessibilityDialogFragment.AccessibilityDialogListener;
+import com.mattprecious.notisync.fragment.ChangeLogDialogFragment;
 import com.mattprecious.notisync.fragment.PrimaryCustomProfileListFragment;
+import com.mattprecious.notisync.fragment.SamsungTtsDialogFragment;
 import com.mattprecious.notisync.fragment.SecondaryCustomProfileListFragment;
 import com.mattprecious.notisync.fragment.StandardProfileListFragment;
 import com.mattprecious.notisync.model.PrimaryProfile;
@@ -79,13 +85,15 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
         AccessibilityDialogListener {
     private final static String TAG = "MainActivity";
 
-    private final int REQUEST_CODE_WIZARD = 1;
+    private final static int REQUEST_CODE_WIZARD = 1;
 
     public final static int REQUEST_CODE_EDIT_PROFILE = 2;
 
     public final static int RESULT_CODE_PROFILE_DELETED = 11;
 
+    private final String KEY_CHANGE_LOG_VERSION = "change_log_version";
     private final String KEY_IGNORE_ACCESSIBILITY = "ignore_accessibility";
+    private final String KEY_SEEN_SAMSUNG_TTS = "seen_samsung_tts";
 
     private LocalBroadcastManager broadcastManager;
 
@@ -128,6 +136,17 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
         undoBarController = new UndoBarController(findViewById(R.id.undobar), this);
 
         configureActionBar();
+
+        if (hasSamsungTts()) {
+            boolean seenSamsungTts = getPreferences(MODE_PRIVATE).getBoolean(KEY_SEEN_SAMSUNG_TTS,
+                    false);
+
+            if (!seenSamsungTts) {
+                showSamsungTtsDialog();
+
+                getPreferences(MODE_PRIVATE).edit().putBoolean(KEY_SEEN_SAMSUNG_TTS, true).commit();
+            }
+        }
     }
 
     @Override
@@ -143,7 +162,12 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
 
         supportInvalidateOptionsMenu();
 
-        if (!Preferences.getCompletedWizard(this)) {
+        if (Preferences.getCompletedWizard(this)) {
+            // there's an issue on pre-hc where if this dialog is opened under
+            // the wizard, then once you get back to this activity the webview
+            // is empty, so... show this only when there's no wizard
+            changeLog();
+        } else {
             startActivityForResult(new Intent(this, WizardActivity.class),
                     REQUEST_CODE_WIZARD);
         }
@@ -344,6 +368,8 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
 
         menu.findItem(R.id.menu_accessibility).setVisible(showAccessibilityAction);
 
+        menu.findItem(R.id.menu_samsung_tts).setVisible(hasSamsungTts());
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -363,6 +389,9 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
                         REQUEST_CODE_WIZARD);
 
                 return true;
+            case R.id.menu_samsung_tts:
+                showSamsungTtsDialog();
+                return true;
             case R.id.menu_feedback:
                 Helpers.openSupportPage(this);
                 return true;
@@ -375,6 +404,31 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean hasSamsungTts() {
+        // can't send users directly to the app settings pre-gingerbread, so
+        // let's just not show this window for now.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+            return false;
+        }
+
+        boolean show = false;
+
+        try {
+            @SuppressWarnings("unused")
+            ApplicationInfo info = getPackageManager().getApplicationInfo("com.samsung.SMT", 0);
+            show = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            show = false;
+        }
+
+        return show;
+    }
+
+    private void showSamsungTtsDialog() {
+        DialogFragment samsungFragment = new SamsungTtsDialogFragment();
+        samsungFragment.show(getSupportFragmentManager(), null);
     }
 
     private Intent buildAboutIntent() {
@@ -501,5 +555,35 @@ public class MainActivity extends SherlockFragmentActivity implements UndoListen
         getPreferences(MODE_PRIVATE).edit().putBoolean(KEY_IGNORE_ACCESSIBILITY, true)
                 .commit();
         supportInvalidateOptionsMenu();
+    }
+
+    private void changeLog() {
+        PackageManager packageManager = getPackageManager();
+
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+
+            if (getPreferences(MODE_PRIVATE).getInt(KEY_CHANGE_LOG_VERSION, 0) < packageInfo.versionCode) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    showChangeLog();
+                } else {
+                    showChangeLogLegacy();
+                }
+
+                getPreferences(MODE_PRIVATE).edit()
+                        .putInt(KEY_CHANGE_LOG_VERSION, packageInfo.versionCode).commit();
+            }
+        } catch (NameNotFoundException e) {
+            MyLog.e(TAG, "Failed to show change log", e);
+        }
+    }
+
+    private void showChangeLogLegacy() {
+        SettingsActivity.buildChangeLogDialog(this).show();
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void showChangeLog() {
+        new ChangeLogDialogFragment().show(getFragmentManager(), null);
     }
 }

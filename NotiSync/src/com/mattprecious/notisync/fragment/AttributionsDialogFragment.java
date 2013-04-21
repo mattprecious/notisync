@@ -35,6 +35,7 @@ public class AttributionsDialogFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+        EasyTracker.getInstance().setContext(getActivity());
         EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }

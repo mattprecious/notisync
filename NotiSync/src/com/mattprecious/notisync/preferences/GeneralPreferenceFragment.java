@@ -42,6 +42,13 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().setContext(getActivity());
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(
@@ -64,11 +71,5 @@ public class GeneralPreferenceFragment extends PreferenceFragment implements
             startActivity(intent);
             getActivity().overridePendingTransition(0, 0);
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }

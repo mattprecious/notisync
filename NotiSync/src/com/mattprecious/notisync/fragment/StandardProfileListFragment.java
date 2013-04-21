@@ -83,6 +83,7 @@ public class StandardProfileListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        EasyTracker.getInstance().setContext(getActivity());
         EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 

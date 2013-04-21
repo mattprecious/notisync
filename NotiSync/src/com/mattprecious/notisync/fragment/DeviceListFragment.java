@@ -35,6 +35,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mattprecious.notisync.R;
@@ -77,6 +78,13 @@ public class DeviceListFragment extends SherlockFragment {
         deviceList.setAdapter(listAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().setContext(getActivity());
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     private class DeviceAdapter extends BaseAdapter {

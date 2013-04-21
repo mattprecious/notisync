@@ -27,6 +27,7 @@ import android.preference.PreferenceFragment;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mattprecious.notisync.R;
 import com.mattprecious.notisync.fragment.AttributionsDialogFragment;
+import com.mattprecious.notisync.fragment.ChangeLogDialogFragment;
 import com.mattprecious.notisync.util.Helpers;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -38,6 +39,17 @@ public class AboutPreferenceFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.about_preferences);
 
         findPreference("about_version").setSummary(SettingsActivity.getAppVersion(getActivity()));
+        findPreference("about_change_log").setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        DialogFragment changeLogDialog = new ChangeLogDialogFragment();
+                        changeLogDialog.show(getFragmentManager(), null);
+
+                        return false;
+                    }
+                });
         findPreference("about_attribution").setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
 
@@ -63,6 +75,7 @@ public class AboutPreferenceFragment extends PreferenceFragment {
     @Override
     public void onStart() {
         super.onStart();
+        EasyTracker.getInstance().setContext(getActivity());
         EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 }

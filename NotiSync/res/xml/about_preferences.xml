@@ -23,9 +23,9 @@
     <Preference
         android:key="about_version"
         android:title="@string/about_version_title" />
-    <!-- <Preference
-        android:key="about_changelog"
-        android:title="@string/about_change_log_title" /> -->
+    <Preference
+        android:key="about_change_log"
+        android:title="@string/about_change_log_title" />
     <Preference
         android:key="about_attribution"
         android:title="@string/about_attributions_title" />
