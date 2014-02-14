@@ -150,8 +150,8 @@ public class PackagePickerFragment extends SherlockDialogFragment {
 
                 @Override
                 public int compare(ActivityInfo a, ActivityInfo b) {
-                    String aName = (String) a.loadLabel(packageManager);
-                    String bName = (String) b.loadLabel(packageManager);
+                    String aName = a.loadLabel(packageManager).toString();
+                    String bName = b.loadLabel(packageManager).toString();
                     return aName.compareToIgnoreCase(bName);
                 }
             });
